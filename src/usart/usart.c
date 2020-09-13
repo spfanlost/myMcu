@@ -1,5 +1,5 @@
 /**
- * @file    uart.c
+ * @file    usart.c
  * @author  meng_yu
  * @brief   Low level serial definitions function realize
  * @version 0.0.1
@@ -8,8 +8,8 @@
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
 #include "common.h"
-#include "stm32f4_conf.h"
-#include "uart.h"
+#include "stm32_config.h"
+#include "usart.h"
 #include "gpio.h"
 
 /*-----------------------------------------------------------------------------------
@@ -35,12 +35,12 @@
 extern void NVIC_Config(uint8_t Channel, uint8_t PreemptionPrio, uint8_t SubPrio, uint8_t Enable);
 
 /**
- * @brief  This function is uart_init
+ * @brief  This function is usart_init
  * @param  pclk2: pclock (MHz)
  * @param  bound: bound
  * @note:  call
  */
-void uart_init(uint32_t pclk2,uint32_t bound)
+void usart_init(uint32_t pclk2,uint32_t bound)
 {    
     float temp;
     uint16_t mantissa;
@@ -66,13 +66,13 @@ void uart_init(uint32_t pclk2,uint32_t bound)
 }
 
 /**
- * @brief  This function uart_put_char
+ * @brief  This function usart_put_char
  * @param  ch: char send out
  * @return send out char
  * @retval param
  * @note:  call
  */
-int uart_put_char(int32_t ch)
+int usart_put_char(int32_t ch)
 {
     while (!(USART1->SR & (0x1 << 7)));
     USART1->DR = (ch & 0xFF);
@@ -86,7 +86,7 @@ int uart_put_char(int32_t ch)
  * @retval get char
  * @note:  call
  */
-int uart_get_char(void)
+int usart_get_char(void)
 {
     int ret = -1;
     if (USART1->SR & 0x0020)
@@ -101,7 +101,7 @@ int uart_get_char(void)
  * @retval a char is vld,return true
  * @note:  a char not vld,return false
  */
-int uart_chk_char(void) 
+int usart_chk_char(void) 
 {
   if (USART1->SR & (0x1 << 5))
     return TRUE;

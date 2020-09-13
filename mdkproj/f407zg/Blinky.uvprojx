@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\src\startup\CMSIS\Include;..\..\src\startup\Device\STM32F4xx\Include;..\..\src\startup;..\..\src\msic;..\..\src\gpio;..\..\src\led;..\..\src\uart;..\..\src\adc;..\..\src\lcd;..\..\src</IncludePath>
+              <IncludePath>..\..\src\startup\CMSIS\Include;..\..\src\startup\Device\STM32F4xx\Include;..\..\src\startup;..\..\src\msic;..\..\src\gpio;..\..\src\led;..\..\src\usart;..\..\src\adc;..\..\src\lcd;..\..\src</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -384,20 +384,30 @@
           <GroupName>StartUp</GroupName>
           <Files>
             <File>
-              <FileName>system_stm32f4xx.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\startup\system_stm32f4xx.c</FilePath>
-            </File>
-            <File>
               <FileName>startup_stm32f407xx.s</FileName>
               <FileType>2</FileType>
               <FilePath>..\..\src\startup\Device\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s</FilePath>
+            </File>
+            <File>
+              <FileName>system_stm32f4xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\startup\Device\STM32F4xx\Source\Templates\system_stm32f4xx.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Source Files</GroupName>
           <Files>
+            <File>
+              <FileName>Blinky.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\Blinky.c</FilePath>
+            </File>
+            <File>
+              <FileName>common_cmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\msic\common_cmd.c</FilePath>
+            </File>
             <File>
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
@@ -475,11 +485,6 @@
               <FilePath>..\..\src\led\led.c</FilePath>
             </File>
             <File>
-              <FileName>common_cmd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\msic\common_cmd.c</FilePath>
-            </File>
-            <File>
               <FileName>isr.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\src\msic\isr.c</FilePath>
@@ -490,14 +495,14 @@
               <FilePath>..\..\src\msic\retarget.c</FilePath>
             </File>
             <File>
-              <FileName>uart.c</FileName>
+              <FileName>sys.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\uart\uart.c</FilePath>
+              <FilePath>..\..\src\msic\sys.c</FilePath>
             </File>
             <File>
-              <FileName>Blinky.c</FileName>
+              <FileName>usart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\Blinky.c</FilePath>
+              <FilePath>..\..\src\usart\usart.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -846,7 +851,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\src\startup\CMSIS\Include;..\..\src\startup\Device\STM32F4xx\Include;..\..\src\startup;..\..\src\msic;..\..\src\gpio;..\..\src\led;..\..\src\uart;..\..\src\adc;..\..\src\lcd;..\..\src</IncludePath>
+              <IncludePath>..\..\src\startup\CMSIS\Include;..\..\src\startup\Device\STM32F4xx\Include;..\..\src\msic;..\..\src\gpio;..\..\src\led;..\..\src\uart;..\..\src\adc;..\..\src\lcd;..\..\src</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -891,20 +896,30 @@
           <GroupName>StartUp</GroupName>
           <Files>
             <File>
-              <FileName>system_stm32f4xx.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\startup\system_stm32f4xx.c</FilePath>
-            </File>
-            <File>
               <FileName>startup_stm32f407xx.s</FileName>
               <FileType>2</FileType>
               <FilePath>..\..\src\startup\Device\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s</FilePath>
+            </File>
+            <File>
+              <FileName>system_stm32f4xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\startup\Device\STM32F4xx\Source\Templates\system_stm32f4xx.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Source Files</GroupName>
           <Files>
+            <File>
+              <FileName>Blinky.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\Blinky.c</FilePath>
+            </File>
+            <File>
+              <FileName>common_cmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\msic\common_cmd.c</FilePath>
+            </File>
             <File>
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
@@ -982,11 +997,6 @@
               <FilePath>..\..\src\led\led.c</FilePath>
             </File>
             <File>
-              <FileName>common_cmd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\msic\common_cmd.c</FilePath>
-            </File>
-            <File>
               <FileName>isr.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\src\msic\isr.c</FilePath>
@@ -997,14 +1007,14 @@
               <FilePath>..\..\src\msic\retarget.c</FilePath>
             </File>
             <File>
-              <FileName>uart.c</FileName>
+              <FileName>sys.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\uart\uart.c</FilePath>
+              <FilePath>..\..\src\msic\sys.c</FilePath>
             </File>
             <File>
-              <FileName>Blinky.c</FileName>
+              <FileName>usart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\Blinky.c</FilePath>
+              <FilePath>..\..\src\usart\usart.c</FilePath>
             </File>
           </Files>
         </Group>

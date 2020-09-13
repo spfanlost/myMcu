@@ -9,7 +9,7 @@
  */
 #include <stdio.h>
 #include <rt_misc.h>
-#include "uart.h"
+#include "usart.h"
 
 /*-----------------------------------------------------------------------------------
   Private declaration  
@@ -44,12 +44,12 @@ FILE __stdin;
 
 int fputc(int c, FILE *f)
 {
-    return (uart_put_char(c));
+    return (usart_put_char(c));
 }
 
 int fgetc(FILE *f)
 {
-    return (uart_get_char());
+    return (usart_get_char());
 }
 
 int ferror(FILE *f)
@@ -60,7 +60,7 @@ int ferror(FILE *f)
 
 void _ttywrch(int c)
 {
-    uart_put_char(c);
+    usart_put_char(c);
 }
 
 void _sys_exit(int return_code)

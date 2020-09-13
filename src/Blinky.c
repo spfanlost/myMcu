@@ -12,14 +12,14 @@
  * Copyright (c) 2010 Keil - An ARM Company. All rights reserved.
  *----------------------------------------------------------------------------*/
 #include <stdio.h>
-#include "stm32f4_conf.h"
+#include "stm32_config.h"
 #include "common.h"
-#include "uart.h"
+#include "usart.h"
 #include "led.h"
 #include "adc.h"
 #include "lcd.h"
 
-//VECT_TAB_SRAM __STM_EVAL
+//VECT_TAB_SRAM
 #define __FI 1 /* Font index 16x24                  */
 
 #if (__FI == 1)
@@ -47,10 +47,11 @@ int main(void)
     uint16_t AD_print = 0;
     
     NVIC_SetPriorityGrouping(4);
+    SystemClock_Config();
     SystemCoreClockUpdate();
     SysTick_Config(SystemCoreClock / 1000); //Generate interrupt each 1 ms
     led_init();
-    uart_init(84,115200);
+    usart_init(84,115200);
     //ADC_Init();                           /* ADC Initialization                 */
 #ifdef USE_LCD_EN
     GLCD_Init();

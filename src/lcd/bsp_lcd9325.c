@@ -3,48 +3,33 @@
 #include "bsp_lcd9325.h"
 #include "bsp_ascii_1206.h"
 
-//写寄存器函数
-//regval:寄存器值
 void LCD_WR_REG(uint16_t regval) {
-    regval = regval;		//使用-O2优化的时候,必须插入的延时
-    LCDYM->LCD_REG = regval; //写入要写的寄存器序号
+    regval = regval;            //使用-O2优化的时候,必须插入的延时
+    LCDYM->LCD_REG = regval;    //写入要写的寄存器序号
 }
-//写LCD数据
-//data:要写入的值
 void LCD_WR_DATA(uint16_t data) {
-    data = data;			//使用-O2优化的时候,必须插入的延时
+    data = data;                //使用-O2优化的时候,必须插入的延时
     LCDYM->LCD_RAM = data;
 }
-//读LCD数据
-//返回值:读到的值
 uint16_t LCD_RD_DATA(void) {
-    __IO uint16_t ram;			//防止被优化
+    __IO uint16_t ram;          //防止被优化
     ram = LCDYM->LCD_RAM;
     return ram;
 }
-//写寄存器
-//LCD_Reg:寄存器地址
-//LCD_RegValue:要写入的数据
 void LCD_WriteReg(uint16_t LCD_Reg, uint16_t LCD_RegValue) {
-    LCDYM->LCD_REG = LCD_Reg;		//写入要写的寄存器序号
-    LCDYM->LCD_RAM = LCD_RegValue;//写入数据
+    LCDYM->LCD_REG = LCD_Reg;       //写入要写的寄存器序号
+    LCDYM->LCD_RAM = LCD_RegValue;  //写入数据
 }
-//读寄存器
-//LCD_Reg:寄存器地址
-//返回值:读到的数据
 uint16_t LCD_ReadReg(uint16_t LCD_Reg) {
-    LCD_WR_REG(LCD_Reg);		//写入要读的寄存器序号
-    return LCD_RD_DATA();		//返回读到的值
+    LCD_WR_REG(LCD_Reg);            //写入要读的寄存器序号
+    return LCD_RD_DATA();           //返回读到的值
 }
-//LCD写GRAM
-//RGB_Code:颜色值
 void LCD_WriteRAM(uint16_t RGB_Code) {
-    LCDYM->LCD_RAM = RGB_Code;//写十六位GRAM
+    LCDYM->LCD_RAM = RGB_Code;      //写十六位GRAM
 }
 ////开始写GRAM
-// 	LCDYM->LCD_REG=0x22;
-//当mdk -O1时间优化时需要设置
-//延时i
+// LCDYM->LCD_REG=0x22;
+//mdk -O1时间优化时需要设置
 void Lcd_Delay(uint16_t i) {
     while(--i);
 }
@@ -58,7 +43,7 @@ void Lcd_Delay(uint16_t i) {
 
 void LCD_Display(uint8_t off_on) {
     if(off_on == 1)
-        LCD_WriteReg(0x07, 0x0173); 			//开启显示
+        LCD_WriteReg(0x07, 0x0173);             //开启显示
     else
         LCD_WriteReg(0x07, 0x0);//关闭显示
 }
@@ -67,17 +52,14 @@ void LCD_Display(uint8_t off_on) {
 //Ypos:纵坐标
 void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos) {
 #if Use_Horizontal==1
-    //横屏显示
     LCD_WriteReg(0x20, Ypos);
     LCD_WriteReg(0x21, 319 - Xpos);
-    //竖屏显示
 #else
     LCD_WriteReg(0x20, Xpos);
     LCD_WriteReg(0x21, Ypos);
 #endif
 }
 //设置LCD的自动扫描方向
-
 void LCD_Scan_Dir(void) {
     uint16_t regval = 0;
     regval |= L2R_D2U; //从左到右,从上到下
@@ -88,19 +70,17 @@ void LCD_Scan_Dir(void) {
 //x,y:坐标
 //返回值:此点的颜色
 uint16_t LCD_ReadPoint(uint16_t x, uint16_t y) {
-// 	uint16_t r=0;
+//  uint16_t r=0;
 #if Use_Horizontal==1
-    //横屏显示
     LCD_WriteReg(0x20, y);
     LCD_WriteReg(0x21, 319 - x);
-    //竖屏显示
 #else
     LCD_WriteReg(0x20, x);
     LCD_WriteReg(0x21, y);
 #endif
-    LCDYM->LCD_REG = 0x22;      		 		//其他IC发送读GRAM指令
-// 	r=LCDYM->LCD_RAM;						//dummy Read
-//	r=r;
+    LCDYM->LCD_REG = 0x22;                      //其他IC发送读GRAM指令
+//  r=LCDYM->LCD_RAM;                       //dummy Read
+//  r=r;
     //实际坐标颜色
     return LCDYM->LCD_RAM;
 }
@@ -109,25 +89,22 @@ uint16_t LCD_ReadPoint(uint16_t x, uint16_t y) {
 //x,y:坐标
 //POINT_COLOR:此点的颜色
 void LCD_DrawPoint(uint16_t x, uint16_t y, uint16_t Color) {
-//	LCD_SetCursor(x,y);		//设置光标位置
+//  LCD_SetCursor(x,y);     //设置光标位置
 #if Use_Horizontal==1
-    //横屏显示
     LCD_WriteReg(0x20, y);
     LCD_WriteReg(0x21, 319 - x);
-    //竖屏显示
 #else
     LCD_WriteReg(0x20, x);
     LCD_WriteReg(0x21, y);
 #endif
-    LCDYM->LCD_REG = 0x22;	//开始写入GRAM
+    LCDYM->LCD_REG = 0x22;  //开始写入GRAM
     LCDYM->LCD_RAM = Color;
 }
-//清屏函数
-//color:要清屏的填充色
+
 void LCD_Clear(uint16_t color) {
     uint32_t index = 0;
-    LCD_SetCursor(0x00, 0x0000);	//设置光标位置
-    LCDYM->LCD_REG = 0x22;     		//开始写入GRAM
+    LCD_SetCursor(0x00, 0x0000);    //设置光标位置
+    LCDYM->LCD_REG = 0x22;          //开始写入GRAM
     for(index = 0; index < 76800; index++) {
         LCDYM->LCD_RAM = color;
     }
@@ -193,7 +170,6 @@ void LCD_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t C
 /*****************************************************************************
 ** 函数名称: LCD_Fill
 ** 功能描述: 在指定位置画一个指定大小的矩形填充
-
 *****************************************************************************/
 void LCD_Fill(uint16_t xsta, uint16_t ysta, uint16_t xend, uint16_t yend, uint16_t color) {
     uint32_t n;
@@ -270,7 +246,7 @@ void LCD_ShowString(uint16_t x, uint16_t y, const uint8_t *pstr, uint16_t Back_C
 
 #define LCD_BL_Pin GPIO_PIN_15
 #define LCD_BL_GPIO_Port GPIOB
-#define	LCD_LED HAL_GPIO_WritePin(LCD_BL_GPIO_Port,LCD_BL_Pin,GPIO_PIN_SET) //LCD背光    		 PB0 	   
+#define LCD_LED HAL_GPIO_WritePin(LCD_BL_GPIO_Port,LCD_BL_Pin,GPIO_PIN_SET) //LCD背光          PB0       
 void BL_Init() {
     GPIO_InitTypeDef GPIO_InitStruct;
     __HAL_RCC_GPIOB_CLK_ENABLE();
@@ -283,7 +259,6 @@ void BL_Init() {
     HAL_GPIO_Init(LCD_BL_GPIO_Port, &GPIO_InitStruct);
 }
 
-//初始化lcd
 void LCDx_Init(void) {
     BL_Init();
     Lcd_Delay(0xffff);
@@ -349,10 +324,7 @@ void LCDx_Init(void) {
 
     LCD_WriteReg(0x0007, 0x0133);
     LCD_WriteReg(0x00, 0x0022); //
-    LCD_Scan_Dir();	//默认扫描方向
-    LCD_LED;					//点亮背光
+    LCD_Scan_Dir();             //默认扫描方向
+    LCD_LED;                    //点亮背光
 }
-
-
-
 

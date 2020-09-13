@@ -3,16 +3,17 @@ SET CPU_TYPE=STM32F407ZGTx
 SET CPU_VENDOR=STMicroelectronics
 SET UV2_TARGET=f407zg_ram
 SET CPU_CLOCK=0x007A1200
-"C:\Keil_v5\ARM\ARMCLANG\Bin\ArmClang.exe" @".\obj\system_stm32f4xx.__i"
 "C:\Keil_v5\ARM\ARMCLANG\Bin\ArmAsm" --Via ".\obj\startup_stm32f407xx._ia"
+"C:\Keil_v5\ARM\ARMCLANG\Bin\ArmClang.exe" @".\obj\system_stm32f4xx.__i"
+"C:\Keil_v5\ARM\ARMCLANG\Bin\ArmClang.exe" @".\obj\blinky.__i"
+"C:\Keil_v5\ARM\ARMCLANG\Bin\ArmClang.exe" @".\obj\common_cmd.__i"
 "C:\Keil_v5\ARM\ARMCLANG\Bin\ArmClang.exe" @".\obj\adc.__i"
 "C:\Keil_v5\ARM\ARMCLANG\Bin\ArmClang.exe" @".\obj\gpio.__i"
 "C:\Keil_v5\ARM\ARMCLANG\Bin\ArmClang.exe" @".\obj\lcd.__i"
 "C:\Keil_v5\ARM\ARMCLANG\Bin\ArmClang.exe" @".\obj\led.__i"
-"C:\Keil_v5\ARM\ARMCLANG\Bin\ArmClang.exe" @".\obj\common_cmd.__i"
 "C:\Keil_v5\ARM\ARMCLANG\Bin\ArmClang.exe" @".\obj\isr.__i"
 "C:\Keil_v5\ARM\ARMCLANG\Bin\ArmClang.exe" @".\obj\retarget.__i"
-"C:\Keil_v5\ARM\ARMCLANG\Bin\ArmClang.exe" @".\obj\uart.__i"
-"C:\Keil_v5\ARM\ARMCLANG\Bin\ArmClang.exe" @".\obj\blinky.__i"
+"C:\Keil_v5\ARM\ARMCLANG\Bin\ArmClang.exe" @".\obj\sys.__i"
+"C:\Keil_v5\ARM\ARMCLANG\Bin\ArmClang.exe" @".\obj\usart.__i"
 "C:\Keil_v5\ARM\ARMCLANG\Bin\ArmLink" --Via ".\obj\f407zg_ram.lnp"
 "C:\Keil_v5\ARM\ARMCLANG\Bin\fromelf.exe" ".\obj\f407zg_ram.axf" --i32combined --output ".\obj\f407zg_ram.hex"

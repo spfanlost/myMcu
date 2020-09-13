@@ -8,8 +8,8 @@
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
 
-#ifndef _UART_H_
-#define _UART_H_
+#ifndef _USART_H_
+#define _USART_H_
 
 /*-----------------------------------------------------------------------------------
   Exported types  
@@ -26,11 +26,11 @@
 /*-----------------------------------------------------------------------------------
   Exported functions  
 -----------------------------------------------------------------------------------*/
-extern void uart_init(uint32_t pclk2,uint32_t bound);
-extern int uart_put_char(int32_t ch);
-extern int uart_get_char(void);
-extern int uart_chk_char(void);
+extern void usart_init(uint32_t pclk2,uint32_t bound);
+extern int usart_put_char(int32_t ch);
+extern int usart_get_char(void);
+extern int usart_chk_char(void);
 
 
-#endif /* _UART_H_ */
+#endif /* _USART_H_ */
 

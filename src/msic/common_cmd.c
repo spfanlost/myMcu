@@ -8,9 +8,9 @@
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
 #include "common.h"
-#include "stm32f4_conf.h"
+#include "stm32_config.h"
 #include "common_cmd.h"
-#include "uart.h"
+#include "usart.h"
 
 /*-----------------------------------------------------------------------------------
   Private declaration  
@@ -51,10 +51,11 @@ const uart_cmd_t g_uartcmd_list[] = {
 static void uart_cmd_help(char *str, byte_t *pos)
 {
     LOG_INFO("Welcome to use uart cmd debug tool! use ESC change mode\r");
+    LOG_INFO("Device :%s, SystemCoreClock:%dHz\r",DEVICE_STR,SystemCoreClock);
     LOG_INFO("1. help: display this help massage;\r");
     LOG_INFO("2. dump: dump memory area; dump <addr> <row_cnt> <col_cnt>\r");
     LOG_INFO("3. regs: write register; regs <addr> <val>\r");
-    LOG_INFO("4. debug: debug info;\r");
+    LOG_INFO("4. debug: display debug info;\r");
 }
 
 static void uart_cmd_info(char *str, byte_t *pos)
@@ -199,9 +200,9 @@ void uart_cmd(void)
 void common_cmd_isr(void)
 {
     byte_t rxchar = 0;
-    while (uart_chk_char())
+    while (usart_chk_char())
     {
-        rxchar = uart_get_char();
+        rxchar = usart_get_char();
         if (ESC == rxchar)
         {
             esc_flag = !esc_flag;
@@ -215,13 +216,13 @@ void common_cmd_isr(void)
                 {
                     RX_ADVANCE_PIDX(RXBuf_pos);
                 }
-                uart_put_char(BS);
-                uart_put_char(SPACE);
-                uart_put_char(BS);
+                usart_put_char(BS);
+                usart_put_char(SPACE);
+                usart_put_char(BS);
             }
             else
             {
-                uart_put_char(rxchar);
+                usart_put_char(rxchar);
                 RX_PUT_CHAR(rxchar);
                 RX_ADVANCE_IDX(RXBuf_pos);
                 if (LF == rxchar)

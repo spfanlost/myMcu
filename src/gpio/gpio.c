@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
 #include "common.h"
-#include "stm32f4_conf.h"
+#include "stm32_config.h"
 #include "gpio.h"
 
 /*-----------------------------------------------------------------------------------

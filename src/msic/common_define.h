@@ -11,13 +11,11 @@
 #ifndef _COMMON_DEFINE_H_
 #define _COMMON_DEFINE_H_
 
-// #define FAILED (-1)
-// #define SUCCEED (0)
-#define FAILED (0)
-#define SUCCEED (1)
+//#define FAILED (0)
+//#define SUCCEED (1)
 
-#define DISABLE (0)
-#define ENABLE (1)
+//#define DISABLE (0)
+//#define ENABLE (1)
 
 #define TRUE (1)
 #define FALSE (0)
