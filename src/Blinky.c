@@ -1,3 +1,5 @@
+
+
 /*----------------------------------------------------------------------------
  * Name:    Blinky.c
  * Purpose: LED Flasher for STM3240G-EVAL
@@ -18,15 +20,17 @@
 #include "led.h"
 #include "adc.h"
 #include "lcd.h"
-
 //VECT_TAB_SRAM
 #define __FI 1 /* Font index 16x24                  */
 
-#if (__FI == 1)
+#if ( __FI == 1)
+
 /* Font index  6x8*/
 #define __FONT_WIDTH 16
 #define __FONT_HEIGHT 24
+
 #else
+
 /* Font index 16x24*/
 #define __FONT_WIDTH 6
 #define __FONT_HEIGHT 8
@@ -45,13 +49,13 @@ int main(void)
 {
     uint16_t AD_value = 0;
     uint16_t AD_print = 0;
-    
     NVIC_SetPriorityGrouping(4);
     SystemClock_Config();
     SystemCoreClockUpdate();
     SysTick_Config(SystemCoreClock / 1000); //Generate interrupt each 1 ms
     led_init();
-    usart_init(84,115200);
+    usart_init(84, 115200);
+
     //ADC_Init();                           /* ADC Initialization                 */
 #ifdef USE_LCD_EN
     GLCD_Init();
@@ -63,31 +67,34 @@ int main(void)
     GLCD_DisplayString(2, 0, __FI, "    www.keil.com    ");
     GLCD_SetBackColor(White);
     GLCD_SetTextColor(Blue);
-#endif 
+#endif
 
-    while (1)
+    while(1)
     {
         //ADC_StartCnv ();
         //while (!ADC_DoneCnv());
         //AD_value = ADC_GetCnv();            /* Read AD_last value                 */
-        if (AD_value != AD_print)
+        if(AD_value!=AD_print)
         {
 #ifdef USE_LCD_EN
             GLCD_SetTextColor(Red);
-            GLCD_Bargraph(9 * __FONT_WIDTH, 6 * __FONT_HEIGHT, 10 * __FONT_WIDTH, __FONT_HEIGHT - 2, (AD_value >> 2));
+            GLCD_Bargraph(9*__FONT_WIDTH, 6*__FONT_HEIGHT, 10*__FONT_WIDTH, __FONT_HEIGHT-2, (AD_value >> 2));
             GLCD_SetTextColor(White);
 #endif
 
             AD_print = AD_value; /* Get unscaled value for printout    */
         }
-        if (clock_1s)
+        if(clock_1s)
         {
             clock_1s = 0;
             sprintf(text, "AD value = 0x%04X", AD_print);
+
 #ifdef USE_LCD_EN
             GLCD_SetTextColor(Blue);
-            GLCD_DisplayString(5, 0, __FI, (unsigned char *)text);
+            GLCD_DisplayString(5, 0, __FI, (unsigned char*) text);
 #endif
         }
     }
 }
+
+

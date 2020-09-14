@@ -1,10 +1,12 @@
+
+
 /**
  * @file    retarget.c
  * @author  meng_yu
  * @brief   'Retarget' layer for target-dependent low level functions realize
  * @version 0.0.1
  * @date    2020-09-09
- * 
+ *
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
 #include <stdio.h>
@@ -12,60 +14,69 @@
 #include "usart.h"
 
 /*-----------------------------------------------------------------------------------
-  Private declaration  
+  Private declaration
 -----------------------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------------------
-  Extern variables declaration  
+  Extern variables declaration
 -----------------------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------------------
-  Global variables definition  
+  Global variables definition
 -----------------------------------------------------------------------------------*/
 #if defined (__CC_ARM)
-#pragma import(__use_no_semihosting_swi)
+#pragma import (__use_no_semihosting_swi )
+
+
 struct __FILE
 {
-    int handle; /* Add whatever you need here */
+int handle; /* Add whatever you need here */
 };
+
+
 #endif
 
 FILE __stdout;
 FILE __stdin;
 
 /*-----------------------------------------------------------------------------------
-  Local functions declaration  
+  Local functions declaration
 -----------------------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------------------
-  Local functions definition  
+  Local functions definition
 -----------------------------------------------------------------------------------*/
-
-
-int fputc(int c, FILE *f)
+int fputc ( int c, FILE * f )
 {
-    return (usart_put_char(c));
+    return ( usart_put_char ( c ) );
 }
 
-int fgetc(FILE *f)
+
+int fgetc ( FILE * f )
 {
-    return (usart_get_char());
+    return ( usart_get_char () );
 }
 
-int ferror(FILE *f)
+
+int ferror ( FILE * f )
 {
     /* Your implementation of ferror */
     return EOF;
 }
 
-void _ttywrch(int c)
+
+void _ttywrch ( int c )
 {
-    usart_put_char(c);
+    usart_put_char ( c );
 }
 
-void _sys_exit(int return_code)
+
+void _sys_exit ( int return_code )
 {
 
 label:
+
     goto label; /* endless loop */
 }
+
+

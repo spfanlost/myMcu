@@ -4,7 +4,7 @@
  * @brief   stm32 config function header file
  * @version 0.0.1
  * @date    2020-09-13
- * 
+ *
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
 
@@ -14,8 +14,9 @@
 #include "stm32f4xx.h"
 
 /*-----------------------------------------------------------------------------------
-  Exported macro  
+  Exported macro
 -----------------------------------------------------------------------------------*/
+
 #define USE_LCD_EN
 
 #if defined(STM32F407xx)
@@ -29,7 +30,7 @@
 #endif
 
 /*-----------------------------------------------------------------------------------
-  Exported functions  
+  Exported functions
 -----------------------------------------------------------------------------------*/
 extern void SystemClock_Config(void);
 

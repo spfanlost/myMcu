@@ -1,10 +1,12 @@
+
+
 /**
  * @file    isr.c
  * @author  meng_yu
  * @brief   IRQ Handler function realize
  * @version 0.0.1
  * @date    2020-09-09
- * 
+ *
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
 #include "common.h"
@@ -14,30 +16,29 @@
 #include "usart.h"
 #include "adc.h"
 
-
 /*-----------------------------------------------------------------------------------
-  Private declaration  
+  Private declaration
 -----------------------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------------------
-  Extern variables declaration  
+  Extern variables declaration
 -----------------------------------------------------------------------------------*/
 uint8_t clock_1s;
 
 /*-----------------------------------------------------------------------------------
-  Global variables definition  
+  Global variables definition
 -----------------------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------------------
-  Local functions declaration  
+  Local functions declaration
 -----------------------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------------------
-  Local functions definition  
+  Local functions definition
 -----------------------------------------------------------------------------------*/
 
 /*!< Specifies the IRQ channel to be enabled or disabled.
-      This parameter can be an enumerator of @ref IRQn_Type 
+      This parameter can be an enumerator of @ref IRQn_Type
       enumeration (For the complete STM32 Devices IRQ Channels
       list, please refer to stm32f4xx.h file) */
 
@@ -52,20 +53,19 @@ uint8_t clock_1s;
       A lower priority value indicates a higher priority */
 
 /*!< Specifies whether the IRQ channel defined in NVIC_IRQChannel
-      will be enabled or disabled. 
+      will be enabled or disabled.
       This parameter can be set either to ENABLE or DISABLE */
-
 void NVIC_Config(IRQn_Type IRQn, uint8_t PreemptionPrio, uint8_t SubPrio, uint8_t Enable)
 {
     uint32_t temp;
-    if (Enable)
-    {
-        temp=PreemptionPrio<<(4-2);
-        temp|=SubPrio&(0x0f>>2);
-        temp&=0xf;                              //取低四位
 
+    if(Enable)
+    {
+        temp = PreemptionPrio << (4-2);
+        temp |= SubPrio&(0x0f >> 2);
+        temp &= 0xf; //取低四位
         NVIC_EnableIRQ(IRQn);
-        NVIC->IP[IRQn] = temp<<4;
+        NVIC->IP[IRQn] = temp << 4;
     }
     else
     {
@@ -73,16 +73,17 @@ void NVIC_Config(IRQn_Type IRQn, uint8_t PreemptionPrio, uint8_t SubPrio, uint8_
     }
 }
 
+
 void SysTick_Handler(void)
 {
     static unsigned long ticks = 0;
     static byte_t leds = 0x1;
 
-    if (ticks++ >= 999)
+    if(ticks++>=999)
     {
         ticks = 0;
         clock_1s = 1;
-        if (leds)
+        if(leds)
         {
             led_on(LED1_PIN);
             led_on(LED2_PIN);
@@ -92,12 +93,14 @@ void SysTick_Handler(void)
             led_off(LED1_PIN);
             led_off(LED2_PIN);
         }
-        leds = !leds;
+        leds =!leds;
     }
 }
+
 
 void USART1_IRQHandler(void)
 {
     common_cmd_isr();
 }
+
 
