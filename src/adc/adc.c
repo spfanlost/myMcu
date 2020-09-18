@@ -39,31 +39,29 @@ uint8_t AD_done; /* AD conversion done flag            */
  *----------------------------------------------------------------------------*/
 void ADC_Init(void)
 {
-#ifndef STM3220F /* STM3220G-EVAL config (default)     */
-#define ADCx ADC3
-
-    /* Setup and initialize ADC converter                                 */
-    RCC->APB2ENR |= (1UL << 10); /* Enable ADC3 clock                  */
-    RCC->AHB1ENR |= (1UL << 5); /* Enable GPIOF clock                 */
-    GPIOF->MODER |= (3UL << 2*9); /* PF9 is in Analog mode              */
-    ADC3->SQR1 = 0;
-    ADC3->SQR2 = 0;
-    ADC3->SQR3 = (7UL << 0); /* SQ1 = channel 7                    */
-    ADC3->SMPR1 = 0; /* Clear register                     */
-    ADC3->SMPR2 = (7UL << 21); /* Channel 7 sample time is 480 cyc.  */
-    ADC3->CR1 = (1UL << 8); /* Scan mode on                       */
-    ADC3->CR2 |= (1UL << 3); /* Initialize calibration registers   */
-    while(ADC3->CR2&(1UL << 3)); /* Wait for initialization to finish  */
-    ADC3->CR2 |= (1UL << 2); /* Start calibration                  */
-    while(ADC3->CR2&(1UL << 2)); /* Wait for calibration to finish     */
-    ADC3->CR1 |= (1UL << 5); /* Enable EOC interrupt               */
-    NVIC_EnableIRQ(ADC_IRQn); /* Enable ADC Interrupt               */
-    ADC3->CR2 |= (1UL << 0); /* ADC enable                         */
-
-#else /* STM3220F-EVAL config               */
+//#ifndef STM3220F /* STM3220G-EVAL config (default)     */
+//#define ADCx ADC3
+//
+//    /* Setup and initialize ADC converter                                 */
+//    RCC->APB2ENR |= (1UL << 10); /* Enable ADC3 clock                  */
+//    RCC->AHB1ENR |= (1UL << 5); /* Enable GPIOF clock                 */
+//    GPIOF->MODER |= (3UL << 2*9); /* PF9 is in Analog mode              */
+//    ADC3->SQR1 = 0;
+//    ADC3->SQR2 = 0;
+//    ADC3->SQR3 = (7UL << 0); /* SQ1 = channel 7                    */
+//    ADC3->SMPR1 = 0; /* Clear register                     */
+//    ADC3->SMPR2 = (7UL << 21); /* Channel 7 sample time is 480 cyc.  */
+//    ADC3->CR1 = (1UL << 8); /* Scan mode on                       */
+//    ADC3->CR2 |= (1UL << 3); /* Initialize calibration registers   */
+//    while(ADC3->CR2&(1UL << 3)); /* Wait for initialization to finish  */
+//    ADC3->CR2 |= (1UL << 2); /* Start calibration                  */
+//    while(ADC3->CR2&(1UL << 2)); /* Wait for calibration to finish     */
+//    ADC3->CR1 |= (1UL << 5); /* Enable EOC interrupt               */
+//    NVIC_EnableIRQ(ADC_IRQn); /* Enable ADC Interrupt               */
+//    ADC3->CR2 |= (1UL << 0); /* ADC enable                         */
+//#else /* STM3220F-EVAL config               */
 
 #define ADCx ADC1
-
     /* Setup and initialize ADC converter                                 */
     RCC->APB2ENR |= (1UL << 8); /* Enable ADC1 clock                  */
     RCC->AHB1ENR |= (1UL << 2); /* Enable GPIOC clock                 */
@@ -81,7 +79,7 @@ void ADC_Init(void)
     ADC1->CR1 |= (1UL << 5); /* enable EOC interrupt               */
     NVIC_EnableIRQ(ADC_IRQn); /* enable ADC Interrupt               */
     ADC1->CR2 |= (1UL << 0); /* ADC enable                         */
-#endif
+//#endif
 }
 
 
@@ -90,8 +88,8 @@ void ADC_Init(void)
  *----------------------------------------------------------------------------*/
 void ADC_IRQHandler(void)
 {
-    if(ADCx->SR&(1 << 1))
-    { /* ADC EOC interrupt?                 */
+        if(ADCx->SR&(1 << 1)) /* ADC EOC interrupt?                 */
+    {
         AD_last = (ADCx->DR&ADC_VALUE_MAX);
         AD_done = 1;
         ADCx->SR &=~(1 << 1); /* Clear EOC interrupt                */

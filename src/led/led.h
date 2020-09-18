@@ -28,8 +28,9 @@
 /*-----------------------------------------------------------------------------------
   Exported functions
 -----------------------------------------------------------------------------------*/
-#define LED1_PIN PIN9
-#define LED2_PIN PIN10
+#define LED1_PIN PIN9 //(PF9)
+#define LED2_PIN PIN10 //(PF10)
+
 extern void led_init(void);
 extern void led_on(uint32_t pin);
 extern void led_off(uint32_t pin);

@@ -14,7 +14,6 @@
 #include "common_cmd.h"
 #include "led.h"
 #include "usart.h"
-#include "adc.h"
 
 /*-----------------------------------------------------------------------------------
   Private declaration
@@ -23,7 +22,7 @@
 /*-----------------------------------------------------------------------------------
   Extern variables declaration
 -----------------------------------------------------------------------------------*/
-uint8_t clock_1s;
+qword_t ticks = 0;
 
 /*-----------------------------------------------------------------------------------
   Global variables definition
@@ -63,7 +62,7 @@ void NVIC_Config(IRQn_Type IRQn, uint8_t PreemptionPrio, uint8_t SubPrio, uint8_
     {
         temp = PreemptionPrio << (4-2);
         temp |= SubPrio&(0x0f >> 2);
-        temp &= 0xf; //È¡µÍËÄÎ»
+        temp &= 0xf;
         NVIC_EnableIRQ(IRQn);
         NVIC->IP[IRQn] = temp << 4;
     }
@@ -76,13 +75,10 @@ void NVIC_Config(IRQn_Type IRQn, uint8_t PreemptionPrio, uint8_t SubPrio, uint8_
 
 void SysTick_Handler(void)
 {
-    static unsigned long ticks = 0;
     static byte_t leds = 0x1;
-
-    if(ticks++>=999)
+    ticks++;
+    if(ticks%1000 == 0)
     {
-        ticks = 0;
-        clock_1s = 1;
         if(leds)
         {
             led_on(LED1_PIN);
