@@ -122,6 +122,7 @@ static void glcd_bl_init(void)
 -----------------------------------------------------------------------------------*/
 static void glcd_fsmc_init(void)
 {
+
     RCC->AHB3ENR |= (1UL << 0); /* Enable FSMC clock                  */
 
 #ifdef __STM_EVAL /* STM3220G-EVAL and STM3240G-EVAL    */
@@ -168,25 +169,22 @@ static void glcd_fsmc_init(void)
     (1 << 0); /* Memory Bank enable                 */
 }
 
-
-/*-----------------------------------------------------------------------------------
-  Initialize the Graphic LCD controller functions definition
------------------------------------------------------------------------------------*/
-void GLCD_Init(void)
+static void glcd_fsmc_gpio_init(void)
 {
-    unsigned short driverCode;
-
-    glcd_bl_init();
+    static dword_t fsmc_inited = 0;
+    if(fsmc_inited)
+        return;
+    fsmc_inited = 1;
     RCC->AHB1ENR |= ((1UL << 0) | /* Enable GPIOA clock                 */
-    (1UL << 3) | /* Enable GPIOD clock                 */
-    (1UL << 4) | /* Enable GPIOE clock                 */
-    (1UL << 5) | /* Enable GPIOF clock                 */
-    (1UL << 6)); /* Enable GPIOG clock                 */
+                    (1UL << 3) | /* Enable GPIOD clock                 */
+                    (1UL << 4) | /* Enable GPIOE clock                 */
+                    (1UL << 5) | /* Enable GPIOF clock                 */
+                    (1UL << 6)); /* Enable GPIOG clock                 */
 
     /* PD.00(D2),  PD.01(D3),  PD.04(NOE), PD.05(NWE)                           */
     /* PD.08(D13), PD.09(D14), PD.10(D15), PD.14(D0), PD.15(D1)                 */
     GPIO_Set(GPIOD, PIN0 | PIN1 | PIN4 | PIN5 | PIN8 | PIN9 | PIN10 | PIN14 | PIN15,
-        GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_PU);
+        GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO_SPEED_100M, GPIO_PUPD_RES);
     GPIO_AF_Set(GPIOD, 0, 12); //PD.00(D2),AF12
     GPIO_AF_Set(GPIOD, 1, 12); //PD.01(D3),AF12
     GPIO_AF_Set(GPIOD, 4, 12); //PD.04(NOE),AF12
@@ -200,7 +198,7 @@ void GLCD_Init(void)
     /* PE.07(D4), PE.08(D5),  PE.09(D6),  PE.10(D7), PE.11(D8)                  */
     /* PE.12(D9), PE.13(D10), PE.14(D11), PE.15(D12)                            */
     GPIO_Set(GPIOE, PIN7 | PIN8 | PIN9 | PIN10 | PIN11 | PIN12 | PIN13 | PIN14 | PIN15,
-        GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_PU);
+        GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO_SPEED_100M, GPIO_PUPD_RES);
     GPIO_AF_Set(GPIOE, 7, 12); //PE.07(D4),AF12
     GPIO_AF_Set(GPIOE, 8, 12); //PE.08(D5),AF12
     GPIO_AF_Set(GPIOE, 9, 12); //PE.09(D6),AF12
@@ -212,14 +210,24 @@ void GLCD_Init(void)
     GPIO_AF_Set(GPIOE, 15, 12); //PE.15(D12),AF12
 
     /* PF.00(A0 (RS)) */
-    GPIO_Set(GPIOF, PIN12, GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_PU);
+    GPIO_Set(GPIOF, PIN12, GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO_SPEED_100M, GPIO_PUPD_RES);
     GPIO_AF_Set(GPIOF, 12, 12); //PE.12(A6),AF12
 
     /* PG.12(NE4 (LCD/CS)) - CE1(LCD /CS)                                       */
-    GPIO_Set(GPIOG, PIN12, GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_PU);
+    GPIO_Set(GPIOG, PIN12, GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO_SPEED_100M, GPIO_PUPD_RES);
     GPIO_AF_Set(GPIOG, 12, 12); //PE.12(NE4),AF12
+}
+
+/*-----------------------------------------------------------------------------------
+  Initialize the Graphic LCD controller functions definition
+-----------------------------------------------------------------------------------*/
+void GLCD_Init(void)
+{
+    unsigned short driverCode;
     glcd_fsmc_init();
-    glcd_delay(500); /* glcd_delay 50 ms                        */
+    glcd_fsmc_gpio_init();
+    glcd_bl_init();
+    glcd_delay(50); /* glcd_delay 50 ms                        */
     driverCode = glcd_rd_reg(0x00);
     LOG_INFO("lcd_code:%x\r\n", driverCode);
     if(driverCode==0x47)
@@ -357,15 +365,15 @@ void GLCD_Init(void)
         glcd_wr_reg(0x11, 0x0000); /* Reset Power Control 2              */
         glcd_wr_reg(0x12, 0x0000); /* Reset Power Control 3              */
         glcd_wr_reg(0x13, 0x0000); /* Reset Power Control 4              */
-        glcd_delay(20); /* Discharge cap power voltage (200ms)*/
+        glcd_delay(200); /* Discharge cap power voltage (200ms)*/
         glcd_wr_reg(0x10, 0x12B0); /* SAP, BT[3:0], AP, DSTB, SLP, STB   */
         glcd_wr_reg(0x11, 0x0007); /* DC1[2:0], DC0[2:0], VC[2:0]        */
-        glcd_delay(5); /* glcd_delay 50 ms                        */
+        glcd_delay(50); /* glcd_delay 50 ms                        */
         glcd_wr_reg(0x12, 0x01BD); /* VREG1OUT voltage                   */
-        glcd_delay(5); /* glcd_delay 50 ms                        */
+        glcd_delay(50); /* glcd_delay 50 ms                        */
         glcd_wr_reg(0x13, 0x1400); /* VDV[4:0] for VCOM amplitude        */
         glcd_wr_reg(0x29, 0x000E); /* VCM[4:0] for VCOMH                 */
-        glcd_delay(5); /* glcd_delay 50 ms                        */
+        glcd_delay(50); /* glcd_delay 50 ms                        */
         glcd_wr_reg(0x20, 0x0000); /* GRAM horizontal Address            */
         glcd_wr_reg(0x21, 0x0000); /* GRAM Vertical Address              */
 
@@ -477,21 +485,16 @@ void GLCD_Init(void)
         /* Set GRAM write direction
         I/D=11 (Horizontal : increment, Vertical : increment)                  */
 #if ( LANDSCAPE == 1)
-
         /* AM=1   (address is updated in vertical writing direction)              */
         glcd_wr_reg(0x03, 0x1038);
-
 #else
-
         /* AM=0   (address is updated in horizontal writing direction)            */
         glcd_wr_reg(0x03, 0x1030);
 #endif
-
         glcd_wr_reg(0x07, 0x0137); /* 262K color and display ON          */
     }
     glcd_bl_on();
 }
-
 
 /*******************************************************************************
 * Set draw window region                                                       *
@@ -788,8 +791,7 @@ void GLCD_Bargraph(unsigned int x, unsigned int y, unsigned int w, unsigned int 
 void GLCD_Bitmap(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned char*bitmap)
 {
     int i, j;
-    unsigned short*bitmap_ptr = (unsigned short*)
-    bitmap;
+    unsigned short*bitmap_ptr = (unsigned short*)bitmap;
     GLCD_SetWindow(x, y, w, h);
     glcd_wr_cmd(0x22);
     glcd_wr_dat_start();

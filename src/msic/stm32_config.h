@@ -11,15 +11,17 @@
 #ifndef _STM32_CONFIG_H_
 #define _STM32_CONFIG_H_
 
+//#include "stm32f1xx.h"
 #include "stm32f4xx.h"
+//#include "stm32h7xx.h"
 
 /*-----------------------------------------------------------------------------------
   Exported macro
 -----------------------------------------------------------------------------------*/
 
-#define USE_LCD_EN
 
 #if defined(STM32F407xx)
+#define USE_LCD_EN
 #define DEVICE_STR "STM32F407xx"
 #elif defined(STM32F429xx)
 #define DEVICE_STR "STM32F429xx"

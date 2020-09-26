@@ -56,7 +56,7 @@ void usart_init(uint32_t pclk2, uint32_t bound)
     RCC->APB2ENR |= 1 << 4; //使能串口1时钟
 
     //TX = PA9,RX = PA10,复用功能,上拉输出
-    GPIO_Set(GPIOA, PIN9 | PIN10, GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_PU);
+    GPIO_Set(GPIOA, PIN9 | PIN10, GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO_SPEED_100M, GPIO_PUPD_PU);
     GPIO_AF_Set(GPIOA, 9, 7); //PA9,AF7
     GPIO_AF_Set(GPIOA, 10, 7); //PA10,AF7
     USART1->BRR = mantissa; //bound

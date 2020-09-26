@@ -10,6 +10,7 @@
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
 #include "stm32_config.h"
+#include "common.h"
 #include "adc.h"
 
 /*-----------------------------------------------------------------------------------

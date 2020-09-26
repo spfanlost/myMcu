@@ -42,7 +42,7 @@ void led_init(void)
     RCC->AHB1ENR |= (1UL << 5); //Enable clock for GPIOF
 
     /* Configure LED (PF9,PF10) pins as push-pull outputs */
-    GPIO_Set(GPIOF, LED1_PIN | LED2_PIN, GPIO_MODE_OUT, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_PU);
+    GPIO_Set(GPIOF, LED1_PIN | LED2_PIN, GPIO_MODE_OUT, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_RES);
 }
 
 
