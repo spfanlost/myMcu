@@ -14,6 +14,7 @@
 #include "common_cmd.h"
 #include "led.h"
 #include "usart.h"
+#include "isr.h"
 
 /*-----------------------------------------------------------------------------------
   Private declaration
@@ -22,7 +23,7 @@
 /*-----------------------------------------------------------------------------------
   Extern variables declaration
 -----------------------------------------------------------------------------------*/
-__IO qword_t ticks = 0;
+volatile qword_t ticks = 0;
 
 /*-----------------------------------------------------------------------------------
   Global variables definition
@@ -71,7 +72,6 @@ void NVIC_Config(IRQn_Type IRQn, uint8_t PreemptionPrio, uint8_t SubPrio, uint8_
         NVIC_DisableIRQ(IRQn);
     }
 }
-
 
 void SysTick_Handler(void)
 {

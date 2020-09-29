@@ -11,6 +11,7 @@
 */
 #include "common.h"
 #include "stm32_config.h"
+#include "sys.h"
 
 /*-----------------------------------------------------------------------------------
   Private declaration

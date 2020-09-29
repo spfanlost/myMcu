@@ -12,7 +12,10 @@
 #define _STM32_CONFIG_H_
 
 //#include "stm32f1xx.h"
+
 #include "stm32f4xx.h"
+#include "system_stm32f4xx.h"
+
 //#include "stm32h7xx.h"
 
 /*-----------------------------------------------------------------------------------
@@ -31,10 +34,6 @@
 #define DEVICE_STR "STM32H750xx"
 #endif
 
-/*-----------------------------------------------------------------------------------
-  Exported functions
------------------------------------------------------------------------------------*/
-extern void SystemClock_Config(void);
 
 #endif /* _STM32_CONFIG_H_ */
 
