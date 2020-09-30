@@ -41,15 +41,13 @@ extern void NVIC_Config(uint8_t Channel, uint8_t PreemptionPrio, uint8_t SubPrio
  * @param  bound: bound
  * @note:  call
  */
-void usart_init(uint32_t pclk2, uint32_t bound)
+void usart_init(dword_t pclk2, dword_t bound)
 {
-    float temp;
-    uint16_t mantissa;
-    uint16_t fraction;
+    dword_t mantissa;
+    dword_t fraction;
 
-    temp = (float) (pclk2*1000000) / (bound*16); //得到USARTDIV@OVER8=0
-    mantissa = temp; //得到整数部分
-    fraction = (temp-mantissa)*16; //得到小数部分@OVER8=0
+    mantissa = (pclk2*1000000) / (bound*16); //得到USARTDIV@OVER8=0
+    fraction = ((pclk2*100000000) / (bound*16))%100; //得到小数部分@OVER8=0
     mantissa <<= 4;
     mantissa |= fraction;
     RCC->AHB1ENR |= 1 << 0; //使能PORTA口时钟
