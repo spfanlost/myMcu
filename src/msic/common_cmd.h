@@ -66,11 +66,12 @@ CMD_NUM
 
 typedef struct
 {
-void(*pfn) (char*str, byte_t*pos);
-char cmd[8];
-byte_t cmdlen;
-byte_t paranum;
-byte_t rev[2];
+    void(*pfn) (char*str, byte_t*pos);
+    //char cmd[8];
+    const char *cmd;
+    byte_t cmdlen;
+    byte_t paranum;
+    byte_t rev[2];
 } uart_cmd_t;
 
 

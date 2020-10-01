@@ -43,13 +43,13 @@
  * @note:  在输入模式(普通输入/模拟输入)下,OTYPE和OSPEED参数无效!!
  */
 void GPIO_Set(GPIO_TypeDef*GPIOx,
-    uint32_t PINx,
-    uint32_t MODE,
-    uint32_t OTYPE,
-    uint32_t OSPEED,
-    uint32_t PUPD)
+    dword_t PINx,
+    dword_t MODE,
+    dword_t OTYPE,
+    dword_t OSPEED,
+    dword_t PUPD)
 {
-    uint32_t pinpos = 0, pos = 0, curpin = 0;
+    dword_t pinpos = 0, pos = 0, curpin = 0;
 
     for(pinpos = 0; pinpos<16; pinpos++)
     {
@@ -83,12 +83,12 @@ void GPIO_Set(GPIO_TypeDef*GPIOx,
     UART5/SPDIFRX;
  *      AF8:USART4~8/SPDIFRX/SAI2; AF9;CAN1~2/TIM12~14/LCD/QSPI; AF10:USB_OTG/USB_HS/SAI2/QSPI; AF11:ETH
  *      AF12:FMC/SDIO/OTG/HS       AF13:DCIM                     AF14:LCD;                      AF15:EVENTOUT
- * @note:  &#&
+ * @note:  call
  */
 void GPIO_AF_Set(GPIO_TypeDef*GPIOx, uint8_t PINx, uint8_t AFx)
 {
     GPIOx->AFR[PINx >> 3] &=~(0X0F << ((PINx&0X07)*4));
-    GPIOx->AFR[PINx >> 3] |= (uint32_t)
+    GPIOx->AFR[PINx >> 3] |= (dword_t)
     AFx << ((PINx&0X07)*4);
 }
 

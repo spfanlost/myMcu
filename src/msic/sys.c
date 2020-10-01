@@ -52,7 +52,7 @@
   */
 void SystemClock_Config(void)
 {
-    RCC->CR |= ((uint32_t) RCC_CR_HSEON); //Enable HSE
+    RCC->CR |= ((dword_t) RCC_CR_HSEON); //Enable HSE
     while(! (RCC->CR&RCC_CR_HSERDY)); //Wait till HSE ready
 
     //Select regulator voltage output Scale 1 mode
@@ -102,11 +102,11 @@ void SystemClock_Config(void)
 #endif
 
     /* Select the main PLL as system clock source */
-    RCC->CFGR &= (uint32_t) (~(RCC_CFGR_SW));
+    RCC->CFGR &= (dword_t) (~(RCC_CFGR_SW));
     RCC->CFGR |= RCC_CFGR_SW_PLL;
 
     /* Wait till the main PLL is used as system clock source */
-    while((RCC->CFGR&(uint32_t) RCC_CFGR_SWS)!=RCC_CFGR_SWS_PLL);
+    while((RCC->CFGR&(dword_t) RCC_CFGR_SWS)!=RCC_CFGR_SWS_PLL);
 }
 
 

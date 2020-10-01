@@ -9,6 +9,7 @@
 *
 * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
 */
+#include "common.h"
 #include "stm32_config.h"
 #include "led.h"
 
@@ -51,7 +52,7 @@ void led_init(void)
 * @param  pin: led's pin
 * @note:  call
 */
-void led_on(uint32_t pin)
+void led_on(dword_t pin)
 {
     GPIOF->BSRR |= pin;
 }
@@ -62,7 +63,7 @@ void led_on(uint32_t pin)
 * @param  pin: led's pin
 * @note:  call
 */
-void led_off(uint32_t pin)
+void led_off(dword_t pin)
 {
     GPIOF->BSRR |= (pin << 16);
 }

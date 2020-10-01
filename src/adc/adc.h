@@ -30,8 +30,8 @@
 -----------------------------------------------------------------------------------*/
 extern void ADC_Init(void);
 extern void ADC_StartCnv(void);
-extern uint32_t ADC_DoneCnv(void);
-extern uint16_t ADC_GetCnv(void);
+extern dword_t ADC_DoneCnv(void);
+extern word_t ADC_GetCnv(void);
 
 #endif /* _ADC_H_ */
 

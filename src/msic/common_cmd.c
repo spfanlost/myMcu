@@ -39,18 +39,10 @@ static void uart_cmd_dump(char*str, byte_t*pos);
 static void uart_cmd_regs(char*str, byte_t*pos);
 const uart_cmd_t g_uartcmd_list[] =
 {
-    {
-        uart_cmd_help, 'h', 'e', 'l', 'p', '\0', '\0', '\0', '\0', 4, 0
-    },
-    {
-        uart_cmd_dump, 'd', 'u', 'm', 'p', '\0', '\0', '\0', '\0', 4, 3
-    },
-    {
-        uart_cmd_regs, 'r', 'e', 'g', 's', '\0', '\0', '\0', '\0', 4, 2
-    },
-    {
-        uart_cmd_info, 'd', 'e', 'b', 'u', 'g', '\0', '\0', '\0', 4, 0
-    },
+    {uart_cmd_help, "help", 4, 0},
+    {uart_cmd_dump, "dump", 4, 3},
+    {uart_cmd_regs, "regs", 4, 2},
+    {uart_cmd_info, "debug", 5, 0},
 };
 
 
@@ -60,7 +52,7 @@ const uart_cmd_t g_uartcmd_list[] =
 static void uart_cmd_help(char*str, byte_t*pos)
 {
     LOG_INFO("Welcome to use uart cmd debug tool! use ESC change mode\r");
-    LOG_INFO("Device :%s, SystemCoreClock:%dHz\r", DEVICE_STR, SystemCoreClock);
+    LOG_INFO("Device: %s, SystemCoreClock:%dHz\r", DEVICE_STR, SystemCoreClock);
     LOG_INFO("1. help: display this help massage;\r");
     LOG_INFO("2. dump: dump memory area; dump <addr> <row_cnt> <col_cnt>\r");
     LOG_INFO("3. regs: write register; regs <addr> <val>\r");
@@ -71,7 +63,7 @@ extern qword_t ticks;
 
 static void uart_cmd_info(char*str, byte_t*pos)
 {
-    LOG_INFO("%s:%d\r", DEVICE_STR, SystemCoreClock);
+    LOG_INFO("Device: %s, SystemCoreClock:%dHz\r", DEVICE_STR, SystemCoreClock);
 }
 
 

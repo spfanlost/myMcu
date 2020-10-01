@@ -9,8 +9,8 @@
  *
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
-#include "stm32_config.h"
 #include "common.h"
+#include "stm32_config.h"
 #include "gpio.h"
 #include "lcd.h"
 #include "font_6x8.h"

@@ -37,27 +37,13 @@ volatile qword_t ticks = 0;
   Local functions definition
 -----------------------------------------------------------------------------------*/
 
-/*!< Specifies the IRQ channel to be enabled or disabled.
-      This parameter can be an enumerator of @ref IRQn_Type
-      enumeration (For the complete STM32 Devices IRQ Channels
-      list, please refer to stm32f4xx.h file) */
-
-/*!< Specifies the pre-emption priority for the IRQ channel
-      specified in NVIC_IRQChannel. This parameter can be a value
-      between 0 and 15 as described in the table @ref MISC_NVIC_Priority_Table
-      A lower priority value indicates a higher priority */
-
-/*!< Specifies the subpriority level for the IRQ channel specified
-      in NVIC_IRQChannel. This parameter can be a value
-      between 0 and 15 as described in the table @ref MISC_NVIC_Priority_Table
-      A lower priority value indicates a higher priority */
-
-/*!< Specifies whether the IRQ channel defined in NVIC_IRQChannel
-      will be enabled or disabled.
-      This parameter can be set either to ENABLE or DISABLE */
-void NVIC_Config(IRQn_Type IRQn, uint8_t PreemptionPrio, uint8_t SubPrio, uint8_t Enable)
+//PreemptionPrio:抢占优先级
+//SubPrio       :响应优先级
+//IRQn          :中断编号
+//注意优先级不能超过设定的组的范围!否则会有意想不到的错误
+void NVIC_Config(IRQn_Type IRQn, byte_t PreemptionPrio, byte_t SubPrio, byte_t Enable)
 {
-    uint32_t temp;
+    dword_t temp;
 
     if(Enable)
     {

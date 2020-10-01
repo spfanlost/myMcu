@@ -32,8 +32,8 @@
 #define LED2_PIN PIN10 //(PF10)
 
 extern void led_init(void);
-extern void led_on(uint32_t pin);
-extern void led_off(uint32_t pin);
+extern void led_on(dword_t pin);
+extern void led_off(dword_t pin);
 
 #endif /* _LED_H_ */
 

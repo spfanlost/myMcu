@@ -11,8 +11,9 @@
  */
 #include "common.h"
 #include "stm32_config.h"
-#include "usart.h"
 #include "gpio.h"
+#include "isr.h"
+#include "usart.h"
 
 /*-----------------------------------------------------------------------------------
   Private declaration
@@ -33,7 +34,6 @@
 /*-----------------------------------------------------------------------------------
   Local functions definition
 -----------------------------------------------------------------------------------*/
-extern void NVIC_Config(uint8_t Channel, uint8_t PreemptionPrio, uint8_t SubPrio, uint8_t Enable);
 
 /**
  * @brief  This function is usart_init

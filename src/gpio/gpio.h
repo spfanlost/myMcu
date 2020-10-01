@@ -64,11 +64,11 @@
   Exported functions
 -----------------------------------------------------------------------------------*/
 void GPIO_Set(GPIO_TypeDef*GPIOx,
-    uint32_t PINx,
-    uint32_t MODE,
-    uint32_t OTYPE,
-    uint32_t OSPEED,
-    uint32_t PUPD);
+    dword_t PINx,
+    dword_t MODE,
+    dword_t OTYPE,
+    dword_t OSPEED,
+    dword_t PUPD);
 void GPIO_AF_Set(GPIO_TypeDef*GPIOx, uint8_t PINx, uint8_t AFx);
 
 #endif /* _GPIO_H_ */

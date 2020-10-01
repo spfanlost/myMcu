@@ -9,8 +9,8 @@
  *
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
-#include "stm32_config.h"
 #include "common.h"
+#include "stm32_config.h"
 #include "adc.h"
 
 /*-----------------------------------------------------------------------------------
@@ -32,8 +32,8 @@
 /*-----------------------------------------------------------------------------------
   Local functions definition
 -----------------------------------------------------------------------------------*/
-uint16_t AD_last; /* Last converted value               */
-uint8_t AD_done; /* AD conversion done flag            */
+word_t AD_last; /* Last converted value               */
+byte_t AD_done; /* AD conversion done flag            */
 
 /*----------------------------------------------------------------------------
   Function that initializes ADC
@@ -89,7 +89,7 @@ void ADC_Init(void)
  *----------------------------------------------------------------------------*/
 void ADC_IRQHandler(void)
 {
-        if(ADCx->SR&(1 << 1)) /* ADC EOC interrupt?                 */
+    if(ADCx->SR&(1 << 1)) /* ADC EOC interrupt?                 */
     {
         AD_last = (ADCx->DR&ADC_VALUE_MAX);
         AD_done = 1;
@@ -111,7 +111,7 @@ void ADC_StartCnv(void)
 /*-----------------------------------------------------------------------------
   Is AD conversion done
  *----------------------------------------------------------------------------*/
-uint32_t ADC_DoneCnv(void)
+dword_t ADC_DoneCnv(void)
 {
     return (AD_done);
 }
@@ -120,7 +120,7 @@ uint32_t ADC_DoneCnv(void)
 /*-----------------------------------------------------------------------------
   Get converted AD value
  *----------------------------------------------------------------------------*/
-uint16_t ADC_GetCnv(void)
+word_t ADC_GetCnv(void)
 {
     return (AD_last);
 }

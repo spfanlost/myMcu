@@ -9,7 +9,7 @@
  *
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
-#include <stdio.h>
+#include "common.h"
 #include <rt_misc.h>
 #include "usart.h"
 

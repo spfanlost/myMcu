@@ -39,7 +39,7 @@
 char text[40];
 /* Import external variables from IRQ.c file                                  */
 
-extern uint32_t SystemCoreClock;
+extern dword_t SystemCoreClock;
 
 byte_t flag = 1;
 
@@ -49,8 +49,8 @@ byte_t flag = 1;
 *----------------------------------------------------------------------------*/
 int main(void)
 {
-    uint16_t AD_value = 0;
-    NVIC_SetPriorityGrouping(4);
+    word_t AD_value = 0;
+    NVIC_SetPriorityGrouping(NVIC_GROUP4);
     SystemClock_Config();
     SystemCoreClockUpdate();
     SysTick_Config(SystemCoreClock / 1000); //Generate interrupt each 1 ms

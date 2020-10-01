@@ -27,7 +27,7 @@
 /*-----------------------------------------------------------------------------------
   Exported functions
 -----------------------------------------------------------------------------------*/
-extern void usart_init(uint32_t pclk2, uint32_t bound);
+extern void usart_init(dword_t pclk2, dword_t bound);
 extern int usart_put_char(int32_t ch);
 extern int usart_get_char(void);
 extern int usart_chk_char(void);
