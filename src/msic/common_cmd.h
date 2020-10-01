@@ -17,57 +17,56 @@
 -----------------------------------------------------------------------------------*/
 enum ASCII
 {
-NUL = 0,
-SOH,
-STX,
-ETX,
-EOT,
-ENQ,
-ACK,
-BEL,
-BS,
-HT,
-LF,
-VT,
-FF,
-CR,
-SO,
-SI,
-DLE,
-DC1,
-DC2,
-DC3,
-DC4,
-NAK,
-SYN,
-ETB,
-CAN,
-EM,
-SUB,
-ESC,
-FS,
-GS,
-RS,
-US,
-SPACE, //32
-DEL = 127
+    NUL = 0,
+    SOH,
+    STX,
+    ETX,
+    EOT,
+    ENQ,
+    ACK,
+    BEL,
+    BS,
+    HT,
+    LF,
+    VT,
+    FF,
+    CR,
+    SO,
+    SI,
+    DLE,
+    DC1,
+    DC2,
+    DC3,
+    DC4,
+    NAK,
+    SYN,
+    ETB,
+    CAN,
+    EM,
+    SUB,
+    ESC,
+    FS,
+    GS,
+    RS,
+    US,
+    SPACE, //32
+    DEL = 127
 };
 
 
 enum CMD_VAL
 {
-CMD_INIT,
-CMD_VAL1,
-CMD_VAL2,
-CMD_VAL3,
-CMD_NUM
+    CMD_INIT,
+    CMD_VAL1,
+    CMD_VAL2,
+    CMD_VAL3,
+    CMD_NUM
 };
 
 
 typedef struct
 {
     void(*pfn) (char*str, byte_t*pos);
-    //char cmd[8];
     const char *cmd;
     byte_t cmdlen;
     byte_t paranum;

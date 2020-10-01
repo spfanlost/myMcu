@@ -1,17 +1,12 @@
-
-/*----------------------------------------------------------------------------
-     * Name:    Blinky.c
-     * Purpose: LED Flasher for STM3240G-EVAL
-     *----------------------------------------------------------------------------
-     * This file is part of the uVision/ARM development tools.
-     * This software may only be used under the terms of a valid, current,
-     * end user licence from KEIL for a compatible version of KEIL software
-     * development tools. Nothing else gives you the right to use this software.
-     *
-     * This software is supplied "AS IS" without warranties of any kind.
-     *
-     * Copyright (c) 2010 Keil - An ARM Company. All rights reserved.
-     *----------------------------------------------------------------------------*/
+/**
+ * @file    Blinky.c
+ * @author  meng_yu
+ * @brief   Blinky for my MCU EVAL test
+ * @version 0.0.1
+ * @date    2020-10-01
+ *
+ * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
+ */
 #include "common.h"
 #include "stm32_config.h"
 #include "sys.h"
@@ -21,6 +16,27 @@
 #include "adc.h"
 #include "lcd.h"
 #include "mylogo.h"
+
+/*-----------------------------------------------------------------------------------
+  Private declaration
+-----------------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------------
+  Extern variables declaration
+-----------------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------------
+  Global variables definition
+-----------------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------------
+  Local functions declaration
+-----------------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------------
+  Local functions definition
+-----------------------------------------------------------------------------------*/
+
 //VECT_TAB_SRAM
 #define __FI 1 /* Font index 16x24                  */
 
@@ -28,9 +44,7 @@
 /* Font index  6x8*/
 #define __FONT_WIDTH 16
 #define __FONT_HEIGHT 24
-
 #else
-
 /* Font index 16x24*/
 #define __FONT_WIDTH 6
 #define __FONT_HEIGHT 8

@@ -59,7 +59,6 @@ static void uart_cmd_help(char*str, byte_t*pos)
     LOG_INFO("4. debug: display debug info;\r");
 }
 
-extern qword_t ticks;
 
 static void uart_cmd_info(char*str, byte_t*pos)
 {
@@ -100,14 +99,25 @@ static void uart_cmd_regs(char*str, byte_t*pos)
     dword_t reg_addr;
     dword_t reg_value;
 
-    if(FALSE==uart_get_var(str, pos, &reg_addr, CMD_VAL1)) return;
+    if(FALSE==uart_get_var(str, pos, &reg_addr, CMD_VAL1))
+    {
+        return;
+    }
 
-    if(FALSE==uart_get_var(str, pos, &reg_value, CMD_VAL2)) return;
+    if(FALSE==uart_get_var(str, pos, &reg_value, CMD_VAL2))
+    {
+        return;
+    }
 
     MEM32_GET(reg_addr) = reg_value;
-    if(reg_value!=MEM32_GET(reg_addr)) LOG_ERROR("adrr:0x%x 0x%x != 0x%x\r", reg_addr,
-            MEM32_GET(reg_addr), reg_value);
-    else LOG_INFO("reg set ok\r");
+    if(reg_value!=MEM32_GET(reg_addr))
+    {
+        LOG_ERROR("adrr:0x%x 0x%x != 0x%x\r", reg_addr, MEM32_GET(reg_addr), reg_value);
+    }
+    else
+    {
+        LOG_INFO("reg set ok\r");
+    }
     return;
 }
 
@@ -115,10 +125,18 @@ static void uart_cmd_regs(char*str, byte_t*pos)
 byte_t char_to_val(char c)
 {
     byte_t val = 0;
-
-    if('0'<=c&&c<='9') val = c-'0';
-    else if('A'<=c&&c<='F') val = 0xa+c-'A';
-    else if('a'<=c&&c<='f') val = 0xa+c-'a';
+    if('0'<=c&&c<='9')
+    {
+        val = c-'0';
+    }
+    else if('A'<=c&&c<='F')
+    {
+        val = 0xa+c-'A';
+    }
+    else if('a'<=c&&c<='f')
+    {
+        val = 0xa+c-'a';
+    }
     return val;
 }
 
@@ -129,10 +147,16 @@ byte_t uart_get_var(char*str, byte_t*pos, dword_t*para, byte_t idx)
 
     if(CMD_INIT<idx&&CMD_NUM>idx)
     {
-        if(0==pos[idx]) return 0;
+        if(0==pos[idx])
+        {
+            return 0;
+        }
 
         paralen = pos[idx]-pos[idx-1]-1;
-        if(paralen>(sizeof(dword_t) << 1)) return 0;
+        if(paralen>(sizeof(dword_t) << 1))
+        {
+            return 0;
+        }
 
         for(num = 0; num<paralen; num++)
         {

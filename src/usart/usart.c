@@ -62,7 +62,7 @@ void usart_init(dword_t pclk2, dword_t bound)
     USART1->CR1 |= 1 << 3; //enable Tx
     USART1->CR1 |= 1 << 2; //enable Rx
     USART1->CR1 |= 1 << 5; //enable Rx irq
-    NVIC_Config(USART1_IRQn, 3, 3, ENABLE);
+    NVIC_Config(USART1_IRQn, 8, 0, ENABLE);
     USART1->CR1 |= 1 << 13; //enable USART
 }
 
