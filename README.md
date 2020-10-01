@@ -1,12 +1,13 @@
 ### myMcu
 The 'Blinky' project is a simple demo program for my STM32 Evaluation Board.
 
-Evaluation Board:
->f401re 
->f407zg 'has a LCD display'
->f429ig 
->h750ig 
-
+>Evaluation Board:
+```
+f401re 
+f407zg has a LCD
+f429ig 
+h750ig 
+```
 - Sys Timer is used in interrupt mode
 - LED blink with speed depending on potentiometer position
 - colour LCD display shows init message and bargraph depending on potentiometer position
