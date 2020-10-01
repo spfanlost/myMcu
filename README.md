@@ -1,4 +1,4 @@
-###myMcu
+### myMcu
 The 'Blinky' project is a simple demo program for my STM32 Evaluation Board.
 
 Evaluation Board:
