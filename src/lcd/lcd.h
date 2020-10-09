@@ -1,108 +1,133 @@
+/**
+  ******************************************************************************
+  * @file    lcd.h
+  * @author  MCD Application Team
+  * @brief   This file contains all the functions prototypes for the LCD driver.
+  ******************************************************************************
+  * @attention
+  *
+  * <h2><center>&copy; Copyright (c) 2018 STMicroelectronics.
+  * All rights reserved.</center></h2>
+  *
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
+  *
+  ******************************************************************************
+  */
+
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef LCD_H
+#define LCD_H
+
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
+/* Includes ------------------------------------------------------------------*/
+#include <stdint.h>
+
+/** @addtogroup BSP
+  * @{
+  */
+
+/** @addtogroup Components
+  * @{
+  */
+
+/** @addtogroup LCD
+  * @{
+  */
+
+/** @defgroup LCD_Exported_Constants LCD Exported Constants
+  * @{
+  */
+#define LCD_PIXEL_FORMAT_ARGB8888        0x00000000U   /*!< ARGB8888 LTDC pixel format */
+#define LCD_PIXEL_FORMAT_RGB888          0x00000001U   /*!< RGB888 LTDC pixel format   */
+#define LCD_PIXEL_FORMAT_RGB565          0x00000002U   /*!< RGB565 LTDC pixel format   */
+#define LCD_PIXEL_FORMAT_ARGB1555        0x00000003U   /*!< ARGB1555 LTDC pixel format */
+#define LCD_PIXEL_FORMAT_ARGB4444        0x00000004U   /*!< ARGB4444 LTDC pixel format */
+#define LCD_PIXEL_FORMAT_L8              0x00000005U   /*!< L8 LTDC pixel format       */
+#define LCD_PIXEL_FORMAT_AL44            0x00000006U   /*!< AL44 LTDC pixel format     */
+#define LCD_PIXEL_FORMAT_AL88            0x00000007U   /*!< AL88 LTDC pixel format     */
+/**
+  * @}
+  */
+
+/** @defgroup LCD_Exported_Types
+  * @{
+  */
+
+/** @defgroup LCD_Driver_structure  LCD Driver structure
+  * @{
+  */
+typedef struct
+{
+  int32_t ( *DrawBitmap      ) (uint32_t, uint32_t, uint32_t, uint8_t *);
+  int32_t ( *FillRGBRect     ) (uint32_t, uint32_t, uint32_t, uint8_t*, uint32_t, uint32_t);
+  int32_t ( *DrawHLine       ) (uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *DrawVLine       ) (uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *FillRect        ) (uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *GetPixel        ) (uint32_t, uint32_t, uint32_t, uint32_t*);
+  int32_t ( *SetPixel        ) (uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *GetXSize        ) (uint32_t, uint32_t *);
+  int32_t ( *GetYSize        ) (uint32_t, uint32_t *);
+  int32_t ( *SetLayer        ) (uint32_t, uint32_t);
+  int32_t ( *GetFormat       ) (uint32_t, uint32_t *);
+} LCD_UTILS_Drv_t;
+
+typedef struct
+{
+  /* Control functions */
+  int32_t (*Init             )(void*, uint32_t, uint32_t);
+  int32_t (*DeInit           )(void*);
+  int32_t (*ReadID           )(void*, uint32_t*);
+  int32_t (*DisplayOn        )(void*);
+  int32_t (*DisplayOff       )(void*);
+  int32_t (*SetBrightness    )(void*, uint32_t);
+  int32_t (*GetBrightness    )(void*, uint32_t*);
+  int32_t (*SetOrientation   )(void*, uint32_t);
+  int32_t (*GetOrientation   )(void*, uint32_t*);
+
+  /* Drawing functions*/
+  int32_t ( *SetCursor       ) (void*, uint32_t, uint32_t);
+  int32_t ( *DrawBitmap      ) (void*, uint32_t, uint32_t, uint8_t *);
+  int32_t ( *FillRGBRect     ) (void*, uint32_t, uint32_t, uint8_t*, uint32_t, uint32_t);
+  int32_t ( *DrawHLine       ) (void*, uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *DrawVLine       ) (void*, uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *FillRect        ) (void*, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *GetPixel        ) (void*, uint32_t, uint32_t, uint32_t*);
+  int32_t ( *SetPixel        ) (void*, uint32_t, uint32_t, uint32_t);
+  int32_t ( *GetXSize        ) (void*, uint32_t *);
+  int32_t ( *GetYSize        ) (void*, uint32_t *);
+}LCD_Drv_t;
 
 
 /**
- * @file    lcd.h
- * @author  meng_yu
- * @brief   Graphic LCD function prototypes and defines function header file
- * @version 0.0.1
- * @date    2020-09-14
- *
- * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
- */
-#ifndef _LCD_H_
-#define _LCD_H_
+  * @}
+  */
 
-/*-----------------------------------------------------------------------------------
-  Exported types
------------------------------------------------------------------------------------*/
+/**
+  * @}
+  */
 
-/*-----------------------------------------------------------------------------------
-  Exported macro
------------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------
-  Color coding
-  GLCD is coded:   15..11 red, 10..5 green, 4..0 blue  (unsigned short)  GLCD_R5, GLCD_G6, GLCD_B5
-  original coding: 17..12 red, 11..6 green, 5..0 blue                    ORG_R6,  ORG_G6,  ORG_B6
+/**
+  * @}
+  */
 
-  ORG_R1..5 = GLCD_R0..4,  ORG_R0 = GLCD_R4
-  ORG_G0..5 = GLCD_G0..5,
-  ORG_B1..5 = GLCD_B0..4,  ORG_B0 = GLCD_B4
- *----------------------------------------------------------------------------*/
+/**
+  * @}
+  */
 
-/* GLCD RGB color definitions                                                 */
-#define Black 0x0000     /*   0,   0,   0 */
-#define Navy 0x000F      /*   0,   0, 128 */
-#define DarkGreen 0x03E0 /*   0, 128,   0 */
-#define DarkCyan 0x03EF  /*   0, 128, 128 */
-#define Maroon 0x7800    /* 128,   0,   0 */
-#define Purple 0x780F    /* 128,   0, 128 */
-#define Olive 0x7BE0     /* 128, 128,   0 */
-#define LightGrey 0xC618 /* 192, 192, 192 */
-#define DarkGrey 0x7BEF  /* 128, 128, 128 */
-#define Blue 0x001F      /*   0,   0, 255 */
-#define Green 0x07E0     /*   0, 255,   0 */
-#define Cyan 0x07FF      /*   0, 255, 255 */
-#define Red 0xF800       /* 255,   0,   0 */
-#define Magenta 0xF81F   /* 255,   0, 255 */
-#define Yellow 0xFFE0    /* 255, 255, 0   */
-#define White 0xFFFF     /* 255, 255, 255 */
+/**
+  * @}
+  */
 
-//Orientation  configuration
-#define LANDSCAPE 1 /* 1 for landscape, 0 for portrait    */
-#define ROTATE180 0 /* 1 to rotate the screen for 180 deg */
-
-//Graphic LCD size definitions
-#if ( LANDSCAPE == 1)
-#define WIDTH 320  /* Screen Width (in pixels)           */
-#define HEIGHT 240 /* Screen Hight (in pixels)           */
-
-#else
-
-#define WIDTH 240  /* Screen Width (in pixels)           */
-#define HEIGHT 320 /* Screen Hight (in pixels)           */
+#ifdef __cplusplus
+}
 #endif
 
-#define BPP 16               /* Bits per pixel                     */
-#define BYPP ((BPP + 7) / 8) /* Bytes per pixel                    */
+#endif /* LCD_H */
 
-//Graphic LCD interface hardware definitions
-struct lcd_t
-{
-__IO uint16_t cmd;
-__IO uint16_t dat;
-};
-
-
-/* LCD /CS is NE4 - Bank 4 of NOR/SRAM Bank 1~4                               */
-//#define LCD_BASE (0x60000000UL | 0x0C000000UL)
-//使用NOR/SRAM的 Bank1.sector4,地址位HADDR[27,26]=11 A6作为数据命令区分线
-//注意设置时STM32内部会右移一位对其! 111 1110=0X7E
-#define LCD_BASE ((uint32_t)(0x6C000000 | 0x0000007E))
-#define reg_lcd ((volatile struct lcd_t *) LCD_BASE)
-#define BG_COLOR 0  /* Background color                   */
-#define TXT_COLOR 1 /* Text color                         */
-
-/*-----------------------------------------------------------------------------------
-  Exported variables
------------------------------------------------------------------------------------*/
-
-/*-----------------------------------------------------------------------------------
-  Exported functions
------------------------------------------------------------------------------------*/
-extern void GLCD_Init(void);
-extern void GLCD_WindowMax(void);
-extern void GLCD_PutPixel(unsigned int x, unsigned int y);
-extern void GLCD_SetTextColor(unsigned short color);
-extern void GLCD_SetBackColor(unsigned short color);
-extern void GLCD_Clear(unsigned short color);
-extern void GLCD_DrawChar(unsigned int x, unsigned int y, unsigned int cw, unsigned int ch, unsigned char*c);
-extern void GLCD_DisplayChar(unsigned int ln, unsigned int col, unsigned char fi, unsigned char c);
-extern void GLCD_DisplayString(unsigned int ln, unsigned int col, unsigned char fi, unsigned char*s);
-extern void GLCD_ClearLn(unsigned int ln, unsigned char fi);
-extern void GLCD_Bargraph(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned int val);
-extern void GLCD_Bitmap(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned char*bitmap);
-extern void GLCD_ScrollVertical(unsigned int dy);
-extern void GLCD_WrCmd(unsigned char cmd);
-extern void GLCD_WrReg(unsigned char reg, unsigned short val);
-#endif /* _LCD_H_ */
-
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

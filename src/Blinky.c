@@ -14,7 +14,7 @@
 #include "usart.h"
 #include "led.h"
 #include "adc.h"
-#include "lcd.h"
+#include "bsp_lcd.h"
 #include "mylogo.h"
 
 /*-----------------------------------------------------------------------------------
@@ -38,17 +38,7 @@
 -----------------------------------------------------------------------------------*/
 
 //VECT_TAB_SRAM
-#define __FI 1 /* Font index 16x24                  */
 
-#if ( __FI == 1)
-/* Font index  6x8*/
-#define __FONT_WIDTH 16
-#define __FONT_HEIGHT 24
-#else
-/* Font index 16x24*/
-#define __FONT_WIDTH 6
-#define __FONT_HEIGHT 8
-#endif
 
 char text[40];
 /* Import external variables from IRQ.c file                                  */
@@ -74,23 +64,17 @@ int main(void)
 
 #ifdef USE_LCD_EN
     GLCD_Init();
-    GLCD_Clear(White);
-    GLCD_SetBackColor(Blue);
-    GLCD_SetTextColor(White);
-    GLCD_DisplayString(0, 0, __FI, (unsigned char*)" STM3240G-EVAL Demo ");
-    GLCD_DisplayString(1, 0, __FI, (unsigned char*)"       Blinky       ");
-    GLCD_DisplayString(2, 0, __FI, (unsigned char*)"    www.keil.com    ");
-    GLCD_SetBackColor(White);
-    GLCD_SetTextColor(Blue);
+    GLCD_SetBackgroundColor (GLCD_COLOR_BLUE);
+    GLCD_SetForegroundColor (GLCD_COLOR_WHITE);
+    GLCD_ClearScreen        ();
+    GLCD_SetFont            (&GLCD_Font_16x24);
+    GLCD_DrawString         (0, 0*24, "  STM32407ZG  ");
+    GLCD_DrawString         (0, 1*24, "    Blinky    ");
+    GLCD_DrawString         (0, 2*24, " www.keil.com ");
 #endif
 
     while(1)
     {
-        if(flag)
-        {
-            flag = 0;
-            GLCD_Bitmap(0, 0, 107, 107, (unsigned char*)mylogo);
-        }
         ADC_StartCnv();
         while(!ADC_DoneCnv());
         if(ticks % 100 == 0)
@@ -98,13 +82,18 @@ int main(void)
             AD_value = ADC_GetCnv(); /* Read AD_last value                 */
 
 #ifdef USE_LCD_EN
-            GLCD_SetTextColor(Red);
-            GLCD_Bargraph(9*__FONT_WIDTH, 6*__FONT_HEIGHT, 10*__FONT_WIDTH, __FONT_HEIGHT-2, (AD_value >> 2));
-            GLCD_SetTextColor(White);
-            GLCD_SetTextColor(Blue);
-            sprintf(text, "AD value = 0x%04X", AD_value);
-            GLCD_DisplayString(5, 0, __FI, (unsigned char*) text);
+            GLCD_SetForegroundColor (GLCD_COLOR_YELLOW);
+            sprintf(text, "Value=%#X", AD_value);
+            GLCD_DrawString(0, 3*24, text);
+
+            GLCD_SetForegroundColor (GLCD_COLOR_RED);
+            GLCD_DrawBargraph(0, 4*24, 100, 24, (AD_value >> 4));
 #endif
+        if(flag)
+        {
+            flag = 0;
+            GLCD_DrawBitmap(24, 6*24 , 107, 107, (unsigned char*)mylogo);
+        }
         }
     }
 }
