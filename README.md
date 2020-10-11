@@ -18,3 +18,6 @@ h750ig
 in this program, usart is designed as a commond interface:
 type: "help" for more info
 
+Update dir arch as below:
+![image](https://github.com/spfanlost/myMcu/tree/master/doc/dir_arch.png)
+
