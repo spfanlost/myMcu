@@ -1,7 +1,7 @@
 
 
 /**
- * @file    common_cmd.h
+ * @file    cmdline.h
  * @author  meng_yu
  * @brief   common_cmd function header file
  * @version 0.0.1

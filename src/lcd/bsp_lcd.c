@@ -11,7 +11,7 @@
  */
 #include "common.h"
 #include "stm32_config.h"
-#include "gpio.h"
+#include "mcu_io.h"
 #include "bsp_lcd.h"
 
 /*-----------------------------------------------------------------------------------

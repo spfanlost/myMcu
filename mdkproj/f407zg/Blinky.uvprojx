@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32F4xx\Include;..\..\src\startup;..\..\src\msic;..\..\src\gpio;..\..\src\led;..\..\src\usart;..\..\src\adc;..\..\src\lcd;..\..\src\lcd\fonts;..\..\src\lcd\logos;..\..\src</IncludePath>
+              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32F4xx\Include;..\..\src\startup;..\..\src\driver;..\..\src\mcu;..\..\src\msic;..\..\src\lcd;..\..\src\lcd\fonts;..\..\src\lcd\logos</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -382,62 +382,17 @@
       <Groups>
         <Group>
           <GroupName>app</GroupName>
-        </Group>
-        <Group>
-          <GroupName>msic</GroupName>
-        </Group>
-        <Group>
-          <GroupName>driver</GroupName>
-        </Group>
-        <Group>
-          <GroupName>mcu</GroupName>
-        </Group>
-        <Group>
-          <GroupName>library</GroupName>
-        </Group>
-        <Group>
-          <GroupName>cmsis</GroupName>
           <Files>
             <File>
-              <FileName>system_stm32f4xx.c</FileName>
+              <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\cmsis\Device\STM32F4xx\Source\Templates\system_stm32f4xx.c</FilePath>
-            </File>
-            <File>
-              <FileName>startup_stm32f407xx.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\src\cmsis\Device\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s</FilePath>
+              <FilePath>..\..\src\app\main.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>Source</GroupName>
+          <GroupName>msic</GroupName>
           <Files>
-            <File>
-              <FileName>Blinky.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\Blinky.c</FilePath>
-            </File>
-            <File>
-              <FileName>common_cmd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\msic\common_cmd.c</FilePath>
-            </File>
-            <File>
-              <FileName>adc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\adc\adc.c</FilePath>
-            </File>
-            <File>
-              <FileName>gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\gpio\gpio.c</FilePath>
-            </File>
-            <File>
-              <FileName>led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\led\led.c</FilePath>
-            </File>
             <File>
               <FileName>isr.c</FileName>
               <FileType>1</FileType>
@@ -454,14 +409,59 @@
               <FilePath>..\..\src\msic\sys.c</FilePath>
             </File>
             <File>
-              <FileName>usart.c</FileName>
+              <FileName>cmdline.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\usart\usart.c</FilePath>
+              <FilePath>..\..\src\msic\cmdline.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>driver</GroupName>
+          <Files>
+            <File>
+              <FileName>drv_led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\driver\drv_led.c</FilePath>
             </File>
             <File>
               <FileName>bsp_lcd.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\src\lcd\bsp_lcd.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>mcu</GroupName>
+          <Files>
+            <File>
+              <FileName>mcu_io.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\mcu\mcu_io.c</FilePath>
+            </File>
+            <File>
+              <FileName>mcu_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\mcu\mcu_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>mcu_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\mcu\mcu_adc.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>cmsis</GroupName>
+          <Files>
+            <File>
+              <FileName>system_stm32f4xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\cmsis\Device\STM32F4xx\Source\Templates\system_stm32f4xx.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup_stm32f407xx.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\src\cmsis\Device\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -486,7 +486,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Logos</GroupName>
+          <GroupName>logos</GroupName>
           <Files>
             <File>
               <FileName>mylogo.c</FileName>
@@ -873,62 +873,17 @@
       <Groups>
         <Group>
           <GroupName>app</GroupName>
-        </Group>
-        <Group>
-          <GroupName>msic</GroupName>
-        </Group>
-        <Group>
-          <GroupName>driver</GroupName>
-        </Group>
-        <Group>
-          <GroupName>mcu</GroupName>
-        </Group>
-        <Group>
-          <GroupName>library</GroupName>
-        </Group>
-        <Group>
-          <GroupName>cmsis</GroupName>
           <Files>
             <File>
-              <FileName>system_stm32f4xx.c</FileName>
+              <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\cmsis\Device\STM32F4xx\Source\Templates\system_stm32f4xx.c</FilePath>
-            </File>
-            <File>
-              <FileName>startup_stm32f407xx.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\src\cmsis\Device\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s</FilePath>
+              <FilePath>..\..\src\app\main.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>Source</GroupName>
+          <GroupName>msic</GroupName>
           <Files>
-            <File>
-              <FileName>Blinky.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\Blinky.c</FilePath>
-            </File>
-            <File>
-              <FileName>common_cmd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\msic\common_cmd.c</FilePath>
-            </File>
-            <File>
-              <FileName>adc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\adc\adc.c</FilePath>
-            </File>
-            <File>
-              <FileName>gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\gpio\gpio.c</FilePath>
-            </File>
-            <File>
-              <FileName>led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\led\led.c</FilePath>
-            </File>
             <File>
               <FileName>isr.c</FileName>
               <FileType>1</FileType>
@@ -945,14 +900,59 @@
               <FilePath>..\..\src\msic\sys.c</FilePath>
             </File>
             <File>
-              <FileName>usart.c</FileName>
+              <FileName>cmdline.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\usart\usart.c</FilePath>
+              <FilePath>..\..\src\msic\cmdline.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>driver</GroupName>
+          <Files>
+            <File>
+              <FileName>drv_led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\driver\drv_led.c</FilePath>
             </File>
             <File>
               <FileName>bsp_lcd.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\src\lcd\bsp_lcd.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>mcu</GroupName>
+          <Files>
+            <File>
+              <FileName>mcu_io.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\mcu\mcu_io.c</FilePath>
+            </File>
+            <File>
+              <FileName>mcu_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\mcu\mcu_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>mcu_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\mcu\mcu_adc.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>cmsis</GroupName>
+          <Files>
+            <File>
+              <FileName>system_stm32f4xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\cmsis\Device\STM32F4xx\Source\Templates\system_stm32f4xx.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup_stm32f407xx.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\src\cmsis\Device\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -977,7 +977,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Logos</GroupName>
+          <GroupName>logos</GroupName>
           <Files>
             <File>
               <FileName>mylogo.c</FileName>

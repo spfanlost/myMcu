@@ -1,14 +1,37 @@
-#ifndef __DEV_UART_H__
-#define __DEV_UART_H__
+/**
+ * @file    mcu_uart.h
+ * @author  meng_yu
+ * @brief   mcu uart function header file
+ * @version 0.0.1
+ * @date    2020-10-11
+ *
+ * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
+ */
 
-extern s32 mcu_uart_init(void);
-extern s32 mcu_uart_open (McuUartNum comport);
-extern s32 mcu_uart_close (McuUartNum comport);
-extern s32 mcu_uart_write (McuUartNum comport, u8 *buf, s32 len);
-extern s32 mcu_uart_read (McuUartNum comport, u8 *buf, s32 len);
-extern s32 mcu_uart_set_baud (McuUartNum comport, s32 baud);
-extern s32 mcu_uart_tcflush (McuUartNum comport);
-extern void mcu_uart_test(void);
+#ifndef _MCU_UART_H_
+#define _MCU_UART_H_
 
-#endif
+/*-----------------------------------------------------------------------------------
+  Exported types
+-----------------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------------
+  Exported macro
+-----------------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------------
+  Exported variables
+-----------------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------------
+  Exported functions
+-----------------------------------------------------------------------------------*/
+extern void usart_init(dword_t pclk2, dword_t bound);
+extern int usart_put_char(int32_t ch);
+extern int usart_get_char(void);
+extern int usart_chk_char(void);
+
+
+#endif /* _MCU_UART_H_ */
+
 

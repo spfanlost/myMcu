@@ -11,7 +11,7 @@
  */
 #include "common.h"
 #include <rt_misc.h>
-#include "usart.h"
+#include "mcu_uart.h"
 
 /*-----------------------------------------------------------------------------------
   Private declaration
