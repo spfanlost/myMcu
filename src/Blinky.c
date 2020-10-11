@@ -64,10 +64,10 @@ int main(void)
 
 #ifdef USE_LCD_EN
     GLCD_Init();
-    GLCD_SetBackgroundColor (GLCD_COLOR_BLUE);
+    GLCD_SetBackgroundColor (GLCD_COLOR_BLACK);
     GLCD_SetForegroundColor (GLCD_COLOR_WHITE);
     GLCD_ClearScreen        ();
-    GLCD_SetFont            (&GLCD_Font_16x24);
+    GLCD_SetFont            (&GLCD_Font_12x24);
     GLCD_DrawString         (0, 0*24, "  STM32407ZG  ");
     GLCD_DrawString         (0, 1*24, "    Blinky    ");
     GLCD_DrawString         (0, 2*24, " www.keil.com ");
@@ -85,15 +85,14 @@ int main(void)
             GLCD_SetForegroundColor (GLCD_COLOR_YELLOW);
             sprintf(text, "Value=%#X", AD_value);
             GLCD_DrawString(0, 3*24, text);
-
             GLCD_SetForegroundColor (GLCD_COLOR_RED);
-            GLCD_DrawBargraph(0, 4*24, 100, 24, (AD_value >> 4));
+            GLCD_DrawBargraph(0, 4*24, 14*12, 24, AD_value*200/0xFFF);
 #endif
-        if(flag)
-        {
-            flag = 0;
-            GLCD_DrawBitmap(24, 6*24 , 107, 107, (unsigned char*)mylogo);
-        }
+            if(flag)
+            {
+                flag = 0;
+                GLCD_DrawBitmap(24, 6*24 , 107, 107, (unsigned char*)mylogo);
+            }
         }
     }
 }

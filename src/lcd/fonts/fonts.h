@@ -18,15 +18,15 @@
 -----------------------------------------------------------------------------------*/
 /* Font definitions */
 typedef struct _GLCD_FONT {
-        uint16_t width;         ///< Character width
-        uint16_t height;        ///< Character height
-        uint32_t offset;        ///< Character offset
-        uint32_t count;         ///< Character count
-  const uint8_t *bitmap;        ///< Characters bitmaps
+	uint16_t width;         ///< Character width
+	uint16_t height;        ///< Character height
+	uint32_t offset;        ///< Character offset
+	uint32_t count;         ///< Character count
+	const uint8_t *bitmap;        ///< Characters bitmaps
 } const GLCD_FONT;
 
-extern GLCD_FONT GLCD_Font_6x8;
-extern GLCD_FONT GLCD_Font_16x24;
+extern GLCD_FONT GLCD_Font_6x12;
+extern GLCD_FONT GLCD_Font_8x16;
+extern GLCD_FONT GLCD_Font_12x24;
 
 #endif /* _FONTS_H_ */
-

@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\src\startup\CMSIS\Include;..\..\src\startup\Device\STM32F4xx\Include;..\..\src\startup;..\..\src\msic;..\..\src\gpio;..\..\src\led;..\..\src\usart;..\..\src\adc;..\..\src\lcd;..\..\src\lcd\fonts;..\..\src\lcd\logos;..\..\src\lcd\lcd_log;..\..\src</IncludePath>
+              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32F4xx\Include;..\..\src\startup;..\..\src\msic;..\..\src\gpio;..\..\src\led;..\..\src\usart;..\..\src\adc;..\..\src\lcd;..\..\src\lcd\fonts;..\..\src\lcd\logos;..\..\src</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -381,17 +381,32 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Startup</GroupName>
+          <GroupName>app</GroupName>
+        </Group>
+        <Group>
+          <GroupName>msic</GroupName>
+        </Group>
+        <Group>
+          <GroupName>driver</GroupName>
+        </Group>
+        <Group>
+          <GroupName>mcu</GroupName>
+        </Group>
+        <Group>
+          <GroupName>library</GroupName>
+        </Group>
+        <Group>
+          <GroupName>cmsis</GroupName>
           <Files>
-            <File>
-              <FileName>startup_stm32f407xx.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\src\startup\Device\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s</FilePath>
-            </File>
             <File>
               <FileName>system_stm32f4xx.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\startup\Device\STM32F4xx\Source\Templates\system_stm32f4xx.c</FilePath>
+              <FilePath>..\..\src\cmsis\Device\STM32F4xx\Source\Templates\system_stm32f4xx.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup_stm32f407xx.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\src\cmsis\Device\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -444,62 +459,6 @@
               <FilePath>..\..\src\usart\usart.c</FilePath>
             </File>
             <File>
-              <FileName>stm32_lcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\lcd\stm32_lcd.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>0</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>0</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <uGnu>2</uGnu>
-                    <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>2</vShortEn>
-                    <vShortWch>2</vShortWch>
-                    <v6Lto>2</v6Lto>
-                    <v6WtE>2</v6WtE>
-                    <v6Rtti>2</v6Rtti>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
-            </File>
-            <File>
               <FileName>bsp_lcd.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\src\lcd\bsp_lcd.c</FilePath>
@@ -507,17 +466,22 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Fonts</GroupName>
+          <GroupName>fonts</GroupName>
           <Files>
             <File>
-              <FileName>font_6x8.c</FileName>
+              <FileName>font_6x12.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\lcd\fonts\font_6x8.c</FilePath>
+              <FilePath>..\..\src\lcd\fonts\font_6x12.c</FilePath>
             </File>
             <File>
-              <FileName>font_16x24.c</FileName>
+              <FileName>font_8x16.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\lcd\fonts\font_16x24.c</FilePath>
+              <FilePath>..\..\src\lcd\fonts\font_8x16.c</FilePath>
+            </File>
+            <File>
+              <FileName>font_12x24.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\lcd\fonts\font_12x24.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -908,17 +872,32 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Startup</GroupName>
+          <GroupName>app</GroupName>
+        </Group>
+        <Group>
+          <GroupName>msic</GroupName>
+        </Group>
+        <Group>
+          <GroupName>driver</GroupName>
+        </Group>
+        <Group>
+          <GroupName>mcu</GroupName>
+        </Group>
+        <Group>
+          <GroupName>library</GroupName>
+        </Group>
+        <Group>
+          <GroupName>cmsis</GroupName>
           <Files>
-            <File>
-              <FileName>startup_stm32f407xx.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\src\startup\Device\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s</FilePath>
-            </File>
             <File>
               <FileName>system_stm32f4xx.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\startup\Device\STM32F4xx\Source\Templates\system_stm32f4xx.c</FilePath>
+              <FilePath>..\..\src\cmsis\Device\STM32F4xx\Source\Templates\system_stm32f4xx.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup_stm32f407xx.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\src\cmsis\Device\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -971,11 +950,6 @@
               <FilePath>..\..\src\usart\usart.c</FilePath>
             </File>
             <File>
-              <FileName>stm32_lcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\lcd\stm32_lcd.c</FilePath>
-            </File>
-            <File>
               <FileName>bsp_lcd.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\src\lcd\bsp_lcd.c</FilePath>
@@ -983,17 +957,22 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Fonts</GroupName>
+          <GroupName>fonts</GroupName>
           <Files>
             <File>
-              <FileName>font_6x8.c</FileName>
+              <FileName>font_6x12.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\lcd\fonts\font_6x8.c</FilePath>
+              <FilePath>..\..\src\lcd\fonts\font_6x12.c</FilePath>
             </File>
             <File>
-              <FileName>font_16x24.c</FileName>
+              <FileName>font_8x16.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\lcd\fonts\font_16x24.c</FilePath>
+              <FilePath>..\..\src\lcd\fonts\font_8x16.c</FilePath>
+            </File>
+            <File>
+              <FileName>font_12x24.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\lcd\fonts\font_12x24.c</FilePath>
             </File>
           </Files>
         </Group>
