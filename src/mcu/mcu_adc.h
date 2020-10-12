@@ -18,6 +18,10 @@
 /*-----------------------------------------------------------------------------------
   Exported macro
 -----------------------------------------------------------------------------------*/
+#define ADC1_CLK (0x1U<<8)
+#define ADC2_CLK (0x1U<<9)
+#define ADC3_CLK (0x1U<<10)
+
 #define ADC_VALUE_MAX (0xFFF)
 
 /*-----------------------------------------------------------------------------------
@@ -27,10 +31,11 @@
 /*-----------------------------------------------------------------------------------
   Exported functions
 -----------------------------------------------------------------------------------*/
-extern void ADC_Init(void);
-extern void ADC_StartCnv(void);
+extern void mcu_adc_clk_enable(dword_t adc_clk);
+extern void mcu_adc_init(void);
+extern void mcu_adc_start_conv(void);
 extern dword_t ADC_DoneCnv(void);
-extern word_t ADC_GetCnv(void);
+extern word_t mcu_adc_get_conv(void);
 
 
 #endif /* _MCU_ADC_H_ */

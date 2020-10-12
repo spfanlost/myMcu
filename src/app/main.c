@@ -1,5 +1,5 @@
 /**
- * @file    Blinky.c
+ * @file    main.c
  * @author  meng_yu
  * @brief   Blinky for my MCU EVAL test
  * @version 0.0.1
@@ -8,13 +8,13 @@
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
 #include "common.h"
-#include "stm32_config.h"
-#include "sys.h"
-#include "isr.h"
+#include "mcu.h"
+#include "mcu_sys.h"
+#include "mcu_isr.h"
 #include "mcu_uart.h"
-#include "drv_led.h"
 #include "mcu_adc.h"
-#include "bsp_lcd.h"
+#include "drv_led.h"
+#include "drv_lcd.h"
 #include "mylogo.h"
 
 /*-----------------------------------------------------------------------------------
@@ -58,9 +58,9 @@ int main(void)
     SystemClock_Config();
     SystemCoreClockUpdate();
     SysTick_Config(SystemCoreClock / 1000); //Generate interrupt each 1 ms
-    led_init();
-    usart_init(84, 115200);
-    ADC_Init();
+    drv_led_init();
+    mcu_uart_init(84, 115200);
+    mcu_adc_init();
 
 #ifdef USE_LCD_EN
     GLCD_Init();
@@ -75,11 +75,10 @@ int main(void)
 
     while(1)
     {
-        ADC_StartCnv();
-        while(!ADC_DoneCnv());
+        mcu_adc_start_conv();
         if(ticks % 100 == 0)
         {
-            AD_value = ADC_GetCnv(); /* Read AD_last value                 */
+            AD_value = mcu_adc_get_conv(); /* Read AD  value                 */
 
 #ifdef USE_LCD_EN
             GLCD_SetForegroundColor (GLCD_COLOR_YELLOW);

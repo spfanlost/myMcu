@@ -31,9 +31,9 @@
 #define LED1_PIN PIN9 //(PF9)
 #define LED2_PIN PIN10 //(PF10)
 
-extern void led_init(void);
-extern void led_on(dword_t pin);
-extern void led_off(dword_t pin);
+extern void drv_led_init(void);
+extern void drv_led_on(dword_t pin);
+extern void drv_led_off(dword_t pin);
 
 #endif /* _DRV_LED_H_ */
 

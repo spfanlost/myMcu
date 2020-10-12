@@ -9,7 +9,7 @@
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
 #include "common.h"
-#include "stm32_config.h"
+#include "mcu.h"
 #include "mcu_io.h"
 
 /*-----------------------------------------------------------------------------------
@@ -32,7 +32,7 @@
   Local functions definition
 -----------------------------------------------------------------------------------*/
 /**
- * @brief  This function GPIO_Set
+ * @brief  This function mcu_io_config
  * @param  GPIOx: GPIOA~GPIOI.
  * @param  PINx: PINx:0X0000~0XFFFF, each bit means a pin
  * @param  MODE: 0~3;mode sel,0,input(sys reset default);1,normal output;2,af function;3,anlog input.
@@ -41,7 +41,7 @@
  * @param  PUPD: pull up/down,0,none;1,pull up;2,pull down;
  * @note:  in input mode(normal/anlog),OTYPE&OSPEED invld!!
  */
-void GPIO_Set(GPIO_TypeDef*GPIOx,
+void mcu_io_config(GPIO_TypeDef*GPIOx,
     dword_t PINx,
     dword_t MODE,
     dword_t OTYPE,
@@ -73,7 +73,7 @@ void GPIO_Set(GPIO_TypeDef*GPIOx,
 
 
 /**
- * @brief  This function GPIO_AF_Set
+ * @brief  This function mcu_io_af_config
  * @param  GPIOx: GPIOA~GPIOI.
  * @param  PINx: 0~15,means IO pin index.
  * @param  AFx: AF0~AF15.AF0~15config (normal use,refer to STM32F40x-DataSheet,Table 9):
@@ -84,11 +84,25 @@ void GPIO_Set(GPIO_TypeDef*GPIOx,
  *      AF12:FMC/SDIO/OTG/HS       AF13:DCIM                     AF14:LCD;                      AF15:EVENTOUT
  * @note:  call
  */
-void GPIO_AF_Set(GPIO_TypeDef*GPIOx, uint8_t PINx, uint8_t AFx)
+void mcu_io_af_config(GPIO_TypeDef*GPIOx, dword_t pin, dword_t AFx)
 {
-    GPIOx->AFR[PINx >> 3] &=~(0X0F << ((PINx&0X07)*4));
-    GPIOx->AFR[PINx >> 3] |= (dword_t)
-    AFx << ((PINx&0X07)*4);
+    GPIOx->AFR[pin >> 3] &=~(0X0F << ((pin&0X07)*4));
+    GPIOx->AFR[pin >> 3] |= ((dword_t)AFx) << ((pin&0X07)*4);
+}
+
+void mcu_io_clk_enable(dword_t gpio_clk)
+{
+    RCC->AHB1ENR |= gpio_clk;
+}
+
+void mcu_io_set(GPIO_TypeDef*GPIOx, dword_t pin)
+{
+    GPIOx->BSRR |= pin;
+}
+
+void mcu_io_reset(GPIO_TypeDef*GPIOx, dword_t pin)
+{
+    GPIOx->BSRR |= (pin << 16);
 }
 
 

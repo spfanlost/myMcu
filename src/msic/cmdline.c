@@ -10,7 +10,7 @@
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
 #include "common.h"
-#include "stm32_config.h"
+#include "mcu.h"
 #include "cmdline.h"
 #include "mcu_uart.h"
 
@@ -238,9 +238,9 @@ void common_cmd_isr(void)
 {
     byte_t rxchar = 0;
 
-    while(usart_chk_char())
+    while(mcu_uart_chk_char())
     {
-        rxchar = usart_get_char();
+        rxchar = mcu_uart_get_char();
         if(ESC==rxchar)
         {
             esc_flag =!esc_flag;
@@ -254,13 +254,13 @@ void common_cmd_isr(void)
                 {
                     RX_ADVANCE_PIDX(RXBuf_pos);
                 }
-                usart_put_char(BS);
-                usart_put_char(SPACE);
-                usart_put_char(BS);
+                mcu_uart_put_char(BS);
+                mcu_uart_put_char(SPACE);
+                mcu_uart_put_char(BS);
             }
             else
             {
-                usart_put_char(rxchar);
+                mcu_uart_put_char(rxchar);
                 RX_PUT_CHAR(rxchar);
                 RX_ADVANCE_IDX(RXBuf_pos);
                 if(LF==rxchar)

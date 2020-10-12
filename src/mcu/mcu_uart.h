@@ -26,10 +26,10 @@
 /*-----------------------------------------------------------------------------------
   Exported functions
 -----------------------------------------------------------------------------------*/
-extern void usart_init(dword_t pclk2, dword_t bound);
-extern int usart_put_char(int32_t ch);
-extern int usart_get_char(void);
-extern int usart_chk_char(void);
+extern void mcu_uart_init(dword_t pclk2, dword_t bound);
+extern int mcu_uart_put_char(int32_t ch);
+extern int mcu_uart_get_char(void);
+extern int mcu_uart_chk_char(void);
 
 
 #endif /* _MCU_UART_H_ */

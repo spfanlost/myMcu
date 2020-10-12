@@ -10,7 +10,7 @@
 * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
 */
 #include "common.h"
-#include "stm32_config.h"
+#include "mcu.h"
 #include "drv_led.h"
 
 /*-----------------------------------------------------------------------------------
@@ -38,12 +38,11 @@
  * @param  None
  * @note:  call
  */
-void led_init(void)
+void drv_led_init(void)
 {
-    RCC->AHB1ENR |= (1UL << 5); //Enable clock for GPIOF
-
+    mcu_io_clk_enable(GPIOF_CLK);
     /* Configure LED (PF9,PF10) pins as push-pull outputs */
-    GPIO_Set(GPIOF, LED1_PIN | LED2_PIN, GPIO_MODE_OUT, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_RES);
+    mcu_io_config(GPIOF, LED1_PIN | LED2_PIN, GPIO_MODE_OUT, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_RES);
 }
 
 
@@ -52,9 +51,9 @@ void led_init(void)
 * @param  pin: led's pin
 * @note:  call
 */
-void led_on(dword_t pin)
+void drv_led_on(dword_t pin)
 {
-    GPIOF->BSRR |= pin;
+    mcu_io_set(GPIOF, pin);
 }
 
 
@@ -63,9 +62,9 @@ void led_on(dword_t pin)
 * @param  pin: led's pin
 * @note:  call
 */
-void led_off(dword_t pin)
+void drv_led_off(dword_t pin)
 {
-    GPIOF->BSRR |= (pin << 16);
+    mcu_io_reset(GPIOF, pin);
 }
 
 

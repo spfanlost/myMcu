@@ -9,12 +9,15 @@
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
 #include "common.h"
-#include "stm32_config.h"
+#include "mcu.h"
+#include "mcu_io.h"
 #include "mcu_adc.h"
 
 /*-----------------------------------------------------------------------------------
   Private declaration
 -----------------------------------------------------------------------------------*/
+static volatile word_t ad_last; /* Last converted value               */
+static volatile byte_t ad_done; /* AD conversion done flag            */
 
 /*-----------------------------------------------------------------------------------
   Extern variables declaration
@@ -31,34 +34,55 @@
 /*-----------------------------------------------------------------------------------
   Local functions definition
 -----------------------------------------------------------------------------------*/
-word_t AD_last; /* Last converted value               */
-byte_t AD_done; /* AD conversion done flag            */
+#define ADCx ADC1
+
+void mcu_adc_clk_enable(dword_t adc_clk)
+{
+    RCC->APB2ENR |= adc_clk;
+}
 
 /*----------------------------------------------------------------------------
   Function that initializes ADC
  *----------------------------------------------------------------------------*/
-#define ADCx ADC1
-void ADC_Init(void)
+void mcu_adc_init(void)
 {
     /* Setup and initialize ADC converter                                 */
-    RCC->APB2ENR |= (1UL << 8); /* Enable ADC1 clock                  */
-    RCC->AHB1ENR |= (1UL << 2); /* Enable GPIOC clock                 */
+    mcu_io_clk_enable(GPIOC_CLK);
+    mcu_adc_clk_enable(ADC1_CLK);
     GPIOC->MODER |= (3UL << 2*2); /* PC2 is in Analog mode              */
-    ADC1->SQR1 = 0;
-    ADC1->SQR2 = 0;
-    ADC1->SQR3 = (12UL << 0); /* SQ1 = channel 12                   */
-    ADC1->SMPR1 = (7UL << 6); /* Channel 12 sample time is 480 cyc. */
-    ADC1->SMPR2 = 0; /* Clear register                     */
-    ADC1->CR1 = (1UL << 8); /* Scan mode on                       */
-    ADC1->CR2 |= (1UL << 3); /* Initialize calibration registers   */
-    while(ADC1->CR2&(1UL << 3)); /* Wait for initialization to finish  */
-    ADC1->CR2 |= (1UL << 2); /* Start calibration                  */
-    while(ADC1->CR2&(1UL << 2)); /* Wait for calibration to finish     */
-    ADC1->CR1 |= (1UL << 5); /* enable EOC interrupt               */
+    ADCx->SQR1 = 0;
+    ADCx->SQR2 = 0;
+    ADCx->SQR3 = (12UL << 0); /* SQ1 = channel 12                   */
+    ADCx->SMPR1 = (7UL << 6); /* Channel 12 sample time is 480 cyc. */
+    ADCx->SMPR2 = 0; /* Clear register                     */
+    ADCx->CR1 = (1UL << 8); /* Scan mode on                       */
+    ADCx->CR2 |= (1UL << 3); /* Initialize calibration registers   */
+    while(ADCx->CR2&(1UL << 3)); /* Wait for initialization to finish  */
+    ADCx->CR2 |= (1UL << 2); /* Start calibration                  */
+    while(ADCx->CR2&(1UL << 2)); /* Wait for calibration to finish     */
+    ADCx->CR1 |= (1UL << 5); /* enable EOC interrupt               */
     NVIC_EnableIRQ(ADC_IRQn); /* enable ADC Interrupt               */
-    ADC1->CR2 |= (1UL << 0); /* ADC enable                         */
+    ADCx->CR2 |= (1UL << 0); /* ADC enable                         */
 }
 
+
+/*-----------------------------------------------------------------------------
+  Start AD Conversion
+ *----------------------------------------------------------------------------*/
+void mcu_adc_start_conv(void)
+{
+    ad_done = 0;
+    ADCx->CR2 |= 1 << 30; /* Start conversion                   */
+    while(!ad_done);
+}
+
+/*-----------------------------------------------------------------------------
+  Get converted AD value
+ *----------------------------------------------------------------------------*/
+word_t mcu_adc_get_conv(void)
+{
+    return (ad_last);
+}
 
 /*-----------------------------------------------------------------------------
   ADC Interrupt Handler
@@ -67,38 +91,10 @@ void ADC_IRQHandler(void)
 {
     if(ADCx->SR&(1 << 1)) /* ADC EOC interrupt?                 */
     {
-        AD_last = (ADCx->DR&ADC_VALUE_MAX);
-        AD_done = 1;
+        ad_last = (ADCx->DR&ADC_VALUE_MAX);
+        ad_done = 1;
         ADCx->SR &=~(1 << 1); /* Clear EOC interrupt                */
     }
-}
-
-
-/*-----------------------------------------------------------------------------
-  Start AD Conversion
- *----------------------------------------------------------------------------*/
-void ADC_StartCnv(void)
-{
-    AD_done = 0;
-    ADCx->CR2 |= 1 << 30; /* Start conversion                   */
-}
-
-
-/*-----------------------------------------------------------------------------
-  Is AD conversion done
- *----------------------------------------------------------------------------*/
-dword_t ADC_DoneCnv(void)
-{
-    return (AD_done);
-}
-
-
-/*-----------------------------------------------------------------------------
-  Get converted AD value
- *----------------------------------------------------------------------------*/
-word_t ADC_GetCnv(void)
-{
-    return (AD_last);
 }
 
 

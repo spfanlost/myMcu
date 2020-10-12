@@ -8,9 +8,9 @@
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
 #include "common.h"
-#include "stm32_config.h"
+#include "mcu.h"
 #include "mcu_io.h"
-#include "isr.h"
+#include "mcu_isr.h"
 #include "mcu_uart.h"
 
 
@@ -35,12 +35,12 @@
 -----------------------------------------------------------------------------------*/
 
 /**
- * @brief  This function is usart_init
+ * @brief  This function is uart init
  * @param  pclk2: pclock (MHz)
  * @param  bound: bound
  * @note:  call
  */
-void usart_init(dword_t pclk2, dword_t bound)
+void mcu_uart_init(dword_t pclk2, dword_t bound)
 {
     dword_t mantissa;
     dword_t fraction;
@@ -49,13 +49,13 @@ void usart_init(dword_t pclk2, dword_t bound)
     fraction = ((pclk2*100000000) / (bound*16))%100; //@OVER8=0
     mantissa <<= 4;
     mantissa |= fraction;
-    RCC->AHB1ENR |= 1 << 0; //PORT
-    RCC->APB2ENR |= 1 << 4; //
+    mcu_io_clk_enable(GPIOA_CLK);
+    RCC->APB2ENR |= 1 << 4; //enable uart 1 clock
 
     //TX = PA9,RX = PA10
-    GPIO_Set(GPIOA, PIN9 | PIN10, GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO_SPEED_100M, GPIO_PUPD_PU);
-    GPIO_AF_Set(GPIOA, 9, 7); //PA9,AF7
-    GPIO_AF_Set(GPIOA, 10, 7); //PA10,AF7
+    mcu_io_config(GPIOA, PIN9 | PIN10, GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO_SPEED_100M, GPIO_PUPD_PU);
+    mcu_io_af_config(GPIOA, 9, 7); //PA9,AF7
+    mcu_io_af_config(GPIOA, 10, 7); //PA10,AF7
     USART1->BRR = mantissa; //bound
     USART1->CR1 &=~(1 << 15); //OVER8=0
     USART1->CR1 |= 1 << 3; //enable Tx
@@ -67,13 +67,13 @@ void usart_init(dword_t pclk2, dword_t bound)
 
 
 /**
- * @brief  This function usart_put_char
+ * @brief  This function uart put_char
  * @param  ch: char send out
  * @return send out char
  * @retval param
  * @note:  call
  */
-int usart_put_char(int32_t ch)
+int mcu_uart_put_char(int32_t ch)
 {
     while(! (USART1->SR&(0x1 << 7)));
     USART1->DR = (ch&0xFF);
@@ -81,13 +81,13 @@ int usart_put_char(int32_t ch)
 }
 
 /**
- * @brief  This function uart_get_char
+ * @brief  This function is uart_get_char
  * @param  None
  * @return get char
  * @retval get char
  * @note:  call
  */
-int usart_get_char(void)
+int mcu_uart_get_char(void)
 {
     int ret =-1;
 
@@ -103,7 +103,7 @@ int usart_get_char(void)
  * @retval a char is vld,return true
  * @note:  a char not vld,return false
  */
-int usart_chk_char(void)
+int mcu_uart_chk_char(void)
 {
     if(USART1->SR&(0x1 << 5)) return TRUE;
 

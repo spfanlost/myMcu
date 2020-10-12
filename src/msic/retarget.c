@@ -48,13 +48,13 @@ FILE __stdin;
 -----------------------------------------------------------------------------------*/
 int fputc ( int c, FILE * f )
 {
-    return ( usart_put_char ( c ) );
+    return ( mcu_uart_put_char ( c ) );
 }
 
 
 int fgetc ( FILE * f )
 {
-    return ( usart_get_char () );
+    return ( mcu_uart_get_char () );
 }
 
 
@@ -67,7 +67,7 @@ int ferror ( FILE * f )
 
 void _ttywrch ( int c )
 {
-    usart_put_char ( c );
+    mcu_uart_put_char ( c );
 }
 
 

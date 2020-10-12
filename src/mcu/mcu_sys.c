@@ -10,8 +10,8 @@
 * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
 */
 #include "common.h"
-#include "stm32_config.h"
-#include "sys.h"
+#include "mcu.h"
+#include "mcu_sys.h"
 
 /*-----------------------------------------------------------------------------------
   Private declaration

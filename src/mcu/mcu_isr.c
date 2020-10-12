@@ -10,11 +10,11 @@
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
 #include "common.h"
-#include "stm32_config.h"
+#include "mcu.h"
 #include "cmdline.h"
 #include "drv_led.h"
 #include "mcu_uart.h"
-#include "isr.h"
+#include "mcu_isr.h"
 
 /*-----------------------------------------------------------------------------------
   Private declaration
@@ -67,13 +67,13 @@ void SysTick_Handler(void)
     {
         if(leds)
         {
-            led_on(LED1_PIN);
-            led_on(LED2_PIN);
+            drv_led_on(LED1_PIN);
+            drv_led_on(LED2_PIN);
         }
         else
         {
-            led_off(LED1_PIN);
-            led_off(LED2_PIN);
+            drv_led_off(LED1_PIN);
+            drv_led_off(LED2_PIN);
         }
         leds =!leds;
     }

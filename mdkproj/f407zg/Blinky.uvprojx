@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32F4xx\Include;..\..\src\startup;..\..\src\driver;..\..\src\mcu;..\..\src\msic;..\..\src\lcd;..\..\src\lcd\fonts;..\..\src\lcd\logos</IncludePath>
+              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32F4xx\Include;..\..\src\startup;..\..\src\mcu;..\..\src\msic;..\..\src\driver;..\..\src\driver\lcd;..\..\src\res\fonts;..\..\src\res\logos</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -394,19 +394,9 @@
           <GroupName>msic</GroupName>
           <Files>
             <File>
-              <FileName>isr.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\msic\isr.c</FilePath>
-            </File>
-            <File>
               <FileName>retarget.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\src\msic\retarget.c</FilePath>
-            </File>
-            <File>
-              <FileName>sys.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\msic\sys.c</FilePath>
             </File>
             <File>
               <FileName>cmdline.c</FileName>
@@ -424,15 +414,25 @@
               <FilePath>..\..\src\driver\drv_led.c</FilePath>
             </File>
             <File>
-              <FileName>bsp_lcd.c</FileName>
+              <FileName>drv_lcd.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\lcd\bsp_lcd.c</FilePath>
+              <FilePath>..\..\src\driver\lcd\drv_lcd.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
           <GroupName>mcu</GroupName>
           <Files>
+            <File>
+              <FileName>mcu_sys.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\mcu\mcu_sys.c</FilePath>
+            </File>
+            <File>
+              <FileName>mcu_isr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\mcu\mcu_isr.c</FilePath>
+            </File>
             <File>
               <FileName>mcu_io.c</FileName>
               <FileType>1</FileType>
@@ -471,17 +471,17 @@
             <File>
               <FileName>font_6x12.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\lcd\fonts\font_6x12.c</FilePath>
+              <FilePath>..\..\src\res\fonts\font_6x12.c</FilePath>
             </File>
             <File>
               <FileName>font_8x16.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\lcd\fonts\font_8x16.c</FilePath>
+              <FilePath>..\..\src\res\fonts\font_8x16.c</FilePath>
             </File>
             <File>
               <FileName>font_12x24.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\lcd\fonts\font_12x24.c</FilePath>
+              <FilePath>..\..\src\res\fonts\font_12x24.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -491,7 +491,7 @@
             <File>
               <FileName>mylogo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\lcd\logos\mylogo.c</FilePath>
+              <FilePath>..\..\src\res\logos\mylogo.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -885,19 +885,9 @@
           <GroupName>msic</GroupName>
           <Files>
             <File>
-              <FileName>isr.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\msic\isr.c</FilePath>
-            </File>
-            <File>
               <FileName>retarget.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\src\msic\retarget.c</FilePath>
-            </File>
-            <File>
-              <FileName>sys.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\msic\sys.c</FilePath>
             </File>
             <File>
               <FileName>cmdline.c</FileName>
@@ -915,15 +905,25 @@
               <FilePath>..\..\src\driver\drv_led.c</FilePath>
             </File>
             <File>
-              <FileName>bsp_lcd.c</FileName>
+              <FileName>drv_lcd.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\lcd\bsp_lcd.c</FilePath>
+              <FilePath>..\..\src\driver\lcd\drv_lcd.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
           <GroupName>mcu</GroupName>
           <Files>
+            <File>
+              <FileName>mcu_sys.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\mcu\mcu_sys.c</FilePath>
+            </File>
+            <File>
+              <FileName>mcu_isr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\mcu\mcu_isr.c</FilePath>
+            </File>
             <File>
               <FileName>mcu_io.c</FileName>
               <FileType>1</FileType>
@@ -962,17 +962,17 @@
             <File>
               <FileName>font_6x12.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\lcd\fonts\font_6x12.c</FilePath>
+              <FilePath>..\..\src\res\fonts\font_6x12.c</FilePath>
             </File>
             <File>
               <FileName>font_8x16.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\lcd\fonts\font_8x16.c</FilePath>
+              <FilePath>..\..\src\res\fonts\font_8x16.c</FilePath>
             </File>
             <File>
               <FileName>font_12x24.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\lcd\fonts\font_12x24.c</FilePath>
+              <FilePath>..\..\src\res\fonts\font_12x24.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -982,7 +982,7 @@
             <File>
               <FileName>mylogo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\lcd\logos\mylogo.c</FilePath>
+              <FilePath>..\..\src\res\logos\mylogo.c</FilePath>
             </File>
           </Files>
         </Group>
