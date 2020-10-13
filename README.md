@@ -19,5 +19,5 @@ in this program, usart is designed as a commond interface:
 type: "help" for more info
 
 Update dir arch as below:
-![image](https://github.com/spfanlost/myMcu/blob/master/doc/dir_arch.png)
+![image](https://github.com/spfanlost/myMcu/blob/master/doc/dir_arch.drawio.png)
 
