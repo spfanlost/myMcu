@@ -14,15 +14,58 @@
 
 #include "fonts.h"
 
-enum FONT_IDX
+typedef struct
 {
-    FONT_6X8=0,
-    FONT_16X24,
-    FONT_5X8,
-    FONT_7X12,
-    FONT_11X16,
-    FONT_14X20,
-    FONT_17X24,
+  int32_t ( *DrawBitmap      ) (uint32_t, uint32_t, uint32_t, uint8_t *);
+  int32_t ( *FillRGBRect     ) (uint32_t, uint32_t, uint32_t, uint8_t*, uint32_t, uint32_t);
+  int32_t ( *DrawHLine       ) (uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *DrawVLine       ) (uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *FillRect        ) (uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *GetPixel        ) (uint32_t, uint32_t, uint32_t, uint32_t*);
+  int32_t ( *SetPixel        ) (uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *GetXSize        ) (uint32_t, uint32_t *);
+  int32_t ( *GetYSize        ) (uint32_t, uint32_t *);
+  int32_t ( *SetLayer        ) (uint32_t, uint32_t);
+  int32_t ( *GetFormat       ) (uint32_t, uint32_t *);
+} LCD_UTILS_Drv_t;
+
+typedef struct
+{
+  /* Control functions */
+  int32_t (*Init             )(void*, uint32_t, uint32_t);
+  int32_t (*DeInit           )(void*);
+  int32_t (*ReadID           )(void*, uint32_t*);
+  int32_t (*DisplayOn        )(void*);
+  int32_t (*DisplayOff       )(void*);
+  int32_t (*SetBrightness    )(void*, uint32_t);
+  int32_t (*GetBrightness    )(void*, uint32_t*);
+  int32_t (*SetOrientation   )(void*, uint32_t);
+  int32_t (*GetOrientation   )(void*, uint32_t*);
+
+  /* Drawing functions*/
+  int32_t ( *SetCursor       ) (void*, uint32_t, uint32_t);
+  int32_t ( *DrawBitmap      ) (void*, uint32_t, uint32_t, uint8_t *);
+  int32_t ( *FillRGBRect     ) (void*, uint32_t, uint32_t, uint8_t*, uint32_t, uint32_t);
+  int32_t ( *DrawHLine       ) (void*, uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *DrawVLine       ) (void*, uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *FillRect        ) (void*, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *GetPixel        ) (void*, uint32_t, uint32_t, uint32_t*);
+  int32_t ( *SetPixel        ) (void*, uint32_t, uint32_t, uint32_t);
+  int32_t ( *GetXSize        ) (void*, uint32_t *);
+  int32_t ( *GetYSize        ) (void*, uint32_t *);
+}LCD_Drv_t;
+
+struct lcd_drv
+{
+    dword_t (*bl_init           )(void);
+    dword_t (*bl_sts            )(byte_t);
+    void    (*bus_init          )(void);
+    void    (*bus_wr_cmd        )(byte_t);
+    void    (*bus_wr_dat        )(word_t);
+    word_t  (*bus_rd_dat        )(void);
+    void    (*bus_wr_reg        )(byte_t, word_t);
+    word_t  (*bus_rd_reg        )(byte_t);
+    void    (*bus_wr_n_reg      )(byte_t, dword_t, word_t);
 };
 
 #ifndef GLCD_MIRROR_X
@@ -76,8 +119,8 @@ enum FONT_IDX
 
 /* LCD /CS is NE4 - Bank 4 of NOR/SRAM Bank 1~4                               */
 //#define LCD_BASE (0x60000000UL | 0x0C000000UL)
-//使用NOR/SRAM的 Bank1.sector4,地址位HADDR[27,26]=11 A6作为数据命令区分线
-//注意设置时STM32内部会右移一位对其! 111 1110=0X7E
+//use NOR/SRAM Bank1.sector4,address bit HADDR[27,26]=11 A6 use data/cmd identify line
+//STM32 HW will move right 1 bit 111 1110=0X7E
 #define LCD_BASE ((uint32_t)(0x6C000000 | 0x0000007E))
 #define LCD_REG16  (*((volatile uint16_t *)(LCD_BASE  ))) // LCD register address
 #define LCD_DAT16  (*((volatile uint16_t *)(LCD_BASE+2))) // LCD data address
@@ -108,7 +151,6 @@ extern int32_t  GLCD_DrawBargraph        (uint32_t x, uint32_t y, uint32_t width
 extern int32_t  GLCD_DrawBitmap          (uint32_t x, uint32_t y, uint32_t width, uint32_t height, const uint8_t *bitmap);
 extern int32_t  GLCD_VScroll             (uint32_t dy);
 extern int32_t  GLCD_FrameBufferAccess   (bool enable);
-extern uint32_t GLCD_FrameBufferAddress  (void);
 
 #endif /* _LCD_H_ */
 

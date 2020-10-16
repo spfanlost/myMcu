@@ -1,7 +1,44 @@
-#ifndef __DEV_ILI9325_H__
-#define __DEV_ILI9325_H__
+/**
+ * @file    drv_ILI9325.h
+ * @author  meng_yu
+ * @brief   Graphic LCD ILI9325 function function header file
+ * @version 0.0.1
+ * @date    2020-10-16
+ *
+ * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
+ */
 
-extern _lcd_drv TftLcdILI9325Drv;
+#ifndef _DRV_ILI9325_H_
+#define _DRV_ILI9325_H_
 
-#endif
+#include "drv_lcd.h"
+
+/*-----------------------------------------------------------------------------------
+  Exported types
+-----------------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------------
+  Exported macro
+-----------------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------------
+  Exported variables
+-----------------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------------
+  Exported functions
+-----------------------------------------------------------------------------------*/
+
+#define  ILI9325_ID    0x9325
+
+/**
+  * @brief  ILI9325 Size
+  */
+#define  ILI9325_LCD_PIXEL_WIDTH    ((uint16_t)320)
+#define  ILI9325_LCD_PIXEL_HEIGHT   ((uint16_t)240)
+
+extern struct lcd_drv drv_ili9325;
+
+
+#endif /* _DRV_ILI9325_H_ */
 
