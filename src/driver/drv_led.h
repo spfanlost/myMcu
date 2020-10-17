@@ -11,26 +11,37 @@
  */
 #ifndef _DRV_LED_H_
 #define _DRV_LED_H_
+
 #include "mcu_io.h"
+#if defined(STM32F407xx)
+#include "bsp_myf407_led.h"
+#elif defined(STM32F401xE)
+#include "bsp_myf401_led.h"
+#else
+
+#endif
+
+
 
 /*-----------------------------------------------------------------------------------
   Exported types
 -----------------------------------------------------------------------------------*/
+struct led_drv
+{
+    dword_t (*led_init      )(void);
+    dword_t (*led_on        )(dword_t);
+    dword_t (*led_off       )(dword_t);
+    dword_t (*led_toggle    )(dword_t);
+    dword_t (*led_is_on     )(dword_t);
+};
 
 /*-----------------------------------------------------------------------------------
   Exported macro
 -----------------------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------------------
-  Exported variables
------------------------------------------------------------------------------------*/
-
-/*-----------------------------------------------------------------------------------
   Exported functions
 -----------------------------------------------------------------------------------*/
-#define LED1_PIN PIN9 //(PF9)
-#define LED2_PIN PIN10 //(PF10)
-
 extern void drv_led_init(void);
 extern void drv_led_on(dword_t pin);
 extern void drv_led_off(dword_t pin);

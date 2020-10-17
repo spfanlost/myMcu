@@ -1,8 +1,8 @@
 del *.hex /s
-copy obj\*.hex .\*.hex
+copy Objects\*.hex .\*.hex
 rd /Q /S DebugConfig 
-rd /Q /S obj
-rd /Q /S list
+rd /Q /S Objects
+rd /Q /S Listings
 del *.uvguix.* /s
 del *.uvgui.* /s
 del *.scvd /s

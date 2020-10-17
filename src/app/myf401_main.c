@@ -14,8 +14,6 @@
 #include "mcu_uart.h"
 #include "mcu_adc.h"
 #include "drv_led.h"
-#include "drv_lcd.h"
-#include "mylogo.h"
 
 /*-----------------------------------------------------------------------------------
   Private declaration
@@ -37,15 +35,7 @@
   Local functions definition
 -----------------------------------------------------------------------------------*/
 
-//VECT_TAB_SRAM
-
-
-char text[40];
-/* Import external variables from IRQ.c file                                  */
-
 extern dword_t SystemCoreClock;
-
-byte_t flag = 1;
 
 
 /*----------------------------------------------------------------------------
@@ -62,16 +52,12 @@ int main(void)
     mcu_uart_init(84, 115200);
     mcu_adc_init();
 
-#ifdef USE_LCD_EN
-    GLCD_Init();
-    GLCD_SetBackgroundColor (GLCD_COLOR_BLACK);
-    GLCD_SetForegroundColor (GLCD_COLOR_WHITE);
-    GLCD_ClearScreen        ();
-    GLCD_SetFont            (&GLCD_Font_12x24);
-    GLCD_DrawString         (0, 0*24, "  STM32407ZG  ");
-    GLCD_DrawString         (0, 1*24, "    Blinky    ");
-    GLCD_DrawString         (0, 2*24, " www.keil.com ");
-#endif
+    printf("Device: %s, SystemCoreClock:%dMHz pllp:%d pllm:%d plln:%d,%d\r",
+    DEVICE_STR, SystemCoreClock/1000000,
+    (((RCC->PLLCFGR & RCC_PLLCFGR_PLLP) >>16) + 1 ) *2,
+    RCC->PLLCFGR & RCC_PLLCFGR_PLLM,
+    ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6),
+    AHBPrescTable[((RCC->CFGR & RCC_CFGR_HPRE) >> 4)]);
 
     while(1)
     {
@@ -79,19 +65,7 @@ int main(void)
         if(ticks % 100 == 0)
         {
             AD_value = mcu_adc_get_conv(); /* Read AD  value                 */
-
-#ifdef USE_LCD_EN
-            GLCD_SetForegroundColor (GLCD_COLOR_YELLOW);
-            sprintf(text, "Value=%#X", AD_value);
-            GLCD_DrawString(0, 3*24, text);
-            GLCD_SetForegroundColor (GLCD_COLOR_RED);
-            GLCD_DrawBargraph(0, 4*24, 14*12, 24, AD_value*200/0xFFF);
-#endif
-            if(flag)
-            {
-                flag = 0;
-                GLCD_DrawBitmap(24, 6*24 , 107, 107, (unsigned char*)mylogo);
-            }
+//            LOG_INFO ("Value=%#X\r\n", AD_value);
         }
     }
 }

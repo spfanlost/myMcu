@@ -13,6 +13,7 @@
 #include "mcu.h"
 #include "drv_led.h"
 
+
 /*-----------------------------------------------------------------------------------
   Private declaration
 -----------------------------------------------------------------------------------*/
@@ -32,6 +33,13 @@
 /*-----------------------------------------------------------------------------------
   Local functions definition
 -----------------------------------------------------------------------------------*/
+#if defined(STM32F407xx)
+struct led_drv *drv_led = &bsp_myf407_led;
+#elif defined(STM32F401xE)
+struct led_drv *drv_led = &bsp_myf401_led;
+#else
+
+#endif
 
 /**
  * @brief  This function Initialize LEDs
@@ -40,9 +48,7 @@
  */
 void drv_led_init(void)
 {
-    mcu_io_clk_enable(GPIOF_CLK);
-    /* Configure LED (PF9,PF10) pins as push-pull outputs */
-    mcu_io_config(GPIOF, LED1_PIN | LED2_PIN, GPIO_MODE_OUT, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_RES);
+    drv_led->led_init();
 }
 
 
@@ -53,7 +59,7 @@ void drv_led_init(void)
 */
 void drv_led_on(dword_t pin)
 {
-    mcu_io_set(GPIOF, pin);
+    drv_led->led_on(pin);
 }
 
 
@@ -64,7 +70,7 @@ void drv_led_on(dword_t pin)
 */
 void drv_led_off(dword_t pin)
 {
-    mcu_io_reset(GPIOF, pin);
+    drv_led->led_off(pin);
 }
 
 

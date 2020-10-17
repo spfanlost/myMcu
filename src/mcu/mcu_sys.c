@@ -32,15 +32,6 @@
 /*-----------------------------------------------------------------------------------
   Local functions definition
 -----------------------------------------------------------------------------------*/
-//PLL_VCO = (HSE_VALUE or HSI_VALUE / PLL_M) * PLL_N
-#define PLL_M (8U)
-
-//USB OTG FS, SDIO and RNG Clock =  PLL_VCO / PLLQ
-#define PLL_Q (7U)
-#define PLL_N (336U)
-
-//SYSCLK = PLL_VCO / PLL_P
-#define PLL_P (2)
 
 /**
   * @brief  Configures the System clock source, PLL Multiplier and Divider factors,
@@ -66,7 +57,6 @@ void SystemClock_Config(void)
 #elif defined (STM32F401xE )
     RCC->CFGR |= RCC_CFGR_PPRE2_DIV1; //PCLK2 = HCLK / 2
     RCC->CFGR |= RCC_CFGR_PPRE1_DIV2; //PCLK1 = HCLK / 4
-
 #else
 
 #error "pls define mcu type!!"

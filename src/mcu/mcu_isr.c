@@ -68,12 +68,10 @@ void SysTick_Handler(void)
         if(leds)
         {
             drv_led_on(LED1_PIN);
-            drv_led_on(LED2_PIN);
         }
         else
         {
             drv_led_off(LED1_PIN);
-            drv_led_off(LED2_PIN);
         }
         leds =!leds;
     }

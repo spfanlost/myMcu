@@ -45,11 +45,12 @@
   * @{
   */
 
-
+#include "mcu_sys.h"
 #include "stm32f4xx.h"
 
 #if !defined  (HSE_VALUE)
-  #define HSE_VALUE    ((uint32_t)8000000) /*!< Default value of the External oscillator in Hz */
+    #error "HSE_VALUE should be defined in mcu_sys.h!!"
+//    #define HSE_VALUE    ((uint32_t)8000000) /*!< Default value of the External oscillator in Hz */
 #endif /* HSE_VALUE */
 
 #if !defined  (HSI_VALUE)

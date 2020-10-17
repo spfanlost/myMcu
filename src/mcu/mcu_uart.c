@@ -53,9 +53,9 @@ void mcu_uart_init(dword_t pclk2, dword_t bound)
     RCC->APB2ENR |= 1 << 4; //enable uart 1 clock
 
     //TX = PA9,RX = PA10
-    mcu_io_config(GPIOA, PIN9 | PIN10, GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO_SPEED_100M, GPIO_PUPD_PU);
-    mcu_io_af_config(GPIOA, 9, 7); //PA9,AF7
-    mcu_io_af_config(GPIOA, 10, 7); //PA10,AF7
+    mcu_io_config(MCU_UART_PORT, MCU_UART_TX_PIN | MCU_UART_RX_PIN, GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO_SPEED_100M, GPIO_PUPD_PU);
+    mcu_io_af_config(MCU_UART_PORT, 9, 7); //PA9,AF7
+    mcu_io_af_config(MCU_UART_PORT, 10, 7); //PA10,AF7
     USART1->BRR = mantissa; //bound
     USART1->CR1 &=~(1 << 15); //OVER8=0
     USART1->CR1 |= 1 << 3; //enable Tx

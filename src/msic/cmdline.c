@@ -52,7 +52,7 @@ const uart_cmd_t g_uartcmd_list[] =
 static void uart_cmd_help(char*str, byte_t*pos)
 {
     LOG_INFO("Welcome to use uart cmd debug tool! use ESC change mode\r");
-    LOG_INFO("Device: %s, SystemCoreClock:%dHz\r", DEVICE_STR, SystemCoreClock);
+    LOG_INFO("Device: %s, SystemCoreClock:%dMHz\r", DEVICE_STR, SystemCoreClock/1000000);
     LOG_INFO("1. help: display this help massage;\r");
     LOG_INFO("2. dump: dump memory area; dump <addr> <row_cnt> <col_cnt>\r");
     LOG_INFO("3. regs: write register; regs <addr> <val>\r");
@@ -62,7 +62,7 @@ static void uart_cmd_help(char*str, byte_t*pos)
 
 static void uart_cmd_info(char*str, byte_t*pos)
 {
-    LOG_INFO("Device: %s, SystemCoreClock:%dHz\r", DEVICE_STR, SystemCoreClock);
+    LOG_INFO("Device: %s, SystemCoreClock:%dMHz\r", DEVICE_STR, SystemCoreClock/1000000);
 }
 
 

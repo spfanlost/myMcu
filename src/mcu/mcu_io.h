@@ -11,16 +11,6 @@
 #ifndef _MCU_IO_H_
 #define _MCU_IO_H_
 
-/**
- * @file    mcu_io.h
- * @author  meng_yu
- * @brief   &#& function header file
- * @version 0.0.1
- * @date    2020-10-11
- *
- * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
- */
-
 #define FTIR (1)     //下降沿触发
 #define RTIR (2)     //上升沿触发
 
@@ -85,6 +75,8 @@ void mcu_io_af_config(GPIO_TypeDef*GPIOx, dword_t pin, dword_t AFx);
 void mcu_io_clk_enable(dword_t gpio_clk);
 void mcu_io_set(GPIO_TypeDef*GPIOx, dword_t pin);
 void mcu_io_reset(GPIO_TypeDef*GPIOx, dword_t pin);
+void mcu_io_toggle(GPIO_TypeDef*GPIOx, dword_t pin);
+byte_t mcu_io_pin_val(GPIO_TypeDef*GPIOx, dword_t pin);
 
 
 #endif /* _MCU_IO_H_ */
