@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F407xx</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32F4xx\Include;..\..\src\mcu;..\..\src\msic;..\..\src\driver;..\..\src\driver\lcd;..\..\src\res\fonts;..\..\src\res\logos;..\..\src\driver\bsp\myf407</IncludePath>
+              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32F4xx\Include;..\..\src\mcu;..\..\src\msic;..\..\src\driver;..\..\src\driver\lcd;..\..\src\bsp\myf407;..\..\src\res</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -426,7 +426,7 @@
             <File>
               <FileName>bsp_myf407_led.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\driver\bsp\myf407\bsp_myf407_led.c</FilePath>
+              <FilePath>..\..\src\bsp\myf407\bsp_myf407_led.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -481,32 +481,27 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>fonts</GroupName>
+          <GroupName>res</GroupName>
           <Files>
             <File>
               <FileName>font_6x12.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\res\fonts\font_6x12.c</FilePath>
+              <FilePath>..\..\src\res\font_6x12.c</FilePath>
             </File>
             <File>
               <FileName>font_8x16.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\res\fonts\font_8x16.c</FilePath>
+              <FilePath>..\..\src\res\font_8x16.c</FilePath>
             </File>
             <File>
               <FileName>font_12x24.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\res\fonts\font_12x24.c</FilePath>
+              <FilePath>..\..\src\res\font_12x24.c</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>logos</GroupName>
-          <Files>
             <File>
               <FileName>mylogo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\res\logos\mylogo.c</FilePath>
+              <FilePath>..\..\src\res\mylogo.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -932,7 +927,7 @@
             <File>
               <FileName>bsp_myf407_led.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\driver\bsp\myf407\bsp_myf407_led.c</FilePath>
+              <FilePath>..\..\src\bsp\myf407\bsp_myf407_led.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -987,32 +982,27 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>fonts</GroupName>
+          <GroupName>res</GroupName>
           <Files>
             <File>
               <FileName>font_6x12.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\res\fonts\font_6x12.c</FilePath>
+              <FilePath>..\..\src\res\font_6x12.c</FilePath>
             </File>
             <File>
               <FileName>font_8x16.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\res\fonts\font_8x16.c</FilePath>
+              <FilePath>..\..\src\res\font_8x16.c</FilePath>
             </File>
             <File>
               <FileName>font_12x24.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\res\fonts\font_12x24.c</FilePath>
+              <FilePath>..\..\src\res\font_12x24.c</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>logos</GroupName>
-          <Files>
             <File>
               <FileName>mylogo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\res\logos\mylogo.c</FilePath>
+              <FilePath>..\..\src\res\mylogo.c</FilePath>
             </File>
           </Files>
         </Group>

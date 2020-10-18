@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F401xE</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32F4xx\Include;..\..\src\mcu;..\..\src\msic;..\..\src\driver;..\..\src\driver\bsp\myf401</IncludePath>
+              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32F4xx\Include;..\..\src\mcu;..\..\src\msic;..\..\src\driver;..\..\src\bsp\myf401</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -416,7 +416,7 @@
             <File>
               <FileName>bsp_myf401_led.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\driver\bsp\myf401\bsp_myf401_led.c</FilePath>
+              <FilePath>..\..\src\bsp\myf401\bsp_myf401_led.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -885,7 +885,7 @@
             <File>
               <FileName>bsp_myf401_led.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\driver\bsp\myf401\bsp_myf401_led.c</FilePath>
+              <FilePath>..\..\src\bsp\myf401\bsp_myf401_led.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -470,7 +470,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\src\driver\bsp\myf407\bsp_myf407_led.c</PathWithFileName>
+      <PathWithFileName>..\..\src\bsp\myf407\bsp_myf407_led.c</PathWithFileName>
       <FilenameWithoutPath>bsp_myf407_led.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -590,7 +590,7 @@
   </Group>
 
   <Group>
-    <GroupName>fonts</GroupName>
+    <GroupName>res</GroupName>
     <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -602,7 +602,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\src\res\fonts\font_6x12.c</PathWithFileName>
+      <PathWithFileName>..\..\src\res\font_6x12.c</PathWithFileName>
       <FilenameWithoutPath>font_6x12.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -614,7 +614,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\src\res\fonts\font_8x16.c</PathWithFileName>
+      <PathWithFileName>..\..\src\res\font_8x16.c</PathWithFileName>
       <FilenameWithoutPath>font_8x16.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -626,27 +626,19 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\src\res\fonts\font_12x24.c</PathWithFileName>
+      <PathWithFileName>..\..\src\res\font_12x24.c</PathWithFileName>
       <FilenameWithoutPath>font_12x24.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
-  </Group>
-
-  <Group>
-    <GroupName>logos</GroupName>
-    <tvExp>1</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>7</GroupNumber>
+      <GroupNumber>6</GroupNumber>
       <FileNumber>19</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\src\res\logos\mylogo.c</PathWithFileName>
+      <PathWithFileName>..\..\src\res\mylogo.c</PathWithFileName>
       <FilenameWithoutPath>mylogo.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>

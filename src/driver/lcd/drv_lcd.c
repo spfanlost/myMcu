@@ -36,7 +36,7 @@ static uint8_t    Himax;
 static uint32_t   Scroll;
 #endif
 
-struct lcd_drv *drv_lcd;
+struct lcd_drv *drv_lcd = &drv_ili9325;;
 
 /*-----------------------------------------------------------------------------------
   Local functions declaration
@@ -58,7 +58,6 @@ static __inline void wr_dat_stop(void)
 void GLCD_Init(void)
 {
     word_t driverCode;
-    drv_lcd = &drv_ili9325;
     drv_lcd->bus_init();
     drv_lcd->bl_init();
     delay_ms(50); /* delay_ms 50 ms                        */
