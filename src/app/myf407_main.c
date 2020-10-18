@@ -78,10 +78,11 @@ int main(void)
     while(1)
     {
         mcu_adc_start_conv();
-        if(ticks % 100 == 0)
+        if(get_sys_ticks()%(500*1000) <= 30)
         {
+            drv_led_toggle(LED1_PIN|LED2_PIN);
             AD_value = mcu_adc_get_conv(); /* Read AD  value                 */
-            LOG_INFO ("Value=%#X\r\n", AD_value);
+            //LOG_INFO ("Value=%#X\r\n", AD_value);
 #ifdef USE_LCD_EN
             GLCD_SetForegroundColor (GLCD_COLOR_YELLOW);
             sprintf(text, "Value=%#X", AD_value);

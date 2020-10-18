@@ -24,7 +24,7 @@
 
 
 #if defined(STM32F407xx)
-//#define USE_LCD_EN
+#define USE_LCD_EN
 #define DEVICE_STR "STM32F407xx"
 #elif defined(STM32F429xx)
 #define DEVICE_STR "STM32F429xx"

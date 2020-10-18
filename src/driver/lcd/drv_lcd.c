@@ -12,6 +12,7 @@
 #include "common.h"
 #include "mcu.h"
 #include "mcu_io.h"
+#include "mcu_isr.h"
 #include "drv_lcd.h"
 #include "drv_ili9325.h"
 
@@ -40,11 +41,6 @@ struct lcd_drv *drv_lcd;
 /*-----------------------------------------------------------------------------------
   Local functions declaration
 -----------------------------------------------------------------------------------*/
-
-static void delay_ms (int ms) {
-  ms *= (SystemCoreClock/10000);
-  while (ms--) { __nop(); __nop(); __nop(); __nop(); __nop(); __nop(); }
-}
 
 static __inline void wr_dat_start(void)
 {

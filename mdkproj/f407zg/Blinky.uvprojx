@@ -434,6 +434,11 @@
           <GroupName>mcu</GroupName>
           <Files>
             <File>
+              <FileName>mcu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\src\mcu\mcu.h</FilePath>
+            </File>
+            <File>
               <FileName>mcu_sys.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\src\mcu\mcu_sys.c</FilePath>
@@ -934,6 +939,11 @@
         <Group>
           <GroupName>mcu</GroupName>
           <Files>
+            <File>
+              <FileName>mcu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\src\mcu\mcu.h</FilePath>
+            </File>
             <File>
               <FileName>mcu_sys.c</FileName>
               <FileType>1</FileType>

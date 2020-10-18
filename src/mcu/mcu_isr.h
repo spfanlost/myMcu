@@ -34,13 +34,14 @@ enum nvic_group
 /*-----------------------------------------------------------------------------------
   Exported variables
 -----------------------------------------------------------------------------------*/
-extern volatile qword_t ticks;
 
 /*-----------------------------------------------------------------------------------
   Exported functions
 -----------------------------------------------------------------------------------*/
 void NVIC_Config(IRQn_Type IRQn, byte_t PreemptionPrio, byte_t SubPrio, byte_t Enable);
-
+void delay_us(qword_t us);
+void delay_ms(qword_t ms);
+qword_t get_sys_ticks(void);
 
 #endif /* _ISR_H_ */
 

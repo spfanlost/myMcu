@@ -56,6 +56,7 @@ dword_t bsp_myf407_led_init(void)
     mcu_io_clk_enable(GPIOF_CLK);
     /* Configure LED (PF9,PF10) pins as push-pull outputs */
     mcu_io_config(GPIOF, LED1_PIN | LED2_PIN, GPIO_MODE_OUT, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_RES);
+    bsp_myf407_led_off(LED1_PIN);
     return SUCCESS;
 }
 

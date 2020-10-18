@@ -453,6 +453,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\src\mcu\mcu_adc.c</FilePath>
             </File>
+            <File>
+              <FileName>mcu_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\mcu\mcu_flash.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -916,6 +921,11 @@
               <FileName>mcu_adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\src\mcu\mcu_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>mcu_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\mcu\mcu_flash.c</FilePath>
             </File>
           </Files>
         </Group>

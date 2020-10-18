@@ -13,6 +13,7 @@
 #include "mcu_isr.h"
 #include "mcu_uart.h"
 #include "mcu_adc.h"
+#include "mcu_flash.h"
 #include "drv_led.h"
 
 /*-----------------------------------------------------------------------------------
@@ -37,33 +38,47 @@
 
 extern dword_t SystemCoreClock;
 
+dword_t Save_DataTab[1024] = {0};
+
 
 /*----------------------------------------------------------------------------
       MAIN function
 *----------------------------------------------------------------------------*/
 int main(void)
 {
+    word_t i = 0;
     word_t AD_value = 0;
+    dword_t temp = 0x88888888;
+
     NVIC_SetPriorityGrouping(NVIC_GROUP4);
     SystemClock_Config();
     SystemCoreClockUpdate();
-    SysTick_Config(SystemCoreClock / 1000); //Generate interrupt each 1 ms
+    SysTick_Config(SystemCoreClock / 1000000); //Generate interrupt each 1 us
     drv_led_init();
     mcu_uart_init(84, 115200);
     mcu_adc_init();
 
-    printf("Device: %s, SystemCoreClock:%dMHz pllp:%d pllm:%d plln:%d,%d\r",
-    DEVICE_STR, SystemCoreClock/1000000,
-    (((RCC->PLLCFGR & RCC_PLLCFGR_PLLP) >>16) + 1 ) *2,
-    RCC->PLLCFGR & RCC_PLLCFGR_PLLM,
-    ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6),
-    AHBPrescTable[((RCC->CFGR & RCC_CFGR_HPRE) >> 4)]);
+    LOG_INFO("Device: %s, SystemCoreClock:%dMHz\r\n", DEVICE_STR, SystemCoreClock/1000000);
+
+    for(i = 0; i < 1024; i++)
+    {
+        Save_DataTab[i] = i;
+    }
+    mcu_flash_write(FLASH_SAVE_ADDR, Save_DataTab, 1024);
+    memset((void *)Save_DataTab,0,sizeof(Save_DataTab));
+    mcu_flash_read(FLASH_SAVE_ADDR, Save_DataTab, 1024);
+    for(i = 0; i < 1024; i++)
+    {
+        LOG_INFO("0x%08x=%08x\r\n", FLASH_SAVE_ADDR + (4 * i), Save_DataTab[i]);
+    }
+
 
     while(1)
     {
         mcu_adc_start_conv();
-        if(ticks % 100 == 0)
+        if(get_sys_ticks()%(500*1000) <= 30)
         {
+            drv_led_toggle(LED1_PIN);
             AD_value = mcu_adc_get_conv(); /* Read AD  value                 */
 //            LOG_INFO ("Value=%#X\r\n", AD_value);
         }

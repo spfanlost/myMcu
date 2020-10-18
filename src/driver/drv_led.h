@@ -45,6 +45,8 @@ struct led_drv
 extern void drv_led_init(void);
 extern void drv_led_on(dword_t pin);
 extern void drv_led_off(dword_t pin);
+extern void drv_led_toggle(dword_t pin);
+extern void drv_led_is_on(dword_t pin);
 
 #endif /* _DRV_LED_H_ */
 

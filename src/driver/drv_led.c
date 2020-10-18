@@ -73,4 +73,24 @@ void drv_led_off(dword_t pin)
     drv_led->led_off(pin);
 }
 
+/**
+* @brief  This function let LED toggle
+* @param  pin: led's pin
+* @note:  call
+*/
+void drv_led_toggle(dword_t pin)
+{
+    drv_led->led_toggle(pin);
+}
+
+/**
+* @brief  This function check LED is on
+* @param  pin: led's pin
+* @note:  call
+*/
+void drv_led_is_on(dword_t pin)
+{
+    drv_led->led_is_on(pin);
+}
+
 

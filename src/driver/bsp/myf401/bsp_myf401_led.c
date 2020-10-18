@@ -54,20 +54,20 @@ struct led_drv bsp_myf401_led =
 dword_t bsp_myf401_led_init(void)
 {
     mcu_io_clk_enable(GPIOB_CLK);
-    /* Configure LED (PF9,PF10) pins as push-pull outputs */
+    bsp_myf401_led_off(LED1_PIN);
     mcu_io_config(GPIOB, LED1_PIN, GPIO_MODE_OUT, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_RES);
     return SUCCESS;
 }
 
 dword_t bsp_myf401_led_on( dword_t pin)
 {
-    mcu_io_set(GPIOB, pin);
+    mcu_io_reset(GPIOB, pin);
     return SUCCESS;
 }
 
 dword_t bsp_myf401_led_off(dword_t pin)
 {
-    mcu_io_reset(GPIOB, pin);
+    mcu_io_set(GPIOB, pin);
     return SUCCESS;
 }
 

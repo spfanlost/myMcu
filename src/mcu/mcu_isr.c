@@ -23,7 +23,6 @@
 /*-----------------------------------------------------------------------------------
   Extern variables declaration
 -----------------------------------------------------------------------------------*/
-volatile qword_t ticks = 0;
 
 /*-----------------------------------------------------------------------------------
   Global variables definition
@@ -59,24 +58,39 @@ void NVIC_Config(IRQn_Type IRQn, byte_t PreemptionPrio, byte_t SubPrio, byte_t E
     }
 }
 
+volatile qword_t ticks = 0;
+volatile static qword_t us_ticks = 0;
+volatile static qword_t ms_ticks = 0;
+static qword_t curTicks = 0;
+
+void delay_us(qword_t us)
+{
+    us_ticks = 0;
+    curTicks = us_ticks;
+    while((us_ticks - curTicks) < us);
+}
+void delay_ms(qword_t ms)
+{
+    us_ticks = 0;
+    ms_ticks = 0;
+    curTicks = ms_ticks;
+    while((ms_ticks - curTicks) < ms);
+}
+
 void SysTick_Handler(void)
 {
-    static byte_t leds = 0x1;
     ticks++;
-    if(ticks%1000 == 0)
+    us_ticks++;
+    if(us_ticks%1000 == 0)
     {
-        if(leds)
-        {
-            drv_led_on(LED1_PIN);
-        }
-        else
-        {
-            drv_led_off(LED1_PIN);
-        }
-        leds =!leds;
+        ms_ticks ++;
     }
 }
 
+qword_t get_sys_ticks(void)
+{
+    return ticks;
+}
 
 void USART1_IRQHandler(void)
 {
