@@ -1,18 +1,17 @@
-
-
 /**
- * @file    drv_ili9325.c
+ * @file    bsp_myf407_lcd.c
  * @author  meng_yu
- * @brief   low level Graphic LCD (320x240 pixels) with 16-bit parallel interface realize
+ * @brief   myf407 board lcd function realize
  * @version 0.0.1
- * @date    2020-09-14
+ * @date    2020-10-17
  *
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
+
 #include "common.h"
 #include "mcu.h"
 #include "mcu_io.h"
-#include "drv_ili9325.h"
+#include "bsp_myf407_lcd.h"
 
 /*-----------------------------------------------------------------------------------
   Private declaration
@@ -21,41 +20,32 @@
 /*-----------------------------------------------------------------------------------
   Extern variables declaration
 -----------------------------------------------------------------------------------*/
-dword_t drv_lcd_ili9325_bl(byte_t sta);
-dword_t drv_lcd_ili9325_bl_init(void);
-void drv_lcd_ili9325_bus_init(void);
-static __inline void drv_lcd_wr_cmd(byte_t cmd);
-static __inline void drv_lcd_wr_dat(word_t dat);
-static __inline word_t drv_lcd_rd_dat(void);
-static __inline void drv_lcd_wr_reg(byte_t reg, word_t val);
-static word_t drv_lcd_rd_reg(byte_t reg);
-void drv_lcd_wr_n_reg(byte_t reg, dword_t n, word_t val);
 
 /*-----------------------------------------------------------------------------------
   Global variables definition
 -----------------------------------------------------------------------------------*/
-struct lcd_drv drv_ili9325 =
-{
-    drv_lcd_ili9325_bl_init,
-    drv_lcd_ili9325_bl,
-    drv_lcd_ili9325_bus_init,
-    drv_lcd_wr_cmd,
-    drv_lcd_wr_dat,
-    drv_lcd_rd_dat,
-    drv_lcd_wr_reg,
-    drv_lcd_rd_reg,
-    drv_lcd_wr_n_reg,
-};
 
 /*-----------------------------------------------------------------------------------
   Local functions declaration
 -----------------------------------------------------------------------------------*/
+dword_t drv_lcd_ili9341_bl(byte_t sta);
+void drv_lcd_ili9341_bus_init(void);
+
+/*-----------------------------------------------------------------------------------
+  Local functions definition
+-----------------------------------------------------------------------------------*/
+struct bsp_lcd bsp_myf407_lcd =
+{
+    drv_lcd_ili9341_bus_init,
+    drv_lcd_ili9341_bl,
+};
+
 /**
  * @brief  This function LCD Backlight api
  * @param  sta: 1: turn on Backlight;0:turn off Backlight
  * @note:  call
  */
-dword_t drv_lcd_ili9325_bl(byte_t sta)
+dword_t drv_lcd_ili9341_bl(byte_t sta)
 {
     if(sta)
     {
@@ -68,18 +58,15 @@ dword_t drv_lcd_ili9325_bl(byte_t sta)
     return SUCCESS;
 }
 
-dword_t drv_lcd_ili9325_bl_init(void)
+dword_t drv_lcd_ili9341_bl_init(void)
 {
     mcu_io_clk_enable(GPIOB_CLK);
     mcu_io_config(GPIOB, PIN15, GPIO_MODE_OUT, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_PU);
-    drv_lcd_ili9325_bl(FALSE);
+    drv_lcd_ili9341_bl(FALSE);
     return SUCCESS;
 }
 
-/*-----------------------------------------------------------------------------------
-  LCD FSMC functions definition
------------------------------------------------------------------------------------*/
-void drv_lcd_ili9325_fsmc_init(void)
+void drv_lcd_ili9341_fsmc_init(void)
 {
 
     RCC->AHB3ENR |= (1UL << 0);     /* Enable FSMC clock                  */
@@ -111,7 +98,7 @@ void drv_lcd_ili9325_fsmc_init(void)
     (0 << 1) |  /* Address/Data Multiplexing disable  */
     (1 << 0);   /* Memory Bank enable                 */
 }
-static void drv_lcd_ili9325_fsmc_gpio_init(void)
+static void drv_lcd_ili9341_fsmc_gpio_init(void)
 {
     static dword_t fsmc_inited = 0;
     if(fsmc_inited)
@@ -156,57 +143,10 @@ static void drv_lcd_ili9325_fsmc_gpio_init(void)
     mcu_io_af_config(GPIOG, 12, 12); //PE.12(NE4),AF12
 }
 
-void drv_lcd_ili9325_bus_init(void)
+void drv_lcd_ili9341_bus_init(void)
 {
-    drv_lcd_ili9325_fsmc_init();
-    drv_lcd_ili9325_fsmc_gpio_init();
-}
-
-static __inline void drv_lcd_wr_cmd(byte_t cmd)
-{
-    LCD_REG16 = cmd;
-}
-
-static __inline void drv_lcd_wr_dat(word_t dat)
-{
-    LCD_DAT16 = dat;
-}
-
-static __inline word_t drv_lcd_rd_dat(void)
-{
-    return (LCD_DAT16);
-}
-
-static __inline void drv_lcd_wr_reg(byte_t reg, word_t val)
-{
-    drv_lcd_wr_cmd(reg);
-    drv_lcd_wr_dat(val);
-}
-
-static word_t drv_lcd_rd_reg(byte_t reg)
-{
-    drv_lcd_wr_cmd(reg);
-    return (drv_lcd_rd_dat());
-}
-
-static __inline void wr_dat_start(void)
-{
-    /* only used for SPI interface */
-}
-
-static __inline void wr_dat_stop(void)
-{
-    /* only used for SPI interface */
-}
-
-void drv_lcd_wr_n_reg(byte_t reg, dword_t n, word_t val)
-{
-  drv_lcd_wr_cmd(reg);
-  wr_dat_start();
-  while (n--)
-  {
-    drv_lcd_wr_dat(val);
-  }
-  wr_dat_stop();
+    drv_lcd_ili9341_fsmc_init();
+    drv_lcd_ili9341_fsmc_gpio_init();
+    drv_lcd_ili9341_bl_init();
 }
 

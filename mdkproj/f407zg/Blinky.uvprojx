@@ -414,19 +414,19 @@
               <FilePath>..\..\src\driver\drv_led.c</FilePath>
             </File>
             <File>
+              <FileName>bsp_myf407_led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\bsp\myf407\bsp_myf407_led.c</FilePath>
+            </File>
+            <File>
               <FileName>drv_lcd.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\src\driver\lcd\drv_lcd.c</FilePath>
             </File>
             <File>
-              <FileName>drv_ili9325.c</FileName>
+              <FileName>bsp_myf407_lcd.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\driver\lcd\drv_ili9325.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_myf407_led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\bsp\myf407\bsp_myf407_led.c</FilePath>
+              <FilePath>..\..\src\bsp\myf407\bsp_myf407_lcd.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -915,19 +915,19 @@
               <FilePath>..\..\src\driver\drv_led.c</FilePath>
             </File>
             <File>
+              <FileName>bsp_myf407_led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\bsp\myf407\bsp_myf407_led.c</FilePath>
+            </File>
+            <File>
               <FileName>drv_lcd.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\src\driver\lcd\drv_lcd.c</FilePath>
             </File>
             <File>
-              <FileName>drv_ili9325.c</FileName>
+              <FileName>bsp_myf407_lcd.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\driver\lcd\drv_ili9325.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_myf407_led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\bsp\myf407\bsp_myf407_led.c</FilePath>
+              <FilePath>..\..\src\bsp\myf407\bsp_myf407_lcd.c</FilePath>
             </File>
           </Files>
         </Group>

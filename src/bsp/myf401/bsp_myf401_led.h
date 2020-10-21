@@ -14,7 +14,7 @@
 #define LED1_PIN PIN3   //
 #define LED1_PORT GPIOB //
 
-extern struct led_drv bsp_myf401_led;
+extern struct bsp_led bsp_myf401_led;
 
 #endif /* _BSP_MYF401_LED_H_ */
 

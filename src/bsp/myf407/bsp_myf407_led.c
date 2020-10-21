@@ -11,7 +11,6 @@
 #include "common.h"
 #include "mcu.h"
 #include "drv_led.h"
-#include "bsp_myf407_led.h"
 
 /*-----------------------------------------------------------------------------------
   Private declaration
@@ -37,7 +36,7 @@ dword_t bsp_myf407_led_is_on(dword_t pin);
 /*-----------------------------------------------------------------------------------
   Local functions definition
 -----------------------------------------------------------------------------------*/
-struct led_drv bsp_myf407_led =
+struct bsp_led bsp_myf407_led =
 {
     bsp_myf407_led_init,
     bsp_myf407_led_on,

@@ -18,7 +18,7 @@
 #define LED2_PORT GPIOF //
 
 
-extern struct led_drv bsp_myf407_led;
+extern struct bsp_led bsp_myf407_led;
 
 #endif /* _BSP_MYF407_LED_H_ */
 

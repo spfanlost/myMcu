@@ -37,7 +37,7 @@ dword_t bsp_myf401_led_is_on(dword_t pin);
 /*-----------------------------------------------------------------------------------
   Local functions definition
 -----------------------------------------------------------------------------------*/
-struct led_drv bsp_myf401_led =
+struct bsp_led bsp_myf401_led =
 {
     bsp_myf401_led_init,
     bsp_myf401_led_on,

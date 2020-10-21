@@ -34,9 +34,9 @@
   Local functions definition
 -----------------------------------------------------------------------------------*/
 #if defined(STM32F407xx)
-struct led_drv *drv_led = &bsp_myf407_led;
+struct bsp_led *drv_led = &bsp_myf407_led;
 #elif defined(STM32F401xE)
-struct led_drv *drv_led = &bsp_myf401_led;
+struct bsp_led *drv_led = &bsp_myf401_led;
 #else
 
 #endif

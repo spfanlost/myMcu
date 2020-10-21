@@ -23,6 +23,11 @@ typedef unsigned short int word_t;
 typedef unsigned int dword_t;
 typedef unsigned long int qword_t;
 
+typedef unsigned char u8;
+typedef unsigned short int u16;
+typedef unsigned int u32;
+typedef unsigned long int u64;
+
 typedef volatile byte_t vu8;
 typedef volatile word_t vu16;
 typedef volatile dword_t vu32;

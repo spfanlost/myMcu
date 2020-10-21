@@ -1,157 +1,138 @@
+#ifndef __LCD_H
+#define __LCD_H
+#include "common.h"
+
+#if defined(STM32F407xx)
+#include "bsp_myf407_lcd.h"
+#endif
 
 
-/**
- * @file    drv_lcd.h
- * @author  meng_yu
- * @brief   Graphic LCD function prototypes and defines function header file
- * @version 0.0.1
- * @date    2020-09-14
- *
- * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
- */
-#ifndef _DRV_LCD_H_
-#define _DRV_LCD_H_
-
-#include "fonts.h"
-
-typedef struct
+struct bsp_lcd
 {
-  int32_t ( *DrawBitmap      ) (uint32_t, uint32_t, uint32_t, uint8_t *);
-  int32_t ( *FillRGBRect     ) (uint32_t, uint32_t, uint32_t, uint8_t*, uint32_t, uint32_t);
-  int32_t ( *DrawHLine       ) (uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
-  int32_t ( *DrawVLine       ) (uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
-  int32_t ( *FillRect        ) (uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
-  int32_t ( *GetPixel        ) (uint32_t, uint32_t, uint32_t, uint32_t*);
-  int32_t ( *SetPixel        ) (uint32_t, uint32_t, uint32_t, uint32_t);
-  int32_t ( *GetXSize        ) (uint32_t, uint32_t *);
-  int32_t ( *GetYSize        ) (uint32_t, uint32_t *);
-  int32_t ( *SetLayer        ) (uint32_t, uint32_t);
-  int32_t ( *GetFormat       ) (uint32_t, uint32_t *);
-} LCD_UTILS_Drv_t;
-
-typedef struct
-{
-  /* Control functions */
-  int32_t (*Init             )(void*, uint32_t, uint32_t);
-  int32_t (*DeInit           )(void*);
-  int32_t (*ReadID           )(void*, uint32_t*);
-  int32_t (*DisplayOn        )(void*);
-  int32_t (*DisplayOff       )(void*);
-  int32_t (*SetBrightness    )(void*, uint32_t);
-  int32_t (*GetBrightness    )(void*, uint32_t*);
-  int32_t (*SetOrientation   )(void*, uint32_t);
-  int32_t (*GetOrientation   )(void*, uint32_t*);
-
-  /* Drawing functions*/
-  int32_t ( *SetCursor       ) (void*, uint32_t, uint32_t);
-  int32_t ( *DrawBitmap      ) (void*, uint32_t, uint32_t, uint8_t *);
-  int32_t ( *FillRGBRect     ) (void*, uint32_t, uint32_t, uint8_t*, uint32_t, uint32_t);
-  int32_t ( *DrawHLine       ) (void*, uint32_t, uint32_t, uint32_t, uint32_t);
-  int32_t ( *DrawVLine       ) (void*, uint32_t, uint32_t, uint32_t, uint32_t);
-  int32_t ( *FillRect        ) (void*, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
-  int32_t ( *GetPixel        ) (void*, uint32_t, uint32_t, uint32_t*);
-  int32_t ( *SetPixel        ) (void*, uint32_t, uint32_t, uint32_t);
-  int32_t ( *GetXSize        ) (void*, uint32_t *);
-  int32_t ( *GetYSize        ) (void*, uint32_t *);
-}LCD_Drv_t;
-
-struct lcd_drv
-{
-    dword_t (*bl_init           )(void);
-    dword_t (*bl_sts            )(byte_t);
-    void    (*bus_init          )(void);
-    void    (*bus_wr_cmd        )(byte_t);
-    void    (*bus_wr_dat        )(word_t);
-    word_t  (*bus_rd_dat        )(void);
-    void    (*bus_wr_reg        )(byte_t, word_t);
-    word_t  (*bus_rd_reg        )(byte_t);
-    void    (*bus_wr_n_reg      )(byte_t, dword_t, word_t);
+    void    (*lcd_bus_init  )(void);
+    dword_t (*lcd_bl        )(byte_t);
 };
 
-#ifndef GLCD_MIRROR_X
-#define GLCD_MIRROR_X   1               /* Mirror X axis = 1:yes, 0:no */
+//LCD重要参数集
+typedef struct
+{
+	u16 width;			//LCD 宽度
+	u16 height;			//LCD 高度
+	u16 id;				//LCD ID
+	u8  dir;			//横屏还是竖屏控制：0，竖屏；1，横屏。
+	u16	wramcmd;		//开始写gram指令
+	u16  setxcmd;		//设置x坐标指令
+	u16  setycmd;		//设置y坐标指令
+}_lcd_dev;
+
+//LCD参数
+extern _lcd_dev lcddev;	//管理LCD重要参数
+//LCD的画笔颜色和背景色
+extern u16  POINT_COLOR;//默认红色
+extern u16  BACK_COLOR; //背景颜色.默认为白色
+
+
+//////////////////////////////////////////////////////////////////////////////////
+//-----------------LCD端口定义----------------
+#define	LCD_LED PBout(15)  		//LCD背光    		 PB15
+//LCD地址结构体
+typedef struct
+{
+	vu16 LCD_REG;
+	vu16 LCD_RAM;
+} LCD_TypeDef;
+#define LCD_BASE        MYF407_LCD_BASE
+#define LCD             ((LCD_TypeDef *) LCD_BASE)
+//////////////////////////////////////////////////////////////////////////////////
+
+//扫描方向定义
+#define L2R_U2D  0 //从左到右,从上到下
+#define L2R_D2U  1 //从左到右,从下到上
+#define R2L_U2D  2 //从右到左,从上到下
+#define R2L_D2U  3 //从右到左,从下到上
+
+#define U2D_L2R  4 //从上到下,从左到右
+#define U2D_R2L  5 //从上到下,从右到左
+#define D2U_L2R  6 //从下到上,从左到右
+#define D2U_R2L  7 //从下到上,从右到左
+
+#define DFT_SCAN_DIR  L2R_U2D  //默认的扫描方向
+
+//画笔颜色
+#define WHITE         	 0xFFFF
+#define BLACK         	 0x0000
+#define BLUE         	 0x001F
+#define BRED             0XF81F
+#define GRED 			 0XFFE0
+#define GBLUE			 0X07FF
+#define RED           	 0xF800
+#define MAGENTA       	 0xF81F
+#define GREEN         	 0x07E0
+#define CYAN          	 0x7FFF
+#define YELLOW        	 0xFFE0
+#define BROWN 			 0XBC40 //棕色
+#define BRRED 			 0XFC07 //棕红色
+#define GRAY  			 0X8430 //灰色
+//GUI颜色
+
+#define DARKBLUE      	 0X01CF	//深蓝色
+#define LIGHTBLUE      	 0X7D7C	//浅蓝色
+#define GRAYBLUE       	 0X5458 //灰蓝色
+//以上三色为PANEL的颜色
+
+#define LIGHTGREEN     	 0X841F //浅绿色
+//#define LIGHTGRAY        0XEF5B //浅灰色(PANNEL)
+#define LGRAY 			 0XC618 //浅灰色(PANNEL),窗体背景色
+
+#define LGRAYBLUE        0XA651 //浅灰蓝色(中间层颜色)
+#define LBBLUE           0X2B12 //浅棕蓝色(选择条目的反色)
+
+void LCD_Init(void);													   	//初始化
+void LCD_DisplayOn(void);													//开显示
+void LCD_DisplayOff(void);													//关显示
+void LCD_Clear(u16 Color);	 												//清屏
+void LCD_SetCursor(u16 Xpos, u16 Ypos);										//设置光标
+void LCD_DrawPoint(u16 x,u16 y);											//画点
+void LCD_Fast_DrawPoint(u16 x,u16 y,u16 color);								//快速画点
+u16  LCD_ReadPoint(u16 x,u16 y); 											//读点
+void LCD_Draw_Circle(u16 x0,u16 y0,u8 r);						 			//画圆
+void LCD_DrawLine(u16 x1, u16 y1, u16 x2, u16 y2);							//画线
+void LCD_DrawRectangle(u16 x1, u16 y1, u16 x2, u16 y2);		   				//画矩形
+void LCD_Fill(u16 sx,u16 sy,u16 ex,u16 ey,u16 color);		   				//填充单色
+void LCD_Color_Fill(u16 sx,u16 sy,u16 ex,u16 ey,u16 *color);				//填充指定颜色
+void LCD_ShowChar(u16 x,u16 y,u8 num,u8 size,u8 mode);						//显示一个字符
+void LCD_ShowNum(u16 x,u16 y,u32 num,u8 len,u8 size);  						//显示一个数字
+void LCD_ShowxNum(u16 x,u16 y,u32 num,u8 len,u8 size,u8 mode);				//显示 数字
+void LCD_ShowString(u16 x,u16 y,u16 width,u16 height,u8 size,u8 *p);		//显示一个字符串,12/16字体
+
+void LCD_WriteReg(u16 LCD_Reg, u16 LCD_RegValue);
+u16 LCD_ReadReg(u16 LCD_Reg);
+void LCD_WriteRAM_Prepare(void);
+void LCD_WriteRAM(u16 RGB_Code);
+void LCD_SSD_BackLightSet(u8 pwm);							//SSD1963 背光控制
+void LCD_Scan_Dir(u8 dir);									//设置屏扫描方向
+void LCD_Display_Dir(u8 dir);								//设置屏幕显示方向
+void LCD_Set_Window(u16 sx,u16 sy,u16 width,u16 height);	//设置窗口
+//LCD分辨率设置
+#define SSD_HOR_RESOLUTION		800		//LCD水平分辨率
+#define SSD_VER_RESOLUTION		480		//LCD垂直分辨率
+//LCD驱动参数设置
+#define SSD_HOR_PULSE_WIDTH		1		//水平脉宽
+#define SSD_HOR_BACK_PORCH		46		//水平前廊
+#define SSD_HOR_FRONT_PORCH		210		//水平后廊
+
+#define SSD_VER_PULSE_WIDTH		1		//垂直脉宽
+#define SSD_VER_BACK_PORCH		23		//垂直前廊
+#define SSD_VER_FRONT_PORCH		22		//垂直前廊
+//如下几个参数，自动计算
+#define SSD_HT	(SSD_HOR_RESOLUTION+SSD_HOR_BACK_PORCH+SSD_HOR_FRONT_PORCH)
+#define SSD_HPS	(SSD_HOR_BACK_PORCH)
+#define SSD_VT 	(SSD_VER_RESOLUTION+SSD_VER_BACK_PORCH+SSD_VER_FRONT_PORCH)
+#define SSD_VPS (SSD_VER_BACK_PORCH)
+
 #endif
-#ifndef GLCD_MIRROR_Y
-#define GLCD_MIRROR_Y   1               /* Mirror Y axis = 1:yes, 0:no */
-#endif
-#ifndef GLCD_SWAP_XY
-#define GLCD_SWAP_XY    0               /* Swap X&Y axis = 1:yes, 0:no */
-#endif
 
-/*---------------------- Graphic LCD physical definitions --------------------*/
-#define GLCD_SIZE_X     240             /* Screen size X (in pixels) */
-#define GLCD_SIZE_Y     320             /* Screen size Y (in pixels) */
-#define GLCD_BPP        16              /* Bits per pixel            */
-#define BYPP ((GLCD_BPP + 7) / 8)       /* Bytes per pixel                    */
 
-#if    (GLCD_SWAP_XY)
-#define GLCD_WIDTH      GLCD_SIZE_Y     /* Screen Width  (in pixels) */
-#define GLCD_HEIGHT     GLCD_SIZE_X     /* Screen Height (in pixels) */
-#else
-#define GLCD_WIDTH      GLCD_SIZE_X     /* Screen Width  (in pixels) */
-#define GLCD_HEIGHT     GLCD_SIZE_Y     /* Screen Height (in pixels) */
-#endif
 
-/*---------------------- Graphic LCD color definitions -----------------------*/
-/* Color coding (16-bit):
-     15..11 = R4..0 (Red)
-     10..5  = G5..0 (Green)
-      4..0  = B4..0 (Blue)
-*/
-
-/* GLCD RGB color definitions                            */
-#define GLCD_COLOR_BLACK        0x0000  /*   0,   0,   0 */
-#define GLCD_COLOR_NAVY         0x000F  /*   0,   0, 128 */
-#define GLCD_COLOR_DARK_GREEN   0x03E0  /*   0, 128,   0 */
-#define GLCD_COLOR_DARK_CYAN    0x03EF  /*   0, 128, 128 */
-#define GLCD_COLOR_MAROON       0x7800  /* 128,   0,   0 */
-#define GLCD_COLOR_PURPLE       0x780F  /* 128,   0, 128 */
-#define GLCD_COLOR_OLIVE        0x7BE0  /* 128, 128,   0 */
-#define GLCD_COLOR_LIGHT_GREY   0xC618  /* 192, 192, 192 */
-#define GLCD_COLOR_DARK_GREY    0x7BEF  /* 128, 128, 128 */
-#define GLCD_COLOR_BLUE         0x001F  /*   0,   0, 255 */
-#define GLCD_COLOR_GREEN        0x07E0  /*   0, 255,   0 */
-#define GLCD_COLOR_CYAN         0x07FF  /*   0, 255, 255 */
-#define GLCD_COLOR_RED          0xF800  /* 255,   0,   0 */
-#define GLCD_COLOR_MAGENTA      0xF81F  /* 255,   0, 255 */
-#define GLCD_COLOR_YELLOW       0xFFE0  /* 255, 255, 0   */
-#define GLCD_COLOR_WHITE        0xFFFF  /* 255, 255, 255 */
-
-/* LCD /CS is NE4 - Bank 4 of NOR/SRAM Bank 1~4                               */
-//#define LCD_BASE (0x60000000UL | 0x0C000000UL)
-//use NOR/SRAM Bank1.sector4,address bit HADDR[27,26]=11 A6 use data/cmd identify line
-//STM32 HW will move right 1 bit 111 1110=0X7E
-#define LCD_BASE ((uint32_t)(0x6C000000 | 0x0000007E))
-#define LCD_REG16  (*((volatile uint16_t *)(LCD_BASE  ))) // LCD register address
-#define LCD_DAT16  (*((volatile uint16_t *)(LCD_BASE+2))) // LCD data address
-
-#define BG_COLOR 0  /* Background color                   */
-#define TXT_COLOR 1 /* Text color                         */
-
-/*-----------------------------------------------------------------------------------
-  Exported variables
------------------------------------------------------------------------------------*/
-//extern const LCD_UTILS_Drv_t LCD_Driver;
-
-/*-----------------------------------------------------------------------------------
-  Exported functions
------------------------------------------------------------------------------------*/
-extern void GLCD_Init(void);
-extern int32_t  GLCD_SetForegroundColor  (uint32_t color);
-extern int32_t  GLCD_SetBackgroundColor  (uint32_t color);
-extern int32_t  GLCD_ClearScreen         (void);
-extern int32_t  GLCD_SetFont             (GLCD_FONT *font);
-extern int32_t  GLCD_DrawPixel           (uint32_t x, uint32_t y);
-extern int32_t  GLCD_DrawHLine           (uint32_t x, uint32_t y, uint32_t length);
-extern int32_t  GLCD_DrawVLine           (uint32_t x, uint32_t y, uint32_t length);
-extern int32_t  GLCD_DrawRectangle       (uint32_t x, uint32_t y, uint32_t width, uint32_t height);
-extern int32_t  GLCD_DrawChar            (uint32_t x, uint32_t y, int32_t  ch);
-extern int32_t  GLCD_DrawString          (uint32_t x, uint32_t y, const char *str);
-extern int32_t  GLCD_DrawBargraph        (uint32_t x, uint32_t y, uint32_t width, uint32_t height, uint32_t val);
-extern int32_t  GLCD_DrawBitmap          (uint32_t x, uint32_t y, uint32_t width, uint32_t height, const uint8_t *bitmap);
-extern int32_t  GLCD_VScroll             (uint32_t dy);
-extern int32_t  GLCD_FrameBufferAccess   (bool enable);
-
-#endif /* _LCD_H_ */
 
 
