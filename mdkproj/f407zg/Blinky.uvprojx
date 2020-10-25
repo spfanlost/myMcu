@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F407xx</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32F4xx\Include;..\..\src\mcu;..\..\src\msic;..\..\src\driver;..\..\src\driver\lcd;..\..\src\bsp\myf407;..\..\src\res</IncludePath>
+              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32F4xx\Include;..\..\src\mcu;..\..\src\msic;..\..\src\bus;..\..\src\driver;..\..\src\driver\lcd;..\..\src\bsp\myf407;..\..\src\res</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -427,6 +427,11 @@
               <FileName>bsp_myf407_lcd.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\src\bsp\myf407\bsp_myf407_lcd.c</FilePath>
+            </File>
+            <File>
+              <FileName>touch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\driver\lcd\touch.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -928,6 +933,11 @@
               <FileName>bsp_myf407_lcd.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\src\bsp\myf407\bsp_myf407_lcd.c</FilePath>
+            </File>
+            <File>
+              <FileName>touch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\driver\lcd\touch.c</FilePath>
             </File>
           </Files>
         </Group>

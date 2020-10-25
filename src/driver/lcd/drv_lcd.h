@@ -6,12 +6,49 @@
 #include "bsp_myf407_lcd.h"
 #endif
 
+enum bus_lcd_type
+{
+    BUS_LCD_SPI = 0,
+    BUS_LCD_I2C ,
+    BUS_LCD_16B ,
+};
 
 struct bsp_lcd
 {
+    enum bus_lcd_type bus_type;
     void    (*lcd_bus_init  )(void);
     dword_t (*lcd_bl        )(byte_t);
+    dword_t (*write_cmd     )(word_t);
+    dword_t (*write_data    )(byte_t *, dword_t);
+    dword_t (*read_data     )(byte_t *, dword_t);
 };
+
+typedef struct
+{
+  /* Control functions */
+  int32_t (*Init             )(void*, uint32_t, uint32_t);
+  int32_t (*DeInit           )(void*);
+  int32_t (*ReadID           )(void*, uint32_t*);
+  int32_t (*DisplayOn        )(void*);
+  int32_t (*DisplayOff       )(void*);
+  int32_t (*SetBrightness    )(void*, uint32_t);
+  int32_t (*GetBrightness    )(void*, uint32_t*);
+  int32_t (*SetOrientation   )(void*, uint32_t);
+  int32_t (*GetOrientation   )(void*, uint32_t*);
+
+  /* Drawing functions*/
+  int32_t ( *SetCursor       ) (void*, uint32_t, uint32_t);
+  int32_t ( *DrawBitmap      ) (void*, uint32_t, uint32_t, uint8_t *);
+  int32_t ( *FillRGBRect     ) (void*, uint32_t, uint32_t, uint8_t*, uint32_t, uint32_t);
+  int32_t ( *DrawHLine       ) (void*, uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *DrawVLine       ) (void*, uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *FillRect        ) (void*, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
+  int32_t ( *GetPixel        ) (void*, uint32_t, uint32_t, uint32_t*);
+  int32_t ( *SetPixel        ) (void*, uint32_t, uint32_t, uint32_t);
+  int32_t ( *GetXSize        ) (void*, uint32_t *);
+  int32_t ( *GetYSize        ) (void*, uint32_t *);
+}lcd_drv_t;
+
 
 //LCD重要参数集
 typedef struct
@@ -30,20 +67,6 @@ extern _lcd_dev lcddev;	//管理LCD重要参数
 //LCD的画笔颜色和背景色
 extern u16  POINT_COLOR;//默认红色
 extern u16  BACK_COLOR; //背景颜色.默认为白色
-
-
-//////////////////////////////////////////////////////////////////////////////////
-//-----------------LCD端口定义----------------
-#define	LCD_LED PBout(15)  		//LCD背光    		 PB15
-//LCD地址结构体
-typedef struct
-{
-	vu16 LCD_REG;
-	vu16 LCD_RAM;
-} LCD_TypeDef;
-#define LCD_BASE        MYF407_LCD_BASE
-#define LCD             ((LCD_TypeDef *) LCD_BASE)
-//////////////////////////////////////////////////////////////////////////////////
 
 //扫描方向定义
 #define L2R_U2D  0 //从左到右,从上到下
@@ -92,18 +115,18 @@ void LCD_DisplayOn(void);													//开显示
 void LCD_DisplayOff(void);													//关显示
 void LCD_Clear(u16 Color);	 												//清屏
 void LCD_SetCursor(u16 Xpos, u16 Ypos);										//设置光标
-void LCD_DrawPoint(u16 x,u16 y);											//画点
+void LCD_DrawPoint(u16 x,u16 y,u16 Color);											//画点
 void LCD_Fast_DrawPoint(u16 x,u16 y,u16 color);								//快速画点
 u16  LCD_ReadPoint(u16 x,u16 y); 											//读点
-void LCD_Draw_Circle(u16 x0,u16 y0,u8 r);						 			//画圆
-void LCD_DrawLine(u16 x1, u16 y1, u16 x2, u16 y2);							//画线
-void LCD_DrawRectangle(u16 x1, u16 y1, u16 x2, u16 y2);		   				//画矩形
+void LCD_Draw_Circle(u16 x0,u16 y0,u8 r,u16 Color);						 			//画圆
+void LCD_DrawLine(u16 x1, u16 y1, u16 x2, u16 y2,u16 Color);							//画线
+void LCD_DrawRectangle(u16 x1, u16 y1, u16 x2, u16 y2,u16 Color);		   				//画矩形
 void LCD_Fill(u16 sx,u16 sy,u16 ex,u16 ey,u16 color);		   				//填充单色
 void LCD_Color_Fill(u16 sx,u16 sy,u16 ex,u16 ey,u16 *color);				//填充指定颜色
-void LCD_ShowChar(u16 x,u16 y,u8 num,u8 size,u8 mode);						//显示一个字符
-void LCD_ShowNum(u16 x,u16 y,u32 num,u8 len,u8 size);  						//显示一个数字
-void LCD_ShowxNum(u16 x,u16 y,u32 num,u8 len,u8 size,u8 mode);				//显示 数字
-void LCD_ShowString(u16 x,u16 y,u16 width,u16 height,u8 size,u8 *p);		//显示一个字符串,12/16字体
+void LCD_ShowChar(u16 x,u16 y,u8 num,u8 size,u8 mode,u16 Color);						//显示一个字符
+void LCD_ShowNum(u16 x,u16 y,u32 num,u8 len,u8 size,u16 Color);  						//显示一个数字
+void LCD_ShowxNum(u16 x,u16 y,u32 num,u8 len,u8 size,u8 mode,u16 Color);				//显示 数字
+void LCD_ShowString(u16 x,u16 y,u16 width,u16 height,u8 size,u8 *p,u16 Color);		//显示一个字符串,12/16字体
 
 void LCD_WriteReg(u16 LCD_Reg, u16 LCD_RegValue);
 u16 LCD_ReadReg(u16 LCD_Reg);

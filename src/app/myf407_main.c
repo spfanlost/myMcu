@@ -16,6 +16,7 @@
 #include "drv_led.h"
 #if defined(USE_LCD_EN)
 #include "drv_lcd.h"
+#include "touch.h"
 #include "mylogo.h"
 #endif
 
@@ -76,8 +77,10 @@ int main(void)
 //    GLCD_DrawString         (0, 2*24, " www.keil.com ");
 #endif
  	LCD_Init();
+ 	TP_Init();
 	POINT_COLOR=RED;
 	sprintf((char*)lcd_id,"LCD ID:%04X",lcddev.id);//将LCD ID打印到lcd_id数组。
+//	GLCD_DrawBitmap(24, 6*24 , 107, 107, (unsigned char*)mylogo);
   	while(1)
 	{
 		switch(x)
@@ -96,11 +99,11 @@ int main(void)
 			case 11:LCD_Clear(BROWN);break;
 		}
 		POINT_COLOR=RED;
-		LCD_ShowString(10,40,240,24,24,"Apollo STM32");
-		LCD_ShowString(10,80,240,24,24,"TFTLCD TEST");
-		LCD_ShowString(10,110,240,16,16,"ATOM@ALIENTEK");
- 		LCD_ShowString(10,130,240,16,16,lcd_id);		//显示LCD ID
-		LCD_ShowString(10,150,240,12,12,"2015/12/9");
+		LCD_ShowString(10,40,240,24,24,"Apollo STM32",POINT_COLOR);
+		LCD_ShowString(10,80,240,24,24,"TFTLCD TEST",POINT_COLOR);
+		LCD_ShowString(10,110,240,16,16,"ATOM@ALIENTEK",POINT_COLOR);
+ 		LCD_ShowString(10,130,240,16,16,lcd_id,POINT_COLOR);		//显示LCD ID
+		LCD_ShowString(10,150,240,12,12,"2015/12/9",POINT_COLOR);
 	    x++;
 		if(x==12)x=0;
         drv_led_toggle(LED1_PIN|LED2_PIN);

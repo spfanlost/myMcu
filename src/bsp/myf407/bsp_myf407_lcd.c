@@ -28,16 +28,23 @@
 /*-----------------------------------------------------------------------------------
   Local functions declaration
 -----------------------------------------------------------------------------------*/
-dword_t drv_lcd_ili9341_bl(byte_t sta);
-void drv_lcd_ili9341_bus_init(void);
+dword_t bsp_lcd_ili9341_bl(byte_t sta);
+void bsp_lcd_ili9341_bus_init(void);
+dword_t bsp_lcd_ili9341_write_cmd(word_t cmd);
+dword_t bsp_lcd_ili9341_write_data(byte_t *data, dword_t cnt);
+dword_t bsp_lcd_ili9341_read_data(byte_t *data, dword_t cnt);
 
 /*-----------------------------------------------------------------------------------
   Local functions definition
 -----------------------------------------------------------------------------------*/
 struct bsp_lcd bsp_myf407_lcd =
 {
-    drv_lcd_ili9341_bus_init,
-    drv_lcd_ili9341_bl,
+    BUS_LCD_16B,
+    bsp_lcd_ili9341_bus_init,
+    bsp_lcd_ili9341_bl,
+    bsp_lcd_ili9341_write_cmd,
+    bsp_lcd_ili9341_write_data,
+    bsp_lcd_ili9341_read_data,
 };
 
 /**
@@ -45,7 +52,7 @@ struct bsp_lcd bsp_myf407_lcd =
  * @param  sta: 1: turn on Backlight;0:turn off Backlight
  * @note:  call
  */
-dword_t drv_lcd_ili9341_bl(byte_t sta)
+dword_t bsp_lcd_ili9341_bl(byte_t sta)
 {
     if(sta)
     {
@@ -58,15 +65,15 @@ dword_t drv_lcd_ili9341_bl(byte_t sta)
     return SUCCESS;
 }
 
-dword_t drv_lcd_ili9341_bl_init(void)
+dword_t bsp_lcd_ili9341_bl_init(void)
 {
     mcu_io_clk_enable(GPIOB_CLK);
     mcu_io_config(GPIOB, PIN15, GPIO_MODE_OUT, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_PU);
-    drv_lcd_ili9341_bl(FALSE);
+    bsp_lcd_ili9341_bl(FALSE);
     return SUCCESS;
 }
 
-void drv_lcd_ili9341_fsmc_init(void)
+void bsp_lcd_ili9341_fsmc_init(void)
 {
 
     RCC->AHB3ENR |= (1UL << 0);     /* Enable FSMC clock                  */
@@ -98,7 +105,7 @@ void drv_lcd_ili9341_fsmc_init(void)
     (0 << 1) |  /* Address/Data Multiplexing disable  */
     (1 << 0);   /* Memory Bank enable                 */
 }
-static void drv_lcd_ili9341_fsmc_gpio_init(void)
+static void bsp_lcd_ili9341_fsmc_gpio_init(void)
 {
     static dword_t fsmc_inited = 0;
     if(fsmc_inited)
@@ -143,10 +150,39 @@ static void drv_lcd_ili9341_fsmc_gpio_init(void)
     mcu_io_af_config(GPIOG, 12, 12); //PE.12(NE4),AF12
 }
 
-void drv_lcd_ili9341_bus_init(void)
+void bsp_lcd_ili9341_bus_init(void)
 {
-    drv_lcd_ili9341_fsmc_init();
-    drv_lcd_ili9341_fsmc_gpio_init();
-    drv_lcd_ili9341_bl_init();
+    bsp_lcd_ili9341_fsmc_init();
+    bsp_lcd_ili9341_fsmc_gpio_init();
+    bsp_lcd_ili9341_bl_init();
+}
+
+
+dword_t bsp_lcd_ili9341_write_cmd(word_t cmd)
+{
+    LCD->LCD_REG=cmd;
+    return 0;
+}
+
+dword_t bsp_lcd_ili9341_write_data(byte_t *data, dword_t len)
+{
+    byte_t i;
+    word_t *p = (word_t *)data;
+    for(i=0; i<len; i++)
+    {
+        LCD->LCD_RAM=*(p++);
+    }
+    return 0;
+}
+
+dword_t bsp_lcd_ili9341_read_data(byte_t *data, dword_t len)
+{
+    byte_t i;
+    word_t *p = (word_t *)data;
+    for(i=0; i<len; i++)
+    {
+        *(p++) = LCD->LCD_RAM;
+    }
+    return 0;
 }
 
