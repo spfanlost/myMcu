@@ -545,8 +545,6 @@ void LCD_Fill(u16 sx,u16 sy,u16 ex,u16 ey,u16 color)
 {
 	u16 i,j;
 	u16 xlen=0;
-	u16 temp;
-
 	xlen=ex-sx+1;
 	for(i=sy;i<=ey;i++)
 	{

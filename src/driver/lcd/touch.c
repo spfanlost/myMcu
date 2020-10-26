@@ -25,8 +25,8 @@ u8 CMD_CHY=0X90;
 //X,Y方向与屏幕相反
 // u8 CMD_CHX=0X90;
 // u8 CMD_CHY=0XD0;
-char* TP_REMIND_MSG_TBL="Please use the stylus click the cross on the screen.The cross will always move until the screen adjustment is completed.";
-char* TP_REMIND_MSG_TBL1="Touch screen calibration failure,Please re calibrate the touch screen.";
+const char* TP_REMIND_MSG_TBL="Please use the stylus click the cross on the screen.The cross will always move until the screen adjustment is completed.";
+const char* TP_REMIND_MSG_TBL1="Touch screen calibration failure,Please re calibrate the touch screen.";
 
 signed short Coordinate_xy[4][2];//校准时，坐标缓存值
 
@@ -50,7 +50,7 @@ u8 CMD_RDY=0X90;
 #define STR_WIDTH		8		/* 字符宽度 */
 #define STR_HEIGHT		16		/* 字符高度 */
 
-void TP_ShowString(u16 x,u16 y,const u8 *pstr,u16 Color)
+void TP_ShowString(u16 x,u16 y,const char *pstr,u16 Color)
 {
     while(*pstr!='\0')
     {
@@ -109,8 +109,8 @@ u16 TP_Read_AD(u8 CMD)
 	{
 		Num<<=1;
 		TCLK_Low;	//下降沿有效
-	delay_us(1);
- 		TCLK_High;
+        delay_us(1);
+        TCLK_High;
  		if(DOUT)Num++;
 	}
 	Num>>=4;   	//只有高12位有效.
@@ -195,7 +195,6 @@ u8 Read_TP(u8 tp)
 {
     if(PEN==0)//有按键按下
     {
-        LOG_INFO("PEN==0\r\n");
         if(tp)
         {
             TP_Read_XY2(&Pen_data.X,&Pen_data.Y);//读取物理坐标
@@ -214,7 +213,7 @@ u8 Read_TP(u8 tp)
     {
         if(Pen_data.Key_Sta&Key_Down)//之前是被按下的
         {
-            Pen_data.Key_Sta = ~((uint32_t)1<<7);//标记按键松开
+            Pen_data.Key_Sta &= ~(Key_Down);//标记按键松开
         }
     }
     return Pen_data.Key_Sta;//返回当前的触屏状态
@@ -353,7 +352,8 @@ void Touch_Adjust(void)
             {							//触摸屏被按下
                 Coordinate_xy[cnt][0]=Pen_data.X;
                 Coordinate_xy[cnt][1]=Pen_data.Y;
-                Pen_data.Key_Sta&=~(1<<6);//标记按键已经被处理过了.
+                Pen_data.Key_Sta &= ~(TP_Key_Down);//标记按键已经被处理过了.
+
                 break;
             }
             // }
@@ -382,9 +382,9 @@ void Touch_Adjust(void)
 void TP_Init(void)
 {
     mcu_io_clk_enable(GPIOB_CLK|GPIOC_CLK|GPIOF_CLK);
-    mcu_io_config(GPIOB, PIN1|PIN2, GPIO_MODE_IN, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_PU);
-    mcu_io_config(GPIOB, PIN0, GPIO_MODE_OUT, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_PU);
-    mcu_io_config(GPIOC, PIN13, GPIO_MODE_OUT, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_PU);
-    mcu_io_config(GPIOF, PIN11, GPIO_MODE_OUT, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_PU);
+    mcu_io_config(GPIOB, PIN1|PIN2, GPIO_MODE_IN, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_RES);
+    mcu_io_config(GPIOB, PIN0, GPIO_MODE_OUT, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_RES);
+    mcu_io_config(GPIOC, PIN13, GPIO_MODE_OUT, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_RES);
+    mcu_io_config(GPIOF, PIN11, GPIO_MODE_OUT, GPIO_OTYPE_PP, GPIO_SPEED_50M, GPIO_PUPD_RES);
     Touch_Adjust();  	//屏幕校准
 }
