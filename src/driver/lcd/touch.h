@@ -17,7 +17,7 @@
 
 
 /* 液晶坐标结构体 */
-typedef	struct POINT
+typedef struct POINT
 {
    uint16_t x;
    uint16_t y;
@@ -26,25 +26,23 @@ typedef	struct POINT
 //笔杆结构体
 typedef struct
 {
-	u16 X0;//原始坐标
-	u16 Y0;
-	u16 X; //最终/暂存坐标
-	u16 Y;
-	u8  Key_Sta;//笔的状态
+    u16 X0;//原始坐标
+    u16 Y0;
+    u16 X; //最终/暂存坐标
+    u16 Y;
+    u8  Key_Sta;//笔的状态
 }Pen_Parameters;
 
 //触摸屏校准参数
-typedef struct
+struct touch_param
 {
-float xfac;
-float yfac;
-short xoff;
-short yoff;
+    float xfac;
+    float yfac;
+    short xoff;
+    short yoff;
+};
 
-}Touch_Adjust_Parameters;
-
-
-extern Touch_Adjust_Parameters Touch_date;
+extern struct touch_param Touch_date;
 extern Pen_Parameters Pen_data;
 
 
@@ -59,21 +57,19 @@ extern Pen_Parameters Pen_data;
 #define TCS_Low mcu_io_reset(GPIOC,PIN13) //PC13 CS
 #define TCS_High mcu_io_set(GPIOC,PIN13) //PC13 CS
 
-//电阻屏函数
-void TP_Write_Byte(u8 num);						//向控制芯片写入一个数据
-u16 TP_Read_AD(u8 CMD);							//读取AD转换值
-u16 TP_Read_XOY(u8 xy);							//带滤波的坐标读取(X/Y)
-u8 TP_Read_XY(u16 *x,u16 *y);					//双方向读取(X+Y)
-u8 TP_Read_XY2(u16 *x,u16 *y);					//带加强滤波的双方向坐标读取
+void TP_Write_Byte(u8 num);                     //向控制芯片写入一个数据
+u16 TP_Read_AD(u8 CMD);                         //读取AD转换值
+u16 TP_Read_XOY(u8 xy);                         //带滤波的坐标读取(X/Y)
+u8 TP_Read_XY(u16 *x,u16 *y);                   //双方向读取(X+Y)
+u8 TP_Read_XY2(u16 *x,u16 *y);                  //带加强滤波的双方向坐标读取
 void TP_Drow_Touch_Point(u16 x,u16 y,u16 color);//画一个坐标校准点
-void TP_Save_Adjdata(void);						//保存校准参数
-u8 TP_Get_Adjdata(void);						//读取校准参数
-void TP_Adj_Info_Show(u16 x0,u16 y0,u16 x1,u16 y1,u16 x2,u16 y2,u16 x3,u16 y3,u16 fac);//显示校准信息
-//电阻屏/电容屏 共用函数
-u8 Read_TP(u8 tp);							//扫描
-void TP_Init(void);
+void TP_Save_Adjdata(void);                     //保存校准参数
+u8 TP_Get_Adjdata(void);                        //读取校准参数
+u8 Read_TP(u8 tp);                          //扫描
+void touch_init(void);
 void Draw_Big_Circle(u8 x,u16 y,u16 Color);
-void Load_TFT_surface(void);
+void touch_load_draw_ui(void);
+
 #endif
 
 

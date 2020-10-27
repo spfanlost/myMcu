@@ -19,7 +19,7 @@
 #include "touch.h"
 #include "mylogo.h"
 #endif
-
+#include "app_param.h"
 /*-----------------------------------------------------------------------------------
   Private declaration
 -----------------------------------------------------------------------------------*/
@@ -41,7 +41,7 @@
 -----------------------------------------------------------------------------------*/
 
 //VECT_TAB_SRAM
-
+dword_t Save_DataTab[1024] = {0};
 
 char text[40];
 /* Import external variables from IRQ.c file                                  */
@@ -50,7 +50,10 @@ extern dword_t SystemCoreClock;
 
 byte_t flag = 1;
 
-
+void debug_msg(void)
+{
+    LOG_INFO ("touch_adj_done? %d\r\n", g_param.touch_adj_done);
+}
 /*----------------------------------------------------------------------------
       MAIN function
 *----------------------------------------------------------------------------*/
@@ -77,14 +80,12 @@ int main(void)
 //    GLCD_DrawString         (0, 2*24, " www.keil.com ");
 #endif
     LCD_Init();
-    TP_Init();
+    touch_init();
     Pen_data.Key_Sta=0;
-    Load_TFT_surface();
+    touch_load_draw_ui();
 
-// 	TOUCH_InitHard();
-//    TOUCH_Calibration();       /* 四点触摸校准 */
-	POINT_COLOR=RED;
-	sprintf((char*)lcd_id,"LCD ID:%04X",lcddev.id);//将LCD ID打印到lcd_id数组。
+    POINT_COLOR=RED;
+    sprintf((char*)lcd_id,"LCD ID:%04X",lcddev.id);//将LCD ID打印到lcd_id数组。
 //	GLCD_DrawBitmap(24, 6*24 , 107, 107, (unsigned char*)mylogo);
     while (1)
     {
@@ -95,7 +96,7 @@ int main(void)
             Pen_data.Key_Sta=0;
             if(Pen_data.X0>210&&Pen_data.Y0<20)
             {
-                Load_TFT_surface();//清除
+                touch_load_draw_ui();//清除
             }
             else if(Pen_data.X0>0&&Pen_data.Y0<20&&Pen_data.X0<30)
             {
