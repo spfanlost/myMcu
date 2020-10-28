@@ -112,11 +112,7 @@ void mcu_io_toggle(GPIO_TypeDef*GPIOx, dword_t pin)
 
 byte_t mcu_io_pin_val(GPIO_TypeDef*GPIOx, dword_t pin)
 {
-    if ((GPIOx->IDR & pin) == 0)
-    {
-        return 0;
-    }
-    return 1;
+     return((GPIOx->IDR & pin) == pin);
 }
 
 
