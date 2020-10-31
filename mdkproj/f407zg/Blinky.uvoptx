@@ -463,8 +463,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\src\driver\drv_led.c</PathWithFileName>
-      <FilenameWithoutPath>drv_led.c</FilenameWithoutPath>
+      <PathWithFileName>..\..\src\bsp\myf407\bsp_myf407_led.c</PathWithFileName>
+      <FilenameWithoutPath>bsp_myf407_led.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -475,8 +475,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\src\bsp\myf407\bsp_myf407_led.c</PathWithFileName>
-      <FilenameWithoutPath>bsp_myf407_led.c</FilenameWithoutPath>
+      <PathWithFileName>..\..\src\bsp\myf407\bsp_myf407_lcd.c</PathWithFileName>
+      <FilenameWithoutPath>bsp_myf407_lcd.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -487,8 +487,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\src\driver\lcd\drv_lcd.c</PathWithFileName>
-      <FilenameWithoutPath>drv_lcd.c</FilenameWithoutPath>
+      <PathWithFileName>..\..\src\driver\drv_led.c</PathWithFileName>
+      <FilenameWithoutPath>drv_led.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -499,8 +499,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\src\bsp\myf407\bsp_myf407_lcd.c</PathWithFileName>
-      <FilenameWithoutPath>bsp_myf407_lcd.c</FilenameWithoutPath>
+      <PathWithFileName>..\..\src\driver\lcd\drv_lcd.c</PathWithFileName>
+      <FilenameWithoutPath>drv_lcd.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

@@ -40,7 +40,7 @@ struct app_param
 {
     uint32_t version;
     uint32_t touch_adj_done;
-    struct touch_param touch_dat;
+    struct touch_dat_param touch_dat;
 };
 
 extern struct app_param g_param;

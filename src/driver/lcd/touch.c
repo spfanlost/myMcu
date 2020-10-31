@@ -8,15 +8,15 @@
 #include "touch.h"
 #include "app_param.h"
 
-Pen_Parameters Pen_data;
-struct touch_param Touch_date;
+struct touch_pen_param pen_dat;
+struct touch_dat_param touch_dat;
 
 //X,Y方向与屏幕相同
-u8 CMD_CHX=0XD0;
-u8 CMD_CHY=0X90;
+uint8_t CMD_CHX=0XD0;
+uint8_t CMD_CHY=0X90;
 //X,Y方向与屏幕相反
-// u8 CMD_CHX=0X90;
-// u8 CMD_CHY=0XD0;
+// uint8_t CMD_CHX=0X90;
+// uint8_t CMD_CHY=0XD0;
 const char* TP_REMIND_MSG_TBL="Please use the stylus click the cross on the screen.The cross will always move until the screen adjustment is completed.";
 const char* TP_REMIND_MSG_TBL1="Touch screen calibration failure,Please re calibrate the touch screen.";
 
@@ -31,8 +31,8 @@ Coordinate DisplaySample[4] =
 };
 
 //默认为touchtype=0的数据.
-u8 CMD_RDX=0XD0;
-u8 CMD_RDY=0X90;
+uint8_t CMD_RDX=0XD0;
+uint8_t CMD_RDY=0X90;
 
 #define MAX_CHAR_POSX 232
 #define MAX_CHAR_POSY 312
@@ -41,31 +41,30 @@ u8 CMD_RDY=0X90;
 
 static void touch_save_param(void)
 {
-    memcpy (&g_param.touch_dat, &Touch_date, sizeof(struct touch_param));
+    memcpy (&g_param.touch_dat, &touch_dat, sizeof(struct touch_dat_param));
     g_param.touch_adj_done = TRUE;
     app_save_param();
 }
 static dword_t touch_load_param(void)
 {
     app_load_param();
-    memcpy (&Touch_date, &g_param.touch_dat, sizeof(struct touch_param));
+    memcpy (&touch_dat, &g_param.touch_dat, sizeof(struct touch_dat_param));
     return g_param.touch_adj_done;
 }
 
-
-void TP_ShowString(u16 x,u16 y,const char *pstr,u16 Color)
+void touch_show_string(uint16_t x,uint16_t y,const char *pstr,uint16_t Color)
 {
     while(*pstr!='\0')
     {
         if(x>MAX_CHAR_POSX)
         {
-         x=0;
+            x=0;
             y+=STR_HEIGHT;
         }
         if(y>MAX_CHAR_POSY)
         {
-         y=x=0;
-        LCD_Clear(WHITE);
+            y=x=0;
+            LCD_Clear(WHITE);
         }
         //LCD_ShowChar(x,y,*pstr,16,0,Color);
         LCD_ShowChar(x,y,*pstr,16,0,Color);
@@ -77,35 +76,37 @@ void TP_ShowString(u16 x,u16 y,const char *pstr,u16 Color)
 //SPI写数据
 //向触摸屏IC写入1byte数据
 //num:要写入的数据
-void TP_Write_Byte(u8 num)
+void touch_write_byte(uint8_t dat)
 {
-    u8 count=0;
+    uint8_t count=0;
     for(count=0;count<8;count++)
     {
-        if(num&0x80)TDIN_High;
-        else TDIN_Low;
-        num<<=1;
+        if(dat&0x80)
+            TDIN_High;
+        else
+            TDIN_Low;
+        dat<<=1;
         TCLK_Low;
         delay_us(1);
-        TCLK_High;      //上升沿有效
+        TCLK_High;
     }
 }
 //SPI读数据
 //从触摸屏IC读取adc值
 //CMD:指令
 //返回值:读到的数据
-u16 TP_Read_AD(u8 CMD)
+uint16_t touch_read_ad(uint8_t cmd)
 {
-    u8 count=0;
-    u16 Num=0;
+    uint8_t count=0;
+    uint16_t Num=0;
     TCLK_Low;       //先拉低时钟
-    TDIN_Low;   //拉低数据线
+    TDIN_Low;       //拉低数据线
     TCS_Low;        //选中触摸屏IC
-    TP_Write_Byte(CMD);//发送命令字
-    delay_us(6);//ADS7846的转换时间最长为6us
+    touch_write_byte(cmd);//发送命令字
+    delay_us(6);    //ADS7846的转换时间最长为6us
     TCLK_Low;
     delay_us(1);
-    TCLK_High;  //给1个时钟，清除BUSY
+    TCLK_High;      //给1个时钟，清除BUSY
     delay_us(1);
     TCLK_Low;
     for(count=0;count<16;count++)//读出16位数据,只有高12位有效
@@ -114,9 +115,10 @@ u16 TP_Read_AD(u8 CMD)
         TCLK_Low;   //下降沿有效
         delay_us(1);
         TCLK_High;
-        if(DOUT)Num++;
+        if(DOUT)
+            Num++;
     }
-    Num>>=4;    //只有高12位有效.
+    Num>>=4;        //只有高12位有效.
     TCS_High;       //释放片选
     return(Num);
 }
@@ -127,13 +129,14 @@ u16 TP_Read_AD(u8 CMD)
 //返回值:读到的数据
 #define READ_TIMES 5    //读取次数
 #define LOST_VAL 1      //丢弃值
-u16 TP_Read_XOY(u8 xy)
+uint16_t touch_dead_xory(uint8_t xy)
 {
-    u16 i, j;
-    u16 buf[READ_TIMES];
-    u16 sum=0;
-    u16 temp;
-    for(i=0;i<READ_TIMES;i++)buf[i]=TP_Read_AD(xy);
+    uint16_t i, j;
+    uint16_t buf[READ_TIMES];
+    uint16_t sum=0;
+    uint16_t temp;
+    for(i=0;i<READ_TIMES;i++)
+        buf[i]=touch_read_ad(xy);
     for(i=0;i<READ_TIMES-1; i++)//排序
     {
         for(j=i+1;j<READ_TIMES;j++)
@@ -147,7 +150,8 @@ u16 TP_Read_XOY(u8 xy)
         }
     }
     sum=0;
-    for(i=LOST_VAL;i<READ_TIMES-LOST_VAL;i++)sum+=buf[i];
+    for(i=LOST_VAL;i<READ_TIMES-LOST_VAL;i++)
+        sum+=buf[i];
     temp=sum/(READ_TIMES-2*LOST_VAL);
     return temp;
 }
@@ -155,11 +159,11 @@ u16 TP_Read_XOY(u8 xy)
 //最小值不能少于100.
 //x,y:读取到的坐标值
 //返回值:0,失败;1,成功。
-u8 TP_Read_XY(u16 *x,u16 *y)
+uint8_t touch_read_xy(uint16_t *x,uint16_t *y)
 {
-    u16 xtemp,ytemp;
-    xtemp=TP_Read_XOY(CMD_RDX);
-    ytemp=TP_Read_XOY(CMD_RDY);
+    uint16_t xtemp,ytemp;
+    xtemp=touch_dead_xory(CMD_RDX);
+    ytemp=touch_dead_xory(CMD_RDY);
     //if(xtemp<100||ytemp<100)return 0;//读数失败
     *x=xtemp;
     *y=ytemp;
@@ -171,17 +175,19 @@ u8 TP_Read_XY(u16 *x,u16 *y)
 //x,y:读取到的坐标值
 //返回值:0,失败;1,成功。
 #define ERR_RANGE 50 //误差范围
-u8 TP_Read_XY2(u16 *x,u16 *y)
+uint8_t touch_read_xy2(uint16_t *x,uint16_t *y)
 {
-    u16 x1,y1;
-    u16 x2,y2;
-    u8 flag;
-    flag=TP_Read_XY(&x1,&y1);
-    if(flag==0)return(0);
-    flag=TP_Read_XY(&x2,&y2);
-    if(flag==0)return(0);
+    uint16_t x1,y1;
+    uint16_t x2,y2;
+    uint8_t flag;
+    flag=touch_read_xy(&x1,&y1);
+    if(flag==0)
+        return(0);
+    flag=touch_read_xy(&x2,&y2);
+    if(flag==0)
+        return(0);
     if(((x2<=x1&&x1<x2+ERR_RANGE)||(x1<=x2&&x2<x1+ERR_RANGE))//前后两次采样在+-50内
-    &&((y2<=y1&&y1<y2+ERR_RANGE)||(y1<=y2&&y2<y1+ERR_RANGE)))
+        &&((y2<=y1&&y1<y2+ERR_RANGE)||(y1<=y2&&y2<y1+ERR_RANGE)))
     {
         *x=(x1+x2)/2;
         *y=(y1+y2)/2;
@@ -194,39 +200,39 @@ u8 TP_Read_XY2(u16 *x,u16 *y)
 //tp:0,屏幕坐标;1,物理坐标(校准等特殊场合用)
 //返回值:当前触屏状态.
 //0,触屏无触摸;1,触屏有触摸
-u8 Read_TP(u8 tp)
+uint8_t touch_scan(uint8_t tp)
 {
     if(PEN==0)//有按键按下
     {
         if(tp)
         {
-            TP_Read_XY2(&Pen_data.X,&Pen_data.Y);//读取物理坐标
+            touch_read_xy2(&pen_dat.X,&pen_dat.Y);//读取物理坐标
         }
-        else if(TP_Read_XY2(&Pen_data.X,&Pen_data.Y))//读取屏幕坐标
+        else if(touch_read_xy2(&pen_dat.X,&pen_dat.Y))//读取屏幕坐标
         {
-            Pen_data.X0=Touch_date.xfac*(Pen_data.X)+Touch_date.xoff;
-            Pen_data.Y0=Touch_date.yfac*(Pen_data.Y)+Touch_date.yoff;
+            pen_dat.X0=touch_dat.xfac*(pen_dat.X)+touch_dat.xoff;
+            pen_dat.Y0=touch_dat.yfac*(pen_dat.Y)+touch_dat.yoff;
         }
-        if((Pen_data.Key_Sta&Key_Down)==0)//之前没有被按下
+        if((pen_dat.Key_Sta&Key_Down)==0)//之前没有被按下
         {
-            Pen_data.Key_Sta=Key_Down|TP_Key_Down;
+            pen_dat.Key_Sta=Key_Down|TP_Key_Down;
         }
     }
     else
     {
-        if(Pen_data.Key_Sta&Key_Down)//之前是被按下的
+        if(pen_dat.Key_Sta&Key_Down)//之前是被按下的
         {
-            Pen_data.Key_Sta &= ~(Key_Down);//标记按键松开
+            pen_dat.Key_Sta &= ~(Key_Down);//标记按键松开
         }
     }
-    return Pen_data.Key_Sta;//返回当前的触屏状态
+    return pen_dat.Key_Sta;//返回当前的触屏状态
 }
 
 //////////////////////////////////////////////////
 //与LCD部分有关的函数
 //画一个触摸点
 //用来校准用的
-void Draw_Touch_Coordinate(u8 x,u16 y,u16 Color)
+void touch_draw_Coordinate(uint8_t x,uint16_t y,uint16_t Color)
 {
     LCD_DrawLine(x-12,y,x+13,y,Color);//横线
     LCD_DrawLine(x,y-12,x,y+13,Color);//竖线
@@ -238,7 +244,7 @@ void Draw_Touch_Coordinate(u8 x,u16 y,u16 Color)
 }
 //画一个大点
 //2*2的点
-void Draw_Big_Circle(u8 x,u16 y,u16 Color)
+void touch_draw_point(uint8_t x,uint16_t y,uint16_t Color)
 {
     LCD_DrawPoint(x,y,Color);//中心点
     LCD_DrawPoint(x+1,y,Color);
@@ -257,24 +263,24 @@ void touch_load_draw_ui(void)
     LCD_Fill(150,0,180,20,GRAY);
     LCD_Fill(180,0,210,20,BROWN);
     POINT_COLOR=BLUE;//设置字体为蓝色
-    TP_ShowString(216,0,"CLR",POINT_COLOR);//显示清屏区域
+    touch_show_string(216,0,"CLR",POINT_COLOR);//显示清屏区域
   //POINT_COLOR=RED;//设置画笔蓝色
 }
 
 //计算两坐标点间距离
-u16 Calculation_distance(signed short *point1,signed short *point2)
+uint16_t Calculation_distance(signed short *point1,signed short *point2)
 {
-  u32 tem1,tem2;
+    u32 tem1,tem2;
     tem1=abs(point1[0]-point2[0]);//x1-x2
     tem2=abs(point1[1]-point2[1]);//y1-y2
-  return sqrt(tem1*tem1+tem2*tem2);//得到两点距离的距离
+    return sqrt(tem1*tem1+tem2*tem2);//得到两点距离的距离
 }
 
 ///触摸屏校准，计数水平，垂直，对角线误差
 #define Calibration_Error 3
-u8 touch_Calibration_Calculation(void)
+uint8_t touch_Calibration_Calculation(void)
 {
-    u16 d1,d2;
+    uint16_t d1,d2;
     float fac;
     //水平方向距离
     d1=Calculation_distance(Coordinate_xy[0],Coordinate_xy[1]);
@@ -307,33 +313,32 @@ u8 touch_Calibration_Calculation(void)
 }
 
 
-
 //计算校准参数
 
 void touch_Calibration(void)
 {
     //水平方向LCD两点的实际距离DisplaySample[1].x-DisplaySample[0].x，触摸屏上的距离Coordinate_xy[1][0]-Coordinate_xy[0][0]
 
-    Touch_date.xfac=(float)(DisplaySample[1].x-DisplaySample[0].x)/(Coordinate_xy[1][0]-Coordinate_xy[0][0]);
-    Touch_date.xoff=((DisplaySample[1].x+DisplaySample[0].x)-Touch_date.xfac*(Coordinate_xy[1][0]+Coordinate_xy[0][0]))/2;//得到xoff
+    touch_dat.xfac=(float)(DisplaySample[1].x-DisplaySample[0].x)/(Coordinate_xy[1][0]-Coordinate_xy[0][0]);
+    touch_dat.xoff=((DisplaySample[1].x+DisplaySample[0].x)-touch_dat.xfac*(Coordinate_xy[1][0]+Coordinate_xy[0][0]))/2;//得到xoff
 
-    Touch_date.yfac=(float)(DisplaySample[2].y-DisplaySample[0].y)/(Coordinate_xy[2][1]-Coordinate_xy[0][1]);//得到yfac
-    Touch_date.yoff=((DisplaySample[2].y+DisplaySample[0].y)-Touch_date.yfac*(Coordinate_xy[2][1]+Coordinate_xy[0][1]))/2;//得到yoff
+    touch_dat.yfac=(float)(DisplaySample[2].y-DisplaySample[0].y)/(Coordinate_xy[2][1]-Coordinate_xy[0][1]);//得到yfac
+    touch_dat.yoff=((DisplaySample[2].y+DisplaySample[0].y)-touch_dat.yfac*(Coordinate_xy[2][1]+Coordinate_xy[0][1]))/2;//得到yoff
 }
 
 //触摸屏校准代码
 //得到四个校准参数
 void touch_adjust(void)
 {
-    u8  cnt=0;
-    u8 flag;
+    uint8_t  cnt=0;
+    uint8_t flag;
     cnt=0;
     BACK_COLOR =WHITE;
     LCD_Clear(WHITE);//清屏
     POINT_COLOR=RED;//红色
     flag=0;
 
-    Touch_date.xfac=0;//xfac用来标记是否校准过,所以校准之前必须清掉!以免错误
+    touch_dat.xfac=0;//xfac用来标记是否校准过,所以校准之前必须清掉!以免错误
 
     loop:
     for( cnt=0;cnt<4;cnt++)
@@ -341,21 +346,21 @@ void touch_adjust(void)
         LCD_Clear(WHITE);//清屏
         if(flag==0)
         {
-            TP_ShowString(35,80,TP_REMIND_MSG_TBL,POINT_COLOR);
+            touch_show_string(35,80,TP_REMIND_MSG_TBL,POINT_COLOR);
         }
         else
         {
-            TP_ShowString(35,80,TP_REMIND_MSG_TBL1,POINT_COLOR);
+            touch_show_string(35,80,TP_REMIND_MSG_TBL1,POINT_COLOR);
         }
-        Draw_Touch_Coordinate(DisplaySample[cnt].x,DisplaySample[cnt].y,POINT_COLOR);
+        touch_draw_Coordinate(DisplaySample[cnt].x,DisplaySample[cnt].y,POINT_COLOR);
         while(1)
         {
-            Read_TP(1);
-            if((Pen_data.Key_Sta&0xc0)==TP_Key_Down)//按键按下了一次(此时按键松开了.)
+            touch_scan(1);
+            if((pen_dat.Key_Sta&0xc0)==TP_Key_Down)//按键按下了一次(此时按键松开了.)
             {                           //触摸屏被按下
-                Coordinate_xy[cnt][0]=Pen_data.X;
-                Coordinate_xy[cnt][1]=Pen_data.Y;
-                Pen_data.Key_Sta &= ~(TP_Key_Down);//标记按键已经被处理过了.
+                Coordinate_xy[cnt][0]=pen_dat.X;
+                Coordinate_xy[cnt][1]=pen_dat.Y;
+                pen_dat.Key_Sta &= ~(TP_Key_Down);//标记按键已经被处理过了.
                 break;
             }
         }
@@ -366,13 +371,12 @@ void touch_adjust(void)
         flag=1;
         goto loop;
     }
-    //计算结果
     touch_Calibration();
 
     POINT_COLOR=BLUE;
-    TP_ShowString(35,110,"Touch Screen Adjust OK!",POINT_COLOR);//校正完成
+    touch_show_string(35,110,"Touch Screen Adjust OK!",POINT_COLOR);
     delay_ms(500);
-    LCD_Clear(WHITE);//清屏
+    LCD_Clear(WHITE);
 }
 
 void touch_init(void)
