@@ -13,6 +13,8 @@
 #ifndef _COMMON_TYPES_H_
 #define _COMMON_TYPES_H_
 
+typedef void (*fptr_t)(void);
+
 typedef signed char char_t;
 typedef signed short int short_t;
 typedef signed int int_t;

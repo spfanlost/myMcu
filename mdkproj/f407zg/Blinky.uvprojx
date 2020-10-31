@@ -393,6 +393,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\src\app\app_param.c</FilePath>
             </File>
+            <File>
+              <FileName>app_paint.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\app\app_paint.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -407,6 +412,11 @@
               <FileName>cmdline.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\src\msic\cmdline.c</FilePath>
+            </File>
+            <File>
+              <FileName>task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\msic\task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -909,6 +919,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\src\app\app_param.c</FilePath>
             </File>
+            <File>
+              <FileName>app_paint.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\app\app_paint.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -923,6 +938,11 @@
               <FileName>cmdline.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\src\msic\cmdline.c</FilePath>
+            </File>
+            <File>
+              <FileName>task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\msic\task.c</FilePath>
             </File>
           </Files>
         </Group>
