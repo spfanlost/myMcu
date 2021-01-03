@@ -53,6 +53,19 @@
 //#define __PASTE(x, y) __PASTE2(x, y)
 #endif
 
+#define SET_BIT(REG, BIT)     ((REG) |= (BIT))
+#define CLEAR_BIT(REG, BIT)   ((REG) &= ~(BIT))
+#define SET_BIT(REG, BIT)     ((REG) |= (BIT))
+#define CLEAR_BIT(REG, BIT)   ((REG) &= ~(BIT))
+#define READ_BIT(REG, BIT)    ((REG) & (BIT))
+#define CLEAR_REG(REG)        ((REG) = (0x0))
+#define WRITE_REG(REG, VAL)   ((REG) = (VAL))
+#define READ_REG(REG)         ((REG))
+#define MODIFY_REG(REG, CLEARMASK, SETMASK)  WRITE_REG((REG), (((READ_REG(REG)) & (~(CLEARMASK))) | (SETMASK)))
+#define POSITION_VAL(VAL)     (__CLZ(__RBIT(VAL)))
+
+#define UNUSED(x) ((void)(x))
+
 //#define __INT64_C_SUFFIX__ ll
 //#define __INT64_C(x)  (__PASTE(x, __INT64_C_SUFFIX__))
 //#define __UINT64_C(x)  (__PASTE(x ## u, __INT64_C_SUFFIX__))

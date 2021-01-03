@@ -424,7 +424,7 @@ void LCD_Init(void)
 		FSMC_Bank1E->BWTR[6]|=3<<0;		//地址建立时间(ADDSET)为3个HCLK =18ns
 		FSMC_Bank1E->BWTR[6]|=2<<8; 	//数据保存时间(DATAST)为6ns*3个HCLK=18ns
 	}
- 	printf(" LCD ID:%x\r\n",lcddev.id); //打印LCD ID
+	printf(" LCD ID:%x\r\n",lcddev.id); //打印LCD ID
 	if(lcddev.id==0X9341)	//9341初始化
 	{
 		LCD_WR_REG(0xCF);
@@ -456,8 +456,8 @@ void LCD_Init(void)
 		LCD_WR_REG(0xC1);    //Power control
 		LCD_WR_DATA(0x01);   //SAP[2:0];BT[3:0]
 		LCD_WR_REG(0xC5);    //VCM control
-		LCD_WR_DATA(0x30); 	 //3F
-		LCD_WR_DATA(0x30); 	 //3C
+		LCD_WR_DATA(0x30);   //3F
+		LCD_WR_DATA(0x30);   //3C
 		LCD_WR_REG(0xC7);    //VCM control2
 		LCD_WR_DATA(0XB7);
 		LCD_WR_REG(0x36);    // Memory Access Control
@@ -520,8 +520,8 @@ void LCD_Init(void)
 		delay_ms(120);
 		LCD_WR_REG(0x29); //display on
 	}
-	LCD_Display_Dir(0);		//默认为竖屏
-	lcd_bsp->lcd_bl(TRUE);				//点亮背光
+	LCD_Display_Dir(0);                 //默认为竖屏
+	lcd_bsp->lcd_bl(TRUE);              //点亮背光
 	LCD_Clear(WHITE);
 }
 //清屏函数
@@ -654,7 +654,7 @@ void LCD_ShowChar(u16 x,u16 y,u8 num,u8 size,u8 mode,u16 Color)
     u8 temp,t1,t;
 	u16 y0=y;
 	u8 csize=(size/8+((size%8)?1:0))*(size/2);		//得到字体一个字符对应点阵集所占的字节数
- 	num=num-' ';//得到偏移后的值（ASCII字库是从空格开始取模，所以-' '就是对应字符的字库）
+	num=num-' ';//得到偏移后的值（ASCII字库是从空格开始取模，所以-' '就是对应字符的字库）
 	for(t=0;t<csize;t++)
 	{
 		if(size==12)temp=asc2_1206[num][t]; 	 	//调用1206字体

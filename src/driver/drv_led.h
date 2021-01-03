@@ -17,6 +17,8 @@
 #include "bsp_myf407_led.h"
 #elif defined(STM32F401xE)
 #include "bsp_myf401_led.h"
+#elif defined(STM32H750xx)
+#include "bsp_myh750_led.h"
 #else
 
 #endif

@@ -13,10 +13,11 @@
 
 //#include "stm32f1xx.h"
 
+#if defined(STM32F407xx)||defined(STM32F429xx)||defined(STM32F401xE)
 #include "stm32f4xx.h"
 #include "system_stm32f4xx.h"
+#endif
 
-//#include "stm32h7xx.h"
 
 /*-----------------------------------------------------------------------------------
   Exported macro
@@ -31,6 +32,7 @@
 #elif defined(STM32F401xE)
 #define DEVICE_STR "STM32F401xE"
 #elif defined(STM32H750xx)
+#include "stm32h7xx.h"
 #define DEVICE_STR "STM32H750xx"
 #endif
 

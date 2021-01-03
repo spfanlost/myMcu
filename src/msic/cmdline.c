@@ -13,7 +13,7 @@
 #include "mcu.h"
 #include "cmdline.h"
 #include "mcu_uart.h"
-#include "drv_lcd.h"
+//#include "drv_lcd.h"
 
 /*-----------------------------------------------------------------------------------
   Private declaration
@@ -60,12 +60,12 @@ static void uart_cmd_help(char*str, byte_t*pos)
     LOG_INFO("4. debug: display debug info;\r");
 }
 
-extern void debug_msg(void);
+//extern void debug_msg(void);
 static void uart_cmd_info(char*str, byte_t*pos)
 {
-    LOG_INFO("Device: %s, SystemCoreClock:%dMHz lcd driver:%x\r", DEVICE_STR,
-        SystemCoreClock/1000000, lcddev.id);
-    debug_msg();
+    //LOG_INFO("Device: %s, SystemCoreClock:%dMHz lcd driver:%x\r", DEVICE_STR,
+    //    SystemCoreClock/1000000, lcddev.id);
+    //debug_msg();
 }
 
 

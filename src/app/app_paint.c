@@ -92,7 +92,7 @@ void app_paint_process(void)
     }
     else
     {
-        delay_ms(1);
+        //delay_ms(1);
     }
 }
 

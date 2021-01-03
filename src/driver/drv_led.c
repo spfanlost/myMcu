@@ -37,6 +37,8 @@
 struct bsp_led *drv_led = &bsp_myf407_led;
 #elif defined(STM32F401xE)
 struct bsp_led *drv_led = &bsp_myf401_led;
+#elif defined(STM32H750xx)
+struct bsp_led *drv_led = &bsp_myh750_led;
 #else
 
 #endif

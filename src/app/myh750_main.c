@@ -15,9 +15,6 @@
 #include "mcu_uart.h"
 #include "mcu_adc.h"
 #include "drv_led.h"
-#include "drv_lcd.h"
-#include "touch.h"
-#include "mylogo.h"
 #include "app_param.h"
 #include "app_paint.h"
 #include "SEGGER_RTT.h"
@@ -54,19 +51,14 @@ int main(void)
 {
     // static char r;
     task_init();
+    SCB_EnableICache();
+    SCB_EnableDCache();
     NVIC_SetPriorityGrouping(NVIC_GROUP4);
     SystemClock_Config();
     SystemCoreClockUpdate();
     SysTick_Config(SystemCoreClock / 1000000); //Generate interrupt each 1 ms
     drv_led_init();
     mcu_uart_init(84, 115200);
-    mcu_adc_init();
-
-#ifdef USE_LCD_EN
-    LCD_Init();
-    touch_init();
-    app_paint_init();
-#endif
 
     // SEGGER_RTT_WriteString(0, "SEGGER Real-Time-Terminal Sample\r\n");
     // SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_NO_BLOCK_SKIP);

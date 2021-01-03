@@ -70,7 +70,7 @@ static void task_dup_check(TASK *tp)
     {
         if(tp == temp->pnxt)
         {
-            LOG_INFO("[%s],dup task:%08x\r",__FUNCTION__,temp->pnxt);
+            LOG_INFO("[%s],dup task:%08x\r",__FUNCTION__,(dword_t)temp->pnxt);
             //ASSERT(0, M_SYS, F_TASK);
         }
         temp = temp->pnxt;
@@ -114,7 +114,7 @@ void task_del(TASK *tp)
     if(task_now == tp) // bugfix! This line is must!
     {
         if (task_now == tp->ppre)
-            LOG_INFO("[%s]tp:%08x\r", __FUNCTION__, tp);
+            LOG_INFO("[%s]tp:%08x\r", __FUNCTION__, (dword_t)tp);
         //ASSERT(task_now != tp->ppre, M_SYS, F_TASK);
         task_now = tp->ppre;
     }
@@ -130,7 +130,7 @@ void task_for_each(void)
 
     while(temp->pnxt != &task_nul)
     {
-        LOG_INFO("[%s],task:%08x\r",__FUNCTION__,temp->pnxt);
+        LOG_INFO("[%s],task:%08x\r",__FUNCTION__,(dword_t)temp->pnxt);
         temp = temp->pnxt;
         num++;
         if(num > 10)
