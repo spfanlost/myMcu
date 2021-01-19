@@ -13,6 +13,7 @@
 #include "mcu.h"
 #include "cmdline.h"
 #include "mcu_uart.h"
+
 //#include "drv_lcd.h"
 
 /*-----------------------------------------------------------------------------------
@@ -63,9 +64,7 @@ static void uart_cmd_help(char*str, byte_t*pos)
 //extern void debug_msg(void);
 static void uart_cmd_info(char*str, byte_t*pos)
 {
-    //LOG_INFO("Device: %s, SystemCoreClock:%dMHz lcd driver:%x\r", DEVICE_STR,
-    //    SystemCoreClock/1000000, lcddev.id);
-    //debug_msg();
+    LOG_INFO("Device: %s, SystemCoreClock:%dMHz\r", DEVICE_STR, SystemCoreClock/1000000);
 }
 
 
@@ -236,14 +235,13 @@ void uart_cmd(void)
     }
 }
 
-
 void common_cmd_isr(void)
 {
     byte_t rxchar = 0;
 
-    while(mcu_uart_chk_char())
+    while(CMD_CHK_CHAR())
     {
-        rxchar = mcu_uart_get_char();
+        rxchar = CMD_GET_CHAR();
         if(ESC==rxchar)
         {
             esc_flag =!esc_flag;
@@ -257,13 +255,13 @@ void common_cmd_isr(void)
                 {
                     RX_ADVANCE_PIDX(RXBuf_pos);
                 }
-                mcu_uart_put_char(BS);
-                mcu_uart_put_char(SPACE);
-                mcu_uart_put_char(BS);
+                CMD_PUT_CHAR(BS);
+                CMD_PUT_CHAR(SPACE);
+                CMD_PUT_CHAR(BS);
             }
             else
             {
-                mcu_uart_put_char(rxchar);
+                CMD_PUT_CHAR(rxchar);
                 RX_PUT_CHAR(rxchar);
                 RX_ADVANCE_IDX(RXBuf_pos);
                 if(LF==rxchar)

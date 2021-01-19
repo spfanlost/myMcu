@@ -412,13 +412,6 @@
         </Group>
         <Group>
           <GroupName>driver</GroupName>
-          <Files>
-            <File>
-              <FileName>drv_led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\driver\drv_led.c</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>mcu</GroupName>
@@ -429,19 +422,34 @@
               <FilePath>..\..\src\mcu\mcu.h</FilePath>
             </File>
             <File>
-              <FileName>mcu_sys.c</FileName>
+              <FileName>mcu_isr.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\mcu\mcu_sys.c</FilePath>
+              <FilePath>..\..\src\mcu\mcu_isr.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>library</GroupName>
+          <Files>
+            <File>
+              <FileName>stm32h7xx_ll_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\library\STM32H7xx_HAL_Driver\Src\stm32h7xx_ll_usart.c</FilePath>
             </File>
             <File>
-              <FileName>mcu_io.c</FileName>
+              <FileName>stm32h7xx_ll_utils.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\mcu\mcu_io.c</FilePath>
+              <FilePath>..\..\src\library\STM32H7xx_HAL_Driver\Src\stm32h7xx_ll_utils.c</FilePath>
             </File>
             <File>
-              <FileName>mcu_uart.c</FileName>
+              <FileName>stm32h7xx_ll_rcc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\mcu\mcu_uart.c</FilePath>
+              <FilePath>..\..\src\library\STM32H7xx_HAL_Driver\Src\stm32h7xx_ll_rcc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32h7xx_ll_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\library\STM32H7xx_HAL_Driver\Src\stm32h7xx_ll_gpio.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -645,7 +653,7 @@
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>1</useUlib>
+            <useUlib>0</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <nSecure>0</nSecure>
@@ -772,7 +780,7 @@
             <Optim>3</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
-            <OneElfS>0</OneElfS>
+            <OneElfS>1</OneElfS>
             <Strict>0</Strict>
             <EnumInt>0</EnumInt>
             <PlainCh>0</PlainCh>
@@ -793,9 +801,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>STM32H750xx</Define>
+              <Define>STM32H750xx,USE_FULL_LL_DRIVER,HSE_VALUE=8000000</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32H7xx\Include;..\..\src\app;..\..\src\mcu;..\..\src\msic;..\..\src\bus;..\..\src\driver;..\..\src\driver\lcd;..\..\src\bsp\myh750;..\..\src\res;..\..\src\middlewares\SEGGER\RTT</IncludePath>
+              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32H7xx\Include;..\..\src\library\STM32H7xx_HAL_Driver\Inc;..\..\src\app;..\..\src\mcu;..\..\src\msic;..\..\src\driver;..\..\src\bsp\myh750</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -868,13 +876,6 @@
         </Group>
         <Group>
           <GroupName>driver</GroupName>
-          <Files>
-            <File>
-              <FileName>drv_led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\driver\drv_led.c</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>mcu</GroupName>
@@ -885,19 +886,34 @@
               <FilePath>..\..\src\mcu\mcu.h</FilePath>
             </File>
             <File>
-              <FileName>mcu_sys.c</FileName>
+              <FileName>mcu_isr.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\mcu\mcu_sys.c</FilePath>
+              <FilePath>..\..\src\mcu\mcu_isr.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>library</GroupName>
+          <Files>
+            <File>
+              <FileName>stm32h7xx_ll_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\library\STM32H7xx_HAL_Driver\Src\stm32h7xx_ll_usart.c</FilePath>
             </File>
             <File>
-              <FileName>mcu_io.c</FileName>
+              <FileName>stm32h7xx_ll_utils.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\mcu\mcu_io.c</FilePath>
+              <FilePath>..\..\src\library\STM32H7xx_HAL_Driver\Src\stm32h7xx_ll_utils.c</FilePath>
             </File>
             <File>
-              <FileName>mcu_uart.c</FileName>
+              <FileName>stm32h7xx_ll_rcc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\mcu\mcu_uart.c</FilePath>
+              <FilePath>..\..\src\library\STM32H7xx_HAL_Driver\Src\stm32h7xx_ll_rcc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32h7xx_ll_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\library\STM32H7xx_HAL_Driver\Src\stm32h7xx_ll_gpio.c</FilePath>
             </File>
           </Files>
         </Group>

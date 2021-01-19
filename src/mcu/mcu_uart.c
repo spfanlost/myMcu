@@ -75,7 +75,7 @@ void mcu_uart_init(dword_t pclk2, dword_t bound)
  */
 int mcu_uart_put_char(int32_t ch)
 {
-    while(! (USART1->SR&(0x1 << 7)));
+    while(! (USART1->DR&(0x1 << 7)));
     USART1->DR = (ch&0xFF);
     return (ch);
 }

@@ -12,6 +12,8 @@
 #ifndef _COMMON_CMD_H_
 #define _COMMON_CMD_H_
 
+#include "stm32h7xx_ll_usart.h"
+
 /*-----------------------------------------------------------------------------------
   Exported types
 -----------------------------------------------------------------------------------*/
@@ -89,6 +91,10 @@ typedef struct
 /*-----------------------------------------------------------------------------------
   Exported variables
 -----------------------------------------------------------------------------------*/
+
+#define CMD_CHK_CHAR() (LL_USART_IsActiveFlag_RXNE(USART1) && LL_USART_IsEnabledIT_RXNE(USART1))
+#define CMD_GET_CHAR() LL_USART_ReceiveData8(USART1)
+#define CMD_PUT_CHAR(c) LL_USART_TransmitData8(USART1, c)
 
 /*-----------------------------------------------------------------------------------
   Exported functions

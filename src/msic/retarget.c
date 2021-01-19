@@ -11,7 +11,8 @@
  */
 #include "common.h"
 #include <rt_misc.h>
-#include "mcu_uart.h"
+//#include "mcu_uart.h"
+#include "stm32h7xx_ll_usart.h"
 
 /*-----------------------------------------------------------------------------------
   Private declaration
@@ -24,17 +25,6 @@
 /*-----------------------------------------------------------------------------------
   Global variables definition
 -----------------------------------------------------------------------------------*/
-#if defined (__CC_ARM)
-#pragma import (__use_no_semihosting_swi )
-
-
-struct __FILE
-{
-int handle; /* Add whatever you need here */
-};
-
-
-#endif
 
 FILE __stdout;
 FILE __stdin;
@@ -48,26 +38,26 @@ FILE __stdin;
 -----------------------------------------------------------------------------------*/
 int fputc ( int c, FILE * f )
 {
-    return ( mcu_uart_put_char ( c ) );
+    while(!LL_USART_IsActiveFlag_TC(USART1));
+    LL_USART_TransmitData8(USART1, c);
+    return c;
 }
-
 
 int fgetc ( FILE * f )
 {
-    return ( mcu_uart_get_char () );
+    return LL_USART_ReceiveData8(USART1);
 }
 
 
 int ferror ( FILE * f )
 {
-    /* Your implementation of ferror */
     return EOF;
 }
 
 
 void _ttywrch ( int c )
 {
-    mcu_uart_put_char ( c );
+    LL_USART_TransmitData8(USART1, c);
 }
 
 

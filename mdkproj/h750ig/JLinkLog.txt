@@ -1,0 +1,63 @@
+T125C 000:027.091   SEGGER J-Link V6.94 Log File
+T125C 000:027.260   DLL Compiled: Jan  8 2021 13:01:30
+T125C 000:027.281   Logging started @ 2021-01-17 13:27
+T125C 000:027.299 - 27.309ms
+T125C 000:027.330 JLINK_SetWarnOutHandler(...)
+T125C 000:027.354 - 0.032ms
+T125C 000:027.374 JLINK_OpenEx(...)
+T125C 000:029.628   Firmware: J-Link ARM V8 compiled Nov 28 2014 13:44:46
+T125C 000:033.627   Hardware: V8.00
+T125C 000:033.678   S/N: 788594195
+T125C 000:033.706   OEM: SEGGER
+T125C 000:033.747   Feature(s): RDI,FlashDL,FlashBP,JFlash,GDB    
+T125C 000:035.730   TELNET listener socket opened on port 19021
+T125C 000:036.121   WEBSRV Starting webserver
+T125C 000:036.350   WEBSRV Webserver running on local port 19080
+T125C 000:036.426 - 9.055ms returns "O.K."
+T125C 000:036.443 JLINK_GetEmuCaps()
+T125C 000:036.449 - 0.008ms returns 0xB9FF7BBF
+T125C 000:036.458 JLINK_TIF_GetAvailable(...)
+T125C 000:037.377 - 0.932ms
+T125C 000:037.399 JLINK_SetErrorOutHandler(...)
+T125C 000:037.405 - 0.008ms
+T125C 000:037.436 JLINK_ExecCommand("ProjectFile = "D:\Documents\01_STM32\myMcu\mdkproj\h750ig\JLinkSettings.ini"", ...). 
+T125C 000:051.333   Ref file found at: C:\Keil_v5\ARM\Segger\JLinkDevices.ref
+T125C 000:051.954   XML referenced by ref file: C:\Program Files (x86)\SEGGER\JLink\JLinkDevices.xml
+T125C 000:054.419   C:\Program Files (x86)\SEGGER\JLink\JLinkDevices.xml evaluated successfully.
+T125C 000:120.069 - 82.642ms returns 0x00
+T125C 000:122.450 JLINK_ExecCommand("Device = STM32H750VBTx", ...). 
+T125C 000:122.980   Looking for J-Link GUI Server exe at: C:\Keil_v5\ARM\Segger\JLinkGUIServer.exe
+T125C 000:123.112   Looking for J-Link GUI Server exe at: C:\Program Files (x86)\SEGGER\JLink\JLinkGUIServer.exe
+T125C 000:123.962   Forking J-Link GUI Server: C:\Program Files (x86)\SEGGER\JLink\JLinkGUIServer.exe
+T125C 000:443.707   J-Link GUI Server info: "J-Link GUI server V6.94 "
+T125C 075:052.008   Device "STM32F750V8" selected.
+T125C 075:052.569 - 74930.105ms returns 0x00
+T125C 075:052.608 JLINK_GetHardwareVersion()
+T125C 075:052.618 - 0.013ms returns 80000
+T125C 075:052.629 JLINK_GetDLLVersion()
+T125C 075:052.641 - 0.015ms returns 69400
+T125C 075:052.650 JLINK_GetOEMString(...)
+T125C 075:052.675 JLINK_GetFirmwareString(...)
+T125C 075:052.683 - 0.015ms
+T125C 075:056.368 JLINK_GetDLLVersion()
+T125C 075:056.388 - 0.022ms returns 69400
+T125C 075:056.396 JLINK_GetCompileDateTime()
+T125C 075:056.401 - 0.008ms
+T125C 075:057.511 JLINK_GetFirmwareString(...)
+T125C 075:057.523 - 0.014ms
+T125C 075:058.625 JLINK_GetHardwareVersion()
+T125C 075:058.636 - 0.014ms returns 80000
+T125C 075:059.736 JLINK_GetSN()
+T125C 075:059.748 - 0.014ms returns 788594195
+T125C 075:060.825 JLINK_GetOEMString(...)
+T125C 075:063.108 JLINK_TIF_Select(JLINKARM_TIF_JTAG)
+T125C 075:065.720 - 2.638ms returns 0x00
+T125C 075:065.754 JLINK_HasError()
+T125C 075:065.779 JLINK_SetSpeed(5000)
+T125C 075:066.063 - 0.290ms
+T125C 075:066.079 JLINK_GetIdData(pIdData)
+T125C 075:066.459 - 0.385ms
+T125C 076:444.911 JLINK_Close()
+T125C 076:454.771 - 9.887ms
+T125C 076:454.802   
+T125C 076:454.808   Closed

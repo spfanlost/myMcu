@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F407xx</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32F4xx\Include;..\..\src\app;..\..\src\mcu;..\..\src\msic;..\..\src\bus;..\..\src\driver;..\..\src\driver\lcd;..\..\src\bsp\myf407;..\..\src\res;..\..\src\middlewares\SEGGER\RTT</IncludePath>
+              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32F4xx\Include;..\..\src\app;..\..\src\mcu;..\..\src\msic;..\..\src\bus;..\..\src\driver;..\..\src\driver\lcd;..\..\src\bsp\myf407;..\..\src\res;..\..\src\library\SEGGER\RTT</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -511,12 +511,12 @@
             <File>
               <FileName>SEGGER_RTT.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\middlewares\SEGGER\RTT\SEGGER_RTT.c</FilePath>
+              <FilePath>..\..\src\library\SEGGER\RTT\SEGGER_RTT.c</FilePath>
             </File>
             <File>
               <FileName>SEGGER_RTT_printf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\middlewares\SEGGER\RTT\SEGGER_RTT_printf.c</FilePath>
+              <FilePath>..\..\src\library\SEGGER\RTT\SEGGER_RTT_printf.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1052,12 +1052,12 @@
             <File>
               <FileName>SEGGER_RTT.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\middlewares\SEGGER\RTT\SEGGER_RTT.c</FilePath>
+              <FilePath>..\..\src\library\SEGGER\RTT\SEGGER_RTT.c</FilePath>
             </File>
             <File>
               <FileName>SEGGER_RTT_printf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\middlewares\SEGGER\RTT\SEGGER_RTT_printf.c</FilePath>
+              <FilePath>..\..\src\library\SEGGER\RTT\SEGGER_RTT_printf.c</FilePath>
             </File>
           </Files>
         </Group>

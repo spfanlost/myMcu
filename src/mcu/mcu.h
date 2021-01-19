@@ -11,11 +11,23 @@
 #ifndef _MCU_H_
 #define _MCU_H_
 
-//#include "stm32f1xx.h"
-
 #if defined(STM32F407xx)||defined(STM32F429xx)||defined(STM32F401xE)
-#include "stm32f4xx.h"
-#include "system_stm32f4xx.h"
+    #include "stm32f4xx.h"
+    #include "system_stm32f4xx.h"
+    
+    #if defined(STM32F407xx)
+    #define USE_LCD_EN
+    #define DEVICE_STR "STM32F407xx"
+    #elif defined(STM32F429xx)
+    #define DEVICE_STR "STM32F429xx"
+    #elif defined(STM32F401xE)
+    #define DEVICE_STR "STM32F401xE"
+    #endif
+
+#elif defined(STM32H750xx)
+    #include "stm32h7xx.h"
+    #define DEVICE_STR "STM32H750xx"
+
 #endif
 
 
@@ -23,18 +35,6 @@
   Exported macro
 -----------------------------------------------------------------------------------*/
 
-
-#if defined(STM32F407xx)
-#define USE_LCD_EN
-#define DEVICE_STR "STM32F407xx"
-#elif defined(STM32F429xx)
-#define DEVICE_STR "STM32F429xx"
-#elif defined(STM32F401xE)
-#define DEVICE_STR "STM32F401xE"
-#elif defined(STM32H750xx)
-#include "stm32h7xx.h"
-#define DEVICE_STR "STM32H750xx"
-#endif
 
 
 #endif /* _MCU_H_ */
