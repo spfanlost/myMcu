@@ -35,6 +35,4 @@ typedef volatile word_t vu16;
 typedef volatile dword_t vu32;
 typedef volatile qword_t vu64;
 
-
 #endif
-

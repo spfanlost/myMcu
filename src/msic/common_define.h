@@ -33,7 +33,7 @@
 //2^n for addr and align
 #if 0
 #define MEM_ALIGN(addr, align) \
-        #if ((align / 2) * 2 != align) #error "MEM_ALIGN align not 2^n" #endif((addr + align - 1) & (align - 1))
+#if ((align / 2) * 2 != align) #error "MEM_ALIGN align not 2^n" #endif((addr + align - 1) & (align - 1))
 
 #else
 
@@ -53,16 +53,16 @@
 //#define __PASTE(x, y) __PASTE2(x, y)
 #endif
 
-#define SET_BIT(REG, BIT)     ((REG) |= (BIT))
-#define CLEAR_BIT(REG, BIT)   ((REG) &= ~(BIT))
-#define SET_BIT(REG, BIT)     ((REG) |= (BIT))
-#define CLEAR_BIT(REG, BIT)   ((REG) &= ~(BIT))
-#define READ_BIT(REG, BIT)    ((REG) & (BIT))
-#define CLEAR_REG(REG)        ((REG) = (0x0))
-#define WRITE_REG(REG, VAL)   ((REG) = (VAL))
-#define READ_REG(REG)         ((REG))
-#define MODIFY_REG(REG, CLEARMASK, SETMASK)  WRITE_REG((REG), (((READ_REG(REG)) & (~(CLEARMASK))) | (SETMASK)))
-#define POSITION_VAL(VAL)     (__CLZ(__RBIT(VAL)))
+#define SET_BIT(REG, BIT) ((REG) |= (BIT))
+#define CLEAR_BIT(REG, BIT) ((REG) &= ~(BIT))
+#define SET_BIT(REG, BIT) ((REG) |= (BIT))
+#define CLEAR_BIT(REG, BIT) ((REG) &= ~(BIT))
+#define READ_BIT(REG, BIT) ((REG) & (BIT))
+#define CLEAR_REG(REG) ((REG) = (0x0))
+#define WRITE_REG(REG, VAL) ((REG) = (VAL))
+#define READ_REG(REG) ((REG))
+#define MODIFY_REG(REG, CLEARMASK, SETMASK) WRITE_REG((REG), (((READ_REG(REG)) & (~(CLEARMASK))) | (SETMASK)))
+#define POSITION_VAL(VAL) (__CLZ(__RBIT(VAL)))
 
 #define UNUSED(x) ((void)(x))
 
@@ -142,4 +142,3 @@
 #define QWORD_WORD2(m) ((word_t)((m) >> DWORD_BITS))
 #define QWORD_WORD3(m) ((word_t)((m) >> (DWORD_BITS + WORD_BITS)))
 #endif
-

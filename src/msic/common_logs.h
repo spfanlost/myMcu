@@ -30,7 +30,7 @@
 
 //--------------------------------------------------------------------------------
 #ifdef DISP_LOG_DBUG
-#define LOG_DBUG(fmt, ...) PRINT_IF( fmt, ##__VA_ARGS__)
+#define LOG_DBUG(fmt, ...) PRINT_IF(fmt, ##__VA_ARGS__)
 
 #else
 
@@ -99,23 +99,19 @@
 //     } while (0)
 
 /* Assertions */
-#define ASSERT(test) \
-        do{ \
-        if (!(test)){ \
-        PRINT_IF("[E]Assert:" #test " " __FILE__ ":" _STR(__LINE__) "\r\n"); \
-        while (1); \
-        } \
+#define ASSERT(test)                                                                         \
+        do                                                                                   \
+        {                                                                                    \
+                if (!(test))                                                                 \
+                {                                                                            \
+                        PRINT_IF("[E]Assert:" #test " " __FILE__ ":" _STR(__LINE__) "\r\n"); \
+                        while (1)                                                            \
+                                ;                                                            \
+                }                                                                            \
         } while (0)
 
 #ifdef USE_FULL_ASSERT
 
 #endif
 
-
-
-
-
-
-
 #endif
-

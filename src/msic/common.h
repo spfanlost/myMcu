@@ -22,4 +22,3 @@
 #include "common_define.h"
 #include "common_logs.h"
 #endif
-

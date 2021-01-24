@@ -92,6 +92,36 @@ qword_t get_sys_ticks(void)
     return ticks;
 }
 
+extern void button_callback(void);
+/**
+  * @brief  This function handles external lines 15 to 10 interrupt request.
+  * @param  None
+  * @retval None
+  */
+void EXTI15_10_IRQHandler(void)
+{
+    static dword_t key_temp = 0;
+    /* Manage Flags */
+    if(LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_13) != RESET)
+    {
+        if((LL_GPIO_ReadInputPort(GPIOC)&LL_GPIO_PIN_13) == 0)
+        {
+            key_temp++;
+        }
+        else
+        {
+            key_temp = 0;
+        }
+        if(key_temp > 100)
+        {
+            key_temp = 0;
+            LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_13);
+            /* Handle User push-button press in dedicated function */
+            button_callback(); 
+        }
+    }
+}
+
 void USART1_IRQHandler(void)
 {
     common_cmd_isr();

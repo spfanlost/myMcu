@@ -36,37 +36,33 @@ FILE __stdin;
 /*-----------------------------------------------------------------------------------
   Local functions definition
 -----------------------------------------------------------------------------------*/
-int fputc ( int c, FILE * f )
+int fputc(int c, FILE *f)
 {
-    while(!LL_USART_IsActiveFlag_TC(USART1));
-    LL_USART_TransmitData8(USART1, c);
-    return c;
+  while (!LL_USART_IsActiveFlag_TC(USART1))
+    ;
+  LL_USART_TransmitData8(USART1, c);
+  return c;
 }
 
-int fgetc ( FILE * f )
+int fgetc(FILE *f)
 {
-    return LL_USART_ReceiveData8(USART1);
+  return LL_USART_ReceiveData8(USART1);
 }
 
-
-int ferror ( FILE * f )
+int ferror(FILE *f)
 {
-    return EOF;
+  return EOF;
 }
 
-
-void _ttywrch ( int c )
+void _ttywrch(int c)
 {
-    LL_USART_TransmitData8(USART1, c);
+  LL_USART_TransmitData8(USART1, c);
 }
 
-
-void _sys_exit ( int return_code )
+void _sys_exit(int return_code)
 {
 
 label:
 
-    goto label; /* endless loop */
+  goto label; /* endless loop */
 }
-
-
