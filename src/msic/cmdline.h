@@ -12,7 +12,7 @@
 #ifndef _COMMON_CMD_H_
 #define _COMMON_CMD_H_
 
-#include "stm32h7xx_ll_usart.h"
+#include "mcu.h"
 
 /*-----------------------------------------------------------------------------------
   Exported types

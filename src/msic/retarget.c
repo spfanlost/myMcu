@@ -9,10 +9,9 @@
  *
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
-#include "common.h"
 #include <rt_misc.h>
-//#include "mcu_uart.h"
-#include "stm32h7xx_ll_usart.h"
+#include "common.h"
+#include "mcu.h"
 
 /*-----------------------------------------------------------------------------------
   Private declaration
