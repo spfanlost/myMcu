@@ -115,6 +115,7 @@ typedef struct
 /*-----------------------------------------------------------------------------------
   Exported functions
 -----------------------------------------------------------------------------------*/
+void dump_mem_dword(dword_t mem_addr, dword_t rows_cnt, dword_t columns_cnt);
 void uart_cmd(void);
 void common_cmd_isr(void);
 

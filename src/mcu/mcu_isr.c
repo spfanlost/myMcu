@@ -12,7 +12,6 @@
 #include "common.h"
 #include "mcu.h"
 #include "cmdline.h"
-#include "drv_led.h"
 #include "mcu_uart.h"
 #include "mcu_isr.h"
 

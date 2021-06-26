@@ -66,23 +66,12 @@ static void uart_cmd_info(char *str, byte_t *pos)
     LOG_INFO("Device: %s, SystemCoreClock:%dMHz\r", DEVICE_STR, SystemCoreClock / 1000000);
 }
 
-static void uart_cmd_dump(char *str, byte_t *pos)
+void dump_mem_dword(dword_t mem_addr, dword_t rows_cnt, dword_t columns_cnt)
 {
     dword_t *ptr = NULL;
     dword_t rows = 0, columns = 0;
-    dword_t mem_addr = 0, rows_cnt = 0, columns_cnt = 0;
 
-    if (!uart_get_var(str, pos, &mem_addr, CMD_VAL1))
-        return;
-
-    if (!uart_get_var(str, pos, &rows_cnt, CMD_VAL2))
-        return;
-
-    if (!uart_get_var(str, pos, &columns_cnt, CMD_VAL3))
-        return;
-
-    ptr = (dword_t *)
-        mem_addr;
+    ptr = (dword_t *)(mem_addr);
     LOG_INFO("addr(0x%X) rows(0x%X) columns(0x%X)\r", mem_addr, rows_cnt, columns_cnt);
     for (rows = 0; rows < rows_cnt; rows++)
     {
@@ -94,6 +83,22 @@ static void uart_cmd_dump(char *str, byte_t *pos)
         LOG_INFO("\r");
         ptr += columns_cnt;
     }
+}
+
+static void uart_cmd_dump(char *str, byte_t *pos)
+{
+    dword_t mem_addr = 0, rows_cnt = 0, columns_cnt = 0;
+
+    if (!uart_get_var(str, pos, &mem_addr, CMD_VAL1))
+        return;
+
+    if (!uart_get_var(str, pos, &rows_cnt, CMD_VAL2))
+        return;
+
+    if (!uart_get_var(str, pos, &columns_cnt, CMD_VAL3))
+        return;
+
+    dump_mem_dword(mem_addr, rows_cnt, columns_cnt);
 }
 
 static void uart_cmd_regs(char *str, byte_t *pos)
