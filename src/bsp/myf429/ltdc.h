@@ -68,7 +68,7 @@ enum
     ARGB_GREEN = ARGB(0, 0, 255, 0),     /* 绿色 */
     ARGB_BLUE = ARGB(0, 0, 0, 255),      /* 蓝色 */
     ARGB_YELLOW = ARGB(0, 255, 255, 0),  /* 黄色 */
-
+    ARGB_GREY = ARGB(0, 220, 220, 220),  /* 灰色 */
     
     CL_GREY = RGB(98, 98, 98),     /* 深灰色 */
     CL_GREY1 = RGB(150, 150, 150), /* 浅灰色 */
@@ -116,7 +116,7 @@ enum
 /* Number of multiple buffers to be used */
 #define NUM_BUFFERS  1 
 /* Number of virtual screens to be used */
-#define NUM_VSCREENS 1
+#define NUM_VSCREENS 2
 
 #define GUI_NUM_LAYERS            2    // Maximum number of available layers
 

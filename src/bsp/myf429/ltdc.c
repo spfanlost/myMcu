@@ -138,36 +138,6 @@ static void MX_LTDC_Init(void)
     *R7 -->  PG6 | G7 -->  PI2  | B7 -->  PI7  |
     ****************************************************************************
     */
-    /**LTDC GPIO Configuration
-    PE4     ------> LTDC_B0
-    PE5     ------> LTDC_G0
-    PE6     ------> LTDC_G1
-    PI9     ------> LTDC_VSYNC
-    PI10     ------> LTDC_HSYNC
-    PF10     ------> LTDC_DE
-    PH2     ------> LTDC_R0
-    PH3     ------> LTDC_R1
-    PH8     ------> LTDC_R2
-    PH9     ------> LTDC_R3
-    PH10     ------> LTDC_R4
-    PH11     ------> LTDC_R5
-    PH12     ------> LTDC_R6
-    PG6     ------> LTDC_R7
-    PG7     ------> LTDC_CLK
-    PH13     ------> LTDC_G2
-    PH14     ------> LTDC_G3
-    PH15     ------> LTDC_G4
-    PI0     ------> LTDC_G5
-    PI1     ------> LTDC_G6
-    PI2     ------> LTDC_G7
-    PG10     ------> LTDC_B2
-    PG11     ------> LTDC_B3
-    PG12     ------> LTDC_B1
-    PI4     ------> LTDC_B4
-    PI5     ------> LTDC_B5
-    PI6     ------> LTDC_B6
-    PI7     ------> LTDC_B7
-    */
     LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOC);
     LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOE);
     LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOF);
@@ -355,33 +325,24 @@ void LCD429_ConfigLTDC(void)
     uint32_t PLLSAIN = 192;
     uint32_t PLLSAIQ = 7;
     uint32_t PLLSAIR = 3;
-    uint16_t PLLSAI_TIMEOUT = 0x05000;
-    __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
 
     MX_LTDC_Init();
     
     LCD_DisplayOff();
     
-    RCC->APB2ENR |= 1 << 26; /* Enable the LTDC Clock */
-
-    RCC->AHB1ENR |= 1 << 23; /* Enable the DMA2D Clock */
-
+    LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_LTDC);
+    LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA2D);
     // /* Configure PLLSAI prescalers for LCD */
     // RCC_PLLSAIConfig(192, 7, 3);
     // RCC_LTDCCLKDivConfig(RCC_PLLSAIDivR_Div8);
     /* Configure PLLSAI prescalers for LCD */ //PLLSAIN=192, PLLSAIQ=7, PLLSAIR=3
     RCC->PLLSAICFGR = (PLLSAIN << 6) | (PLLSAIQ << 24) | (PLLSAIR << 28);
     RCC->DCKCFGR &= ~RCC_DCKCFGR_PLLSAIDIVR; //Clear PLLSAIDIVR[2:0] bits
-    RCC->DCKCFGR |= (2<<16);                 //00:=/2 01:=/4 10:=/8 11:=/16
-
-    /* Enable PLLSAI Clock */
-    RCC->CR |= (1 << 28);                    /* Enable PLLSAI Clock */
-    do                                       /* Wait for PLLSAI activation */
-    {
-        HSEStatus = RCC->CR & (1 << 29);
-        StartUpCounter++;
-    } while ((HSEStatus == 0) && (StartUpCounter != PLLSAI_TIMEOUT));
-
+    RCC->DCKCFGR |= (1<<16);                 //00:=/2 01:=/4 10:=/8 11:=/16
+    // LL_RCC_PLLSAI_ConfigDomain_LTDC();
+    LL_RCC_PLLSAI_Enable();
+    while (!LL_RCC_PLLSAI_IsReady());
+    
     // /* Polarity configuration */
     // /* Initialize the horizontal synchronization polarity as active low */
     // LTDC_InitStruct.LTDC_HSPolarity = LTDC_HSPolarity_AL;     
@@ -391,7 +352,6 @@ void LCD429_ConfigLTDC(void)
     // LTDC_InitStruct.LTDC_DEPolarity = LTDC_DEPolarity_AL;     
     // /* Initialize the pixel clock polarity as input pixel clock */ 
     // LTDC_InitStruct.LTDC_PCPolarity = LTDC_PCPolarity_IPC;
-    //LTDC->GCR &= (uint32_t)0x0FFE888F);
     LTDC->GCR &= ~(0xf0000000); // LTDC GCR Mask
     //           HSPOL   VSPOL  DEPOL   PCPOL
     LTDC->GCR |= (0 << 31) | (0 << 30) | (0 << 29) | (0 << 28);
@@ -789,18 +749,17 @@ void LCD_Clear(u8 layer, u32 color)
 void LCD429_InitHard(void)
 {
     LCD429_ConfigLTDC();
-    // LCD_Clear(LCD_LAYER_1,ARGB_BLACK);
-    LCD_Clear(LCD_LAYER_2,ARGB_BLACK);
+    LCD_Clear(LCD_LAYER_1, ARGB_GREY);
+    LCD429_SetPixelFormat(LCD_PIXFORMAT);
 
     LCD429_SetLayer(LCD_LAYER_1);
-    LCD429_SetPixelFormat(LCD_PIXFORMAT);
-    LCD429_FillRect(10, 10, 100, 100, ARGB(100, 255, 0 , 0));
-    LTDC_CLUTCmd(LTDC_Layer1, ENABLE);
+    LCD429_FillRect(50, 50, 100, 100, ARGB(100, 255, 0 , 0));
+    LTDC_LayerCmd(LTDC_Layer1, ENABLE);
+    LTDC_Cmd(ENABLE);
 
     LCD429_SetLayer(LCD_LAYER_2); 
-    LCD429_SetPixelFormat(LCD_PIXFORMAT);
-    LCD429_FillRect(100, 100, 100, 100, ARGB(100, 0, 0 , 255));
-    LTDC_CLUTCmd(LTDC_Layer2, ENABLE); 
+    LCD429_FillRect(100, 100, 100, 100, ARGB_YELLOW);
+    LTDC_LayerCmd(LTDC_Layer2, ENABLE); 
     
     LTDC_Cmd(ENABLE);
 }
