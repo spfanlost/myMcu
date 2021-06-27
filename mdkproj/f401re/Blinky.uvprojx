@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F401xE</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32F4xx\Include;..\..\src\mcu;..\..\src\msic;..\..\src\driver;..\..\src\bsp\myf401</IncludePath>
+              <IncludePath>..\..\src\cmsis\Include;..\..\src\cmsis\Device\STM32F4xx\Include;..\..\src\library\STM32F4xx_HAL_Driver\Inc;..\..\src\mcu;..\..\src\msic;..\..\src\driver;..\..\src\bsp\myf401</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
