@@ -9,7 +9,7 @@
  *
  * @copyright Copyright (c) 2020 imyumeng@qq.com All rigthts reserved.
  */
-#include <rt_misc.h>
+// #include <rt_misc.h>
 #include "common.h"
 #include "mcu.h"
 
@@ -60,10 +60,12 @@ int fgetc(FILE *f)
   return LL_USART_ReceiveData8(USART1);
 }
 
+#if defined (__CC_ARM)
 int ferror(FILE *f)
 {
   return EOF;
 }
+#endif
 
 void _ttywrch(int c)
 {

@@ -19,7 +19,7 @@
 /*-----------------------------------------------------------------------------------
   Extern variables declaration
 -----------------------------------------------------------------------------------*/
-extern dword_t SystemCoreClock;
+// extern dword_t SystemCoreClock;
 
 /*-----------------------------------------------------------------------------------
   Global variables definition
@@ -214,7 +214,7 @@ int main(void)
   gpio_init();
   button_init();
   uart_init();
-  LOG_INFO("Device: %s, SystemCoreClock:%dMHz\r", DEVICE_STR, SystemCoreClock / 1000000);
+  LOG_INFO("Device: %s, SystemCoreClock:%ldMHz\r", DEVICE_STR, SystemCoreClock / 1000000);
   while (1)
   {
     // LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_0);
